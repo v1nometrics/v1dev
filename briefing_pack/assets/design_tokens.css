@@ -1,0 +1,72 @@
+/* v1 torres — design tokens (monocromático) */
+:root {
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Colors (light mode) */
+  --bg: #FFFFFF;
+  --bg-2: #F6F7F9;
+  --card: #FFFFFF;
+  --text: #0C0D10;
+  --text-2: #3B3F48;
+  --muted: #6B7280;
+  --border: #E5E7EB;
+
+  /* Code */
+  --code-bg: #0B0C0F;
+  --code-text: #E6E6E6;
+
+  /* Shadow (very subtle) */
+  --shadow: 0 8px 24px rgba(0,0,0,0.06);
+
+  /* Radius & spacing */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+
+  /* Focus */
+  --focus: 0 0 0 3px rgba(0,0,0,0.35);
+}
+
+[data-theme="dark"] {
+  --bg: #0B0C0F;
+  --bg-2: #0E1116;
+  --card: #12141A;
+  --text: #E6E6E6;
+  --text-2: #B8BDC7;
+  --muted: #8A909B;
+  --border: #23252B;
+
+  --code-bg: #0F1218;
+  --code-text: #E6E6E6;
+
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  --focus: 0 0 0 3px rgba(255,255,255,0.28);
+}
+
+/* Optional subtle gradients */
+.bg-gradient {
+  background:
+    radial-gradient(1200px 600px at 20% 0%, rgba(255,255,255,0.06), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), transparent 35%),
+    var(--bg);
+}
+
+/* Optional grid overlay */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center;
+}

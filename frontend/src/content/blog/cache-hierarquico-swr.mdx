@@ -1,0 +1,57 @@
+---
+title: "Cache hierárquico + SWR: UX de produto sem explodir custo"
+date: "2026-01-17"
+tags: ["frontend", "system-design", "performance"]
+summary: "Memória → localStorage → S3/CDN: uma estratégia prática para carregar rápido e revalidar em background."
+---
+
+## TL;DR
+- Cache em camadas reduz latência e evita custo repetido.
+- SWR (stale-while-revalidate) entrega UX rápida com consistência eventual.
+- O risco é servir dado "antigo": trate com indicadores e política clara.
+
+## Camadas
+
+1. **Memória (runtime)** — mais rápido, volátil
+2. **localStorage (cliente)** — persiste entre sessões
+3. **CDN (assets estáticos)** — distribuído globalmente
+4. **Storage (S3) ou DB** — fonte de verdade
+
+## Política
+
+- **Dados críticos**: TTL curto e revalidação imediata.
+- **Dados "estratégicos"**: TTL maior com aviso "Atualizado em...".
+
+## Fluxo SWR
+
+O padrão SWR funciona assim:
+
+1. **Cache hit**: retorna dado stale imediatamente
+2. **Revalidação em background**: busca dado fresh da API
+3. **Atualização**: substitui cache e UI quando fresh chega
+
+```typescript
+// Exemplo com useSWR
+const { data, isValidating } = useSWR('/api/data', fetcher, {
+  revalidateOnFocus: true,
+  dedupingInterval: 5000,
+});
+```
+
+## Trade-offs
+
+| Abordagem | Latência | Consistência | Complexidade |
+|-----------|----------|--------------|--------------|
+| Sempre fetch | Alta | Forte | Baixa |
+| Cache-first | Baixa | Eventual | Média |
+| SWR | Baixa | Eventual + refresh | Média |
+
+<Callout type="decision" title="Quando usar">
+Use SWR quando a UX percebida (tempo de resposta) importa mais que consistência imediata.
+</Callout>
+
+## Métricas para monitorar
+
+- **Cache hit rate** — quanto do tráfego está servindo do cache
+- **Stale data served** — frequência de dados desatualizados
+- **Revalidation latency** — tempo para refresh em background

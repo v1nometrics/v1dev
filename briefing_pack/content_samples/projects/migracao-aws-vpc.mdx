@@ -1,0 +1,25 @@
+---
+title: "Migração para AWS VPC — custo/segurança/observabilidade"
+status: "concluído"
+period: "2025"
+stack: ["AWS VPC", "RDS Postgres", "EC2 ARM64", "Docker", "ECR", "CloudWatch", "GitHub Actions"]
+summary: "Padronização de deploy via imagens e isolamento de rede para sistemas principais."
+---
+
+## Objetivo
+Consolidar aplicações em uma VPC própria, reduzindo superfície de ataque e melhorando latência EC2↔RDS.
+
+## Componentes
+- VPC + subnets privadas
+- SGs restritivos
+- RDS Postgres
+- EC2 ARM64 + Docker
+- ECR para distribuição de imagens
+- CloudWatch logs/alarms
+
+## Runbook (resumo)
+1) build → push ECR
+2) pull na EC2
+3) migrate DB
+4) healthcheck
+5) rollback via tag anterior

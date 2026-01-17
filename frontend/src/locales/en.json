@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "title": "v1 torres",
+    "description": "Tech Lead in Data, AI and Software Architecture. Writing about machine learning, data engineering, infrastructure and system design."
+  },
+  "nav": {
+    "home": "home",
+    "blog": "blog",
+    "lab": "lab",
+    "refs": "refs",
+    "prompts": "prompts",
+    "readme": "readme"
+  },
+  "home": {
+    "greeting": "hi, i'm",
+    "name": "vinícius torres",
+    "role": "tech lead · data/ai/architecture",
+    "bio": "i build data systems and artificial intelligence in production. writing about machine learning, data engineering, infrastructure, econometrics and system design.",
+    "now": {
+      "title": "now",
+      "description": "what i'm currently doing"
+    },
+    "recent": {
+      "title": "recent",
+      "viewAll": "view all"
+    }
+  },
+  "blog": {
+    "title": "blog",
+    "description": "notes and reflections from what i learn studying and solving problems in production.",
+    "articles": {
+      "title": "articles",
+      "description": "long-form, structured posts"
+    },
+    "notes": {
+      "title": "notes",
+      "description": "short ideas, til, snippets"
+    },
+    "empty": "no posts yet."
+  },
+  "lab": {
+    "title": "lab",
+    "description": "production systems, experiments and open source.",
+    "status": {
+      "production": "in production",
+      "completed": "completed",
+      "development": "in dev",
+      "archived": "archived"
+    },
+    "empty": "no experiments yet."
+  },
+  "refs": {
+    "title": "refs",
+    "description": "curated library of books, papers, articles and resources that shape my thinking.",
+    "categories": {
+      "books": "books",
+      "papers": "papers",
+      "articles": "articles",
+      "tools": "tools",
+      "courses": "courses"
+    },
+    "filter": "filter",
+    "search": "search...",
+    "export": "export xml",
+    "empty": "no references found."
+  },
+  "prompts": {
+    "title": "prompts",
+    "description": "optimized prompt engineering with embedded references. ready to use with llms.",
+    "download": "download xml",
+    "copy": "copy",
+    "copied": "copied!",
+    "references": "included references",
+    "usage": "usage",
+    "preview": "preview",
+    "empty": "no prompts available."
+  },
+  "readme": {
+    "title": "readme",
+    "bio": {
+      "title": "who i am",
+      "content": "economist (graduating mar/2026), rooted in econometrics and data science. i work as a tech lead focused on data, ai and software architecture. hands-on: backend, api design, database modeling, data pipelines, production ml systems and infrastructure as code."
+    },
+    "now": {
+      "title": "now",
+      "items": [
+        "onboarding and contributing to a new project as a software engineer",
+        "writing about ml systems architecture",
+        "finishing my thesis and preparing model content for the blog"
+      ]
+    },
+    "stack": {
+      "title": "stack",
+      "description": "technologies i use daily"
+    },
+    "languages": {
+      "title": "languages",
+      "items": [
+        "portuguese (native)",
+        "english (c1 cambridge)",
+        "spanish (fluent)"
+      ]
+    },
+    "principles": {
+      "title": "principles",
+      "items": [
+        "production first: scalable, reliable, observable",
+        "auditable data: contracts, versioning, lineage",
+        "clean code, idiomatic, with pragmatic tests and well documented",
+        "maximum with minimum: get the most out of every resource"
+      ]
+    },
+    "contact": {
+      "title": "contact",
+      "downloadCV": "download cv"
+    }
+  },
+  "common": {
+    "readMore": "read more",
+    "date": "date",
+    "tags": "tags",
+    "backToTop": "back to top",
+    "lastUpdated": "last updated",
+    "readingTime": "min read",
+    "tableOfContents": "table of contents",
+    "language": "language",
+    "theme": {
+      "light": "light",
+      "dark": "dark",
+      "system": "system"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} vinícius torres",
+    "source": "source code",
+    "rss": "rss"
+  }
+}

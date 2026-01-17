@@ -1,0 +1,45 @@
+{
+  "fonts": {
+    "mono": "Geist Mono",
+    "sans": "System UI"
+  },
+  "radius": {
+    "sm": 10,
+    "md": 14,
+    "lg": 18
+  },
+  "spacing": [
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    48,
+    64
+  ],
+  "themes": {
+    "light": {
+      "bg": "#FFFFFF",
+      "bg2": "#F6F7F9",
+      "card": "#FFFFFF",
+      "text": "#0C0D10",
+      "text2": "#3B3F48",
+      "muted": "#6B7280",
+      "border": "#E5E7EB",
+      "codeBg": "#0B0C0F",
+      "codeText": "#E6E6E6"
+    },
+    "dark": {
+      "bg": "#0B0C0F",
+      "bg2": "#0E1116",
+      "card": "#12141A",
+      "text": "#E6E6E6",
+      "text2": "#B8BDC7",
+      "muted": "#8A909B",
+      "border": "#23252B",
+      "codeBg": "#0F1218",
+      "codeText": "#E6E6E6"
+    }
+  }
+}

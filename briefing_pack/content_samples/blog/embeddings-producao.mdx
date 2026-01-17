@@ -1,0 +1,39 @@
+---
+title: "Embeddings em produção: por que SBERT + Postgres (pgvector) ainda é uma escolha sólida"
+date: "2026-01-17"
+tags: ["ml", "nlp", "search", "postgres"]
+summary: "Uma visão pragmática de embeddings, busca vetorial e trade-offs de operação com Postgres + HNSW."
+---
+
+## TL;DR
+- Embeddings são uma interface matemática estável para busca e matching semântico.
+- Postgres + pgvector resolve 80% dos casos sem adicionar um “banco novo” no stack.
+- O trade-off é: tuning do índice + métricas de qualidade (recall/latência).
+
+## Por que embeddings (e não LLM generativo)?
+Embeddings são **discriminativos**: você compara vetores e toma decisões reproduzíveis.  
+LLMs são ótimos para geração, mas trazem variância e custo para tarefas que às vezes são puramente de similaridade.
+
+## Arquitetura (macro)
+```mermaid
+flowchart LR
+  A[Texto] --> B[Normalização]
+  B --> C[Encoder SBERT]
+  C --> D[(Postgres + pgvector)]
+  Q[Query] --> C2[Encoder]
+  C2 --> D
+  D --> E[Top-K vizinhos]
+  E --> F[Regras/Ensemble]
+  F --> G[Resultado]
+```
+
+## Métricas que importam
+- Latência p95 (busca e endpoint)
+- Recall@K (avaliação offline)
+- Drift semântico (se o domínio muda)
+- Custo (CPU/RAM, índices, IO)
+
+## Próximos passos
+- Medir recall@K com um conjunto rotulado
+- Ajustar índice (HNSW params) e batch de ingestão
+- Instrumentar logs de consulta e alertas

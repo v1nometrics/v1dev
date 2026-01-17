@@ -1,0 +1,76 @@
+---
+title: "Embeddings em produção: por que SBERT + Postgres (pgvector) ainda é uma escolha sólida"
+date: "2026-01-15"
+tags: ["ml", "nlp", "search", "postgres"]
+summary: "Uma visão pragmática de embeddings, busca vetorial e trade-offs de operação com Postgres + HNSW."
+---
+
+## TL;DR
+- Embeddings são uma interface matemática estável para busca e matching semântico.
+- Postgres + pgvector resolve 80% dos casos sem adicionar um "banco novo" no stack.
+- O trade-off é: tuning do índice + métricas de qualidade (recall/latência).
+
+## Por que embeddings (e não LLM generativo)?
+
+Embeddings são **discriminativos**: você compara vetores e toma decisões reproduzíveis.
+
+LLMs são ótimos para geração, mas trazem variância e custo para tarefas que às vezes são puramente de similaridade.
+
+<Callout type="note">
+Embeddings transformam texto em vetores de dimensão fixa. A "semântica" fica codificada na posição do vetor no espaço.
+</Callout>
+
+## Stack recomendado
+
+```python
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer('all-MiniLM-L6-v2')
+embeddings = model.encode(texts)
+```
+
+**Por que este modelo?**
+- Tamanho pequeno (~80MB)
+- Latência baixa
+- Qualidade razoável para uso geral
+
+## Postgres + pgvector
+
+```sql
+CREATE EXTENSION vector;
+
+CREATE TABLE documents (
+  id SERIAL PRIMARY KEY,
+  content TEXT,
+  embedding vector(384)
+);
+
+CREATE INDEX ON documents 
+USING hnsw (embedding vector_cosine_ops);
+```
+
+<Callout type="tip" title="Performance">
+HNSW (Hierarchical Navigable Small World) oferece busca aproximada com recall alto e latência baixa.
+</Callout>
+
+## Métricas que importam
+
+| Métrica | O que mede | Target típico |
+|---------|-----------|---------------|
+| Latência p95 | Tempo de resposta | < 100ms |
+| Recall@K | Qualidade da busca | > 0.9 |
+| Drift semântico | Mudança no domínio | Monitorar |
+| Custo | CPU/RAM/IO | Budget |
+
+## Quando NÃO usar pgvector
+
+- **Volume muito alto** (>100M vetores): considere Pinecone, Weaviate, Qdrant
+- **Busca em tempo real com SLA rígido**: avalie soluções especializadas
+- **Multi-tenancy complexa**: pode precisar de sharding
+
+## Próximos passos
+
+1. Medir recall@K com um conjunto rotulado
+2. Ajustar índice (HNSW params: `m`, `ef_construction`)
+3. Instrumentar logs de consulta e alertas
+4. Documentar política de re-indexação

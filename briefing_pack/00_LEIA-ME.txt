@@ -1,0 +1,18 @@
+PACOTE — Briefing (Site pessoal) — v1 torres
+Gerado em: 2026-01-17
+
+Objetivo
+- Este pacote é um briefing completo (produto + design + conteúdo + arquitetura + infra + deploy)
+  para você colar no Cursor e iniciar a implementação do seu site/blog/portfólio.
+
+Como usar no Cursor
+1) Abra este diretório.
+2) Leia: 01_BRIEFING.md (visão geral + decisões).
+3) Em seguida: 02_REFERENCIAS.md (moodboard + referências).
+4) Depois: 03_VISUAL_ID.md (tokens + componentes + estilo).
+5) Finalmente: 04_ARQUITETURA_E_DEPLOY.md (stack, CI/CD, observabilidade).
+6) Use 99_PROMPT_PARA_CURSOR.md como prompt inicial (copiar/colar).
+
+Observação
+- Este pacote NÃO inclui um projeto Next.js pronto, por intenção: você vai gerar o scaffold com o Cursor,
+  mas já com decisões e padrões claros para evitar “template genérico”.

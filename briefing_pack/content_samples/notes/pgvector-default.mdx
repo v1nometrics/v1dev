@@ -1,0 +1,10 @@
+---
+title: "Heurística rápida: quando usar Postgres + pgvector?"
+date: "2026-01-17"
+tags: ["ml", "infra", "postgres"]
+summary: "Se você quer um stack simples e tem volume moderado, pgvector costuma ser o melhor default."
+---
+
+- Você já usa Postgres e quer evitar “mais um banco”.
+- Seus vetores cabem em RAM/SSD razoavelmente.
+- Você mede recall/latência e aceita aproximação controlada.

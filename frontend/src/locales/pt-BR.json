@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "title": "v1 torres",
+    "description": "Tech Lead em Dados, IA e Arquitetura de Software. Escrevendo sobre machine learning, engenharia de dados, infraestrutura e system design."
+  },
+  "nav": {
+    "home": "início",
+    "blog": "blog",
+    "lab": "lab",
+    "refs": "refs",
+    "prompts": "prompts",
+    "readme": "readme"
+  },
+  "home": {
+    "greeting": "olá, sou",
+    "name": "vinícius torres",
+    "role": "tech lead · dados/ia/arquitetura",
+    "bio": "construo sistemas de dados e inteligência artificial em produção. escrevo sobre machine learning, engenharia de dados, infraestrutura, econometria e system design.",
+    "now": {
+      "title": "agora",
+      "description": "o que estou fazendo atualmente"
+    },
+    "recent": {
+      "title": "recentes",
+      "viewAll": "ver todos"
+    }
+  },
+  "blog": {
+    "title": "blog",
+    "description": "notas e reflexões do que aprendo estudando e resolvendo problemas em produção.",
+    "articles": {
+      "title": "artigos",
+      "description": "posts longos e estruturados"
+    },
+    "notes": {
+      "title": "notas",
+      "description": "ideias curtas, til, snippets"
+    },
+    "empty": "nenhum post ainda."
+  },
+  "lab": {
+    "title": "lab",
+    "description": "sistemas em produção, experimentos e código aberto.",
+    "status": {
+      "production": "em produção",
+      "completed": "concluído",
+      "development": "em dev",
+      "archived": "arquivado"
+    },
+    "empty": "nenhum experimento ainda."
+  },
+  "refs": {
+    "title": "refs",
+    "description": "biblioteca curada de livros, papers, artigos e recursos que moldam minha forma de pensar.",
+    "categories": {
+      "books": "livros",
+      "papers": "papers",
+      "articles": "artigos",
+      "tools": "ferramentas",
+      "courses": "cursos"
+    },
+    "filter": "filtrar",
+    "search": "buscar...",
+    "export": "exportar xml",
+    "empty": "nenhuma referência encontrada."
+  },
+  "prompts": {
+    "title": "prompts",
+    "description": "prompts de engenharia otimizados com referências embutidas. prontos para uso com llms.",
+    "download": "baixar xml",
+    "copy": "copiar",
+    "copied": "copiado!",
+    "references": "referências incluídas",
+    "usage": "uso",
+    "preview": "prévia",
+    "empty": "nenhum prompt disponível."
+  },
+  "readme": {
+    "title": "readme",
+    "bio": {
+      "title": "quem sou",
+      "content": "economista em formação (mar/2026), com raiz em econometria e ciência de dados. atuo como tech lead focado em dados, ia e arquitetura de software. mão na massa: backend, design de apis, modelagem de banco, pipelines de dados, sistemas de ml em produção e infraestrutura como código."
+    },
+    "now": {
+      "title": "agora",
+      "items": [
+        "realizando onboarding e contribuindo em novo projeto como engenheiro de software",
+        "escrevendo sobre arquitetura de sistemas de ml",
+        "finalizando meu tcc e preparando conteúdo dos modelos para o blog"
+      ]
+    },
+    "stack": {
+      "title": "stack",
+      "description": "tecnologias que uso diariamente"
+    },
+    "languages": {
+      "title": "idiomas",
+      "items": [
+        "português (nativo)",
+        "inglês (c1 cambridge)",
+        "espanhol (fluente)"
+      ]
+    },
+    "principles": {
+      "title": "princípios",
+      "items": [
+        "produção primeiro: escalável, confiável, observável",
+        "dados auditáveis: contratos, versionamento, lineage",
+        "código limpo, idiomático, com testes pragmáticos e bem documentado",
+        "máximo com mínimo: extrair o melhor de cada recurso"
+      ]
+    },
+    "contact": {
+      "title": "contato",
+      "downloadCV": "baixar cv"
+    }
+  },
+  "common": {
+    "readMore": "ler mais",
+    "date": "data",
+    "tags": "tags",
+    "backToTop": "voltar ao topo",
+    "lastUpdated": "atualizado em",
+    "readingTime": "min de leitura",
+    "tableOfContents": "sumário",
+    "language": "idioma",
+    "theme": {
+      "light": "claro",
+      "dark": "escuro",
+      "system": "sistema"
+    }
+  },
+  "footer": {
+    "copyright": "© {year} vinícius torres",
+    "source": "código fonte",
+    "rss": "rss"
+  }
+}

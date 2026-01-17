@@ -1,0 +1,115 @@
+---
+title: "Migração para AWS VPC — custo/segurança/observabilidade"
+status: "concluído"
+period: "2025"
+stack: ["AWS VPC", "RDS Postgres", "EC2 ARM64", "Docker", "ECR", "CloudWatch", "GitHub Actions"]
+summary: "Padronização de deploy via imagens e isolamento de rede para sistemas principais."
+outcomes:
+  - "Redução de 40% no custo de compute (ARM64)"
+  - "Zero incidentes de segurança pós-migração"
+  - "Deploy time de 15min para 3min"
+---
+
+## Objetivo
+
+Consolidar aplicações em uma VPC própria, reduzindo superfície de ataque e melhorando latência EC2↔RDS.
+
+## Problema anterior
+
+- Aplicações em EC2 default VPC
+- Acesso público ao banco de dados
+- Deploy manual via SSH
+- Sem padronização de imagens
+
+## Arquitetura final
+
+### Rede
+
+```
+VPC 10.0.0.0/16
+├── Public Subnet (10.0.1.0/24)
+│   └── NAT Gateway
+├── Private Subnet A (10.0.2.0/24)
+│   └── EC2 instances
+├── Private Subnet B (10.0.3.0/24)
+│   └── EC2 instances
+└── Private Subnet DB (10.0.4.0/24)
+    └── RDS Postgres
+```
+
+### Security Groups
+
+| SG | Inbound | Source |
+|----|---------|--------|
+| ALB | 443 | 0.0.0.0/0 |
+| App | 8000 | ALB SG |
+| RDS | 5432 | App SG |
+
+<Callout type="note">
+Princípio de menor privilégio: cada camada só aceita tráfego da camada anterior.
+</Callout>
+
+## Componentes
+
+1. **VPC + subnets privadas**: isolamento de rede
+2. **Security Groups restritivos**: acesso mínimo necessário
+3. **RDS Postgres**: Multi-AZ para HA
+4. **EC2 ARM64 + Docker**: custo-benefício
+5. **ECR**: registry privado para imagens
+6. **CloudWatch**: logs centralizados + alarms
+
+## Pipeline de deploy
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build & Push to ECR
+        run: |
+          docker build -t $ECR_REPO:$SHA .
+          docker push $ECR_REPO:$SHA
+      
+      - name: Deploy to EC2
+        run: |
+          ssh ec2-user@$HOST "
+            docker pull $ECR_REPO:$SHA
+            docker stop app || true
+            docker run -d --name app $ECR_REPO:$SHA
+          "
+```
+
+## Runbook de deploy
+
+1. **Build**: `docker build` + push para ECR
+2. **Pull**: EC2 baixa nova imagem
+3. **Migrate**: `alembic upgrade head`
+4. **Healthcheck**: verificar `/health`
+5. **Rollback**: `docker run` com tag anterior
+
+<Callout type="warning" title="Rollback">
+Sempre mantenha as últimas 3 tags no ECR para rollback rápido.
+</Callout>
+
+## Resultados
+
+| Métrica | Antes | Depois |
+|---------|-------|--------|
+| Custo mensal | $450 | $270 |
+| Deploy time | 15min | 3min |
+| Latência DB | 8ms | 2ms |
+| Incidentes/mês | 2-3 | 0 |
+
+## Próximos passos
+
+1. Migrar para ECS Fargate (eliminar gestão de EC2)
+2. Implementar blue/green deployments
+3. Adicionar WAF no ALB

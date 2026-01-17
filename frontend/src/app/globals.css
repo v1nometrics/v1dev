@@ -1,0 +1,313 @@
+@import "tailwindcss";
+
+/*
+ * v1torres.dev — Design System
+ * Estética: Terminal / Typewriter / Data Engineering
+ * Paleta: Monocromática (preto, branco, cinza)
+ * Tipografia: Geist Mono (código/terminal)
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   CSS VARIABLES
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* — Background layers — */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f4f4f5;
+  --bg-code: #18181b;
+
+  /* — Foreground / Text — */
+  --fg-primary: #09090b;
+  --fg-secondary: #27272a;
+  --fg-muted: #52525b;
+  --fg-subtle: #71717a;
+
+  /* — Borders & Lines — */
+  --border-default: #d4d4d8;
+  --border-subtle: #e4e4e7;
+  --border-strong: #71717a;
+  --border-dotted: #a1a1aa;
+
+  /* — Accents (minimal) — */
+  --accent: #09090b;
+  --accent-hover: #27272a;
+
+  /* — Code — */
+  --code-bg: #18181b;
+  --code-fg: #fafafa;
+  --code-comment: #71717a;
+  --code-keyword: #a1a1aa;
+  --code-string: #d4d4d8;
+
+  /* — Spacing base — */
+  --space-unit: 4px;
+
+  /* — Typography — */
+  --font-mono: "Geist Mono", "Berkeley Mono", "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 0.9375rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.125rem;
+  --font-size-2xl: 1.25rem;
+  --font-size-3xl: 1.5rem;
+
+  /* — Line heights — */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 1.75;
+
+  /* — Borders — */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+}
+
+.dark {
+  --bg-primary: #09090b;
+  --bg-secondary: #18181b;
+  --bg-tertiary: #27272a;
+  --bg-code: #0a0a0a;
+
+  --fg-primary: #fafafa;
+  --fg-secondary: #d4d4d8;
+  --fg-muted: #a1a1aa;
+  --fg-subtle: #71717a;
+
+  --border-default: #3f3f46;
+  --border-subtle: #27272a;
+  --border-strong: #52525b;
+  --border-dotted: #3f3f46;
+
+  --accent: #fafafa;
+  --accent-hover: #d4d4d8;
+
+  --code-bg: #0a0a0a;
+  --code-fg: #fafafa;
+  --code-comment: #71717a;
+  --code-keyword: #a1a1aa;
+  --code-string: #d4d4d8;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TAILWIND THEME MAPPING
+   ═══════════════════════════════════════════════════════════════ */
+
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-code: var(--bg-code);
+
+  --color-fg-primary: var(--fg-primary);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-border-dotted: var(--border-dotted);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+
+  --color-code-bg: var(--code-bg);
+  --color-code-fg: var(--code-fg);
+
+  --font-family-mono: var(--font-mono);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+html {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-base);
+  line-height: var(--leading-relaxed);
+  font-feature-settings: "ss01" on, "ss02" on, "cv01" on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--fg-primary);
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: var(--leading-tight);
+}
+
+h1 { font-size: var(--font-size-2xl); }
+h2 { font-size: var(--font-size-xl); }
+h3 { font-size: var(--font-size-lg); }
+h4 { font-size: var(--font-size-md); }
+
+p {
+  color: var(--fg-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+a {
+  color: var(--fg-primary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border-dotted);
+  transition: border-color 0.15s ease;
+}
+
+a:hover {
+  border-bottom-style: solid;
+  border-color: var(--fg-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM ELEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Dotted separator */
+.separator-dotted {
+  border: none;
+  border-top: 1px dotted var(--border-dotted);
+  margin: calc(var(--space-unit) * 6) 0;
+}
+
+/* Dashed separator */
+.separator-dashed {
+  border: none;
+  border-top: 1px dashed var(--border-default);
+  margin: calc(var(--space-unit) * 6) 0;
+}
+
+/* ASCII-style box */
+.ascii-box {
+  border: 1px solid var(--border-default);
+  padding: calc(var(--space-unit) * 4);
+  position: relative;
+}
+
+/* Terminal prompt */
+.terminal-prompt::before {
+  content: ">";
+  color: var(--fg-muted);
+  margin-right: calc(var(--space-unit) * 2);
+}
+
+/* Bullet list - terminal style */
+.list-terminal li::marker {
+  content: "— ";
+  color: var(--fg-muted);
+}
+
+/* Code inline */
+code:not(pre code) {
+  background-color: var(--bg-secondary);
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Code block */
+pre {
+  background-color: var(--code-bg);
+  color: var(--code-fg);
+  padding: calc(var(--space-unit) * 4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-size: var(--font-size-sm);
+  line-height: var(--leading-normal);
+  border: 1px solid var(--border-default);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--fg-primary);
+  color: var(--bg-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BADGES & TAGS
+   ═══════════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  font-size: var(--font-size-xs);
+  color: var(--fg-muted);
+  border: 1px dotted var(--border-default);
+  border-radius: var(--radius-none);
+  text-transform: lowercase;
+}
+
+.badge-solid {
+  border-style: solid;
+  background-color: var(--bg-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+.border-dotted-custom {
+  border-style: dotted;
+  border-color: var(--border-dotted);
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 1px dotted var(--fg-primary);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATIONS (minimal)
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1.22s step-end infinite;
+}
+
+.cursor-blink::after {
+  content: "█";
+  animation: blink 1.22s step-end infinite;
+  color: var(--fg-muted);
+}

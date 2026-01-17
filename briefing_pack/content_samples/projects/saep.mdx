@@ -1,0 +1,31 @@
+---
+title: "SAEP — Matchmaking semântico em emendas parlamentares"
+status: "em produção"
+period: "2025"
+stack: ["Python", "Sentence Transformers", "PostgreSQL", "pgvector", "Next.js", "AWS"]
+summary: "Pipeline diário + busca vetorial + ensemble de regras para classificar emendas por aderência."
+---
+
+## Contexto
+O problema era triar diariamente um volume alto de emendas com descrições heterogêneas e linguagem ambígua.
+
+## Arquitetura
+```mermaid
+flowchart TB
+  S[SIOP] --> B[Bot de coleta]
+  B --> L[Landing (S3/Raw)]
+  L --> E[ETL + Higienização]
+  E --> V[Embeddings]
+  V --> P[(RDS Postgres + pgvector)]
+  P --> M[Matchmaking + regras]
+  M --> F[Frontend Next.js]
+```
+
+## Trade-offs
+- Embeddings (determinístico) vs LLM (variável)
+- Índice aproximado (HNSW) vs busca exata
+- Batch diário vs scoring online
+
+## Resultados
+- Busca semântica rápida e UX de filtros/exportação
+- Sistema auditável: scores e regras explicáveis

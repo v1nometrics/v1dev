@@ -1,0 +1,39 @@
+---
+title: "Cache hierárquico + SWR: UX de produto sem explodir custo"
+date: "2026-01-17"
+tags: ["frontend", "system-design", "performance"]
+summary: "Memória → localStorage → S3/CDN: uma estratégia prática para carregar rápido e revalidar em background."
+---
+
+## TL;DR
+- Cache em camadas reduz latência e evita custo repetido.
+- SWR (stale-while-revalidate) entrega UX rápida com consistência eventual.
+- O risco é servir dado “antigo”: trate com indicadores e política clara.
+
+## Camadas
+1) memória (runtime)
+2) localStorage (cliente)
+3) CDN (assets estáticos)
+4) storage (S3) ou DB
+
+## Política
+- Dados críticos: TTL curto e revalidação imediata.
+- Dados “estratégicos”: TTL maior com aviso “Atualizado em...”.
+
+```mermaid
+sequenceDiagram
+  participant UI
+  participant Cache
+  participant API
+  UI->>Cache: get(key)
+  alt hit
+    Cache-->>UI: stale data
+    UI->>API: revalidate()
+    API-->>Cache: fresh data
+    Cache-->>UI: update (background)
+  else miss
+    UI->>API: fetch()
+    API-->>Cache: store
+    Cache-->>UI: fresh data
+  end
+```

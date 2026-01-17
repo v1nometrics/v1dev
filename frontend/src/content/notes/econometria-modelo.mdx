@@ -1,0 +1,29 @@
+---
+title: "Econometria: sempre escreva o modelo antes do código"
+date: "2026-01-17"
+tags: ["econometria", "estatistica"]
+summary: "Uma linha de equação economiza 200 linhas de debugging."
+---
+
+Antes de abrir o Jupyter, escreva:
+
+1. **Variável dependente** — o que você quer explicar
+2. **Regressoras** — o que você acha que explica
+3. **Efeitos fixos / controles** — o que você precisa "limpar"
+4. **Hipótese de identificação** — por que sua estimativa é causal (ou não)
+5. **Erros padrão** — clustered? robust? bootstrap?
+
+```latex
+Y_{it} = \alpha + \beta X_{it} + \gamma Z_{it} + \mu_i + \epsilon_{it}
+```
+
+<Callout type="tip">
+Se você não consegue escrever a equação, você não sabe o que está estimando.
+</Callout>
+
+## Por que isso importa?
+
+- Força clareza sobre o que você está testando
+- Evita "fishing" de variáveis
+- Documenta decisões metodológicas
+- Facilita code review e replicação

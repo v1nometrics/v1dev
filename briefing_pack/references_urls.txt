@@ -1,0 +1,20 @@
+REFERÊNCIAS — URLs (copiar/colar)
+
+Explorable / didática
+- https://ciechanow.ski/
+- https://samwho.dev/memory-allocation/
+- https://github.com/BHSPitMonkey/awesome-explanations
+
+Blogs técnicos (minimalismo bom)
+- https://overreacted.io/
+- https://karpathy.ai/
+- https://colah.github.io/
+- https://jvns.ca/
+- https://gwern.net/design
+
+Terminal aesthetic / interação
+- https://monkeytype.com/
+- https://sushantkumar.dev/projects/neo-terminal-portfolio/
+- https://github.com/satnaing/terminal-portfolio
+- https://github.com/dip/cmdk
+- https://ui.shadcn.com/docs/components/command

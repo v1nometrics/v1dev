@@ -1,0 +1,82 @@
+---
+title: "SAEP — Matchmaking semântico em emendas parlamentares"
+status: "em produção"
+period: "2025"
+stack: ["Python", "Sentence Transformers", "PostgreSQL", "pgvector", "Next.js", "AWS"]
+summary: "Pipeline diário + busca vetorial + ensemble de regras para classificar emendas por aderência."
+outcomes:
+  - "Redução de 70% no tempo de triagem manual"
+  - "Busca semântica com latência p95 < 200ms"
+  - "Sistema auditável com scores explicáveis"
+---
+
+## Contexto
+
+O problema era triar diariamente um volume alto de emendas parlamentares com descrições heterogêneas e linguagem ambígua. A equipe precisava identificar quais emendas eram aderentes aos programas da organização.
+
+## Desafios técnicos
+
+1. **Linguagem inconsistente**: emendas escritas por diferentes assessores, com vocabulário variado
+2. **Volume**: centenas de novas emendas por dia
+3. **Auditabilidade**: necessidade de explicar por que uma emenda foi classificada
+
+## Arquitetura
+
+O sistema segue um fluxo de dados diário:
+
+1. **Coleta**: Bot consulta API do SIOP (Sistema Integrado de Planejamento e Orçamento)
+2. **Landing**: Dados brutos armazenados em S3
+3. **ETL**: Limpeza, normalização de texto, extração de campos
+4. **Embeddings**: Vetorização com Sentence Transformers
+5. **Matchmaking**: Busca vetorial + regras de negócio
+6. **Frontend**: Interface de busca e filtros
+
+```python
+# Exemplo simplificado do matchmaking
+def score_emenda(emenda: Emenda, programas: List[Programa]) -> float:
+    emenda_vec = encoder.encode(emenda.descricao)
+    scores = []
+    
+    for programa in programas:
+        sim = cosine_similarity(emenda_vec, programa.embedding)
+        regra_score = aplicar_regras(emenda, programa)
+        scores.append(0.7 * sim + 0.3 * regra_score)
+    
+    return max(scores)
+```
+
+## Trade-offs
+
+| Decisão | Alternativa | Por que escolhemos |
+|---------|-------------|-------------------|
+| Embeddings | LLM generativo | Determinístico, auditável, custo menor |
+| HNSW | Busca exata | Latência aceitável com recall > 0.95 |
+| Batch diário | Streaming | Volume não justifica complexidade |
+
+<Callout type="decision" title="Embeddings vs LLM">
+Optamos por embeddings porque precisávamos de scores reproduzíveis e explicáveis. LLMs trariam variância indesejada.
+</Callout>
+
+## Stack detalhado
+
+- **Linguagem**: Python 3.11
+- **Encoder**: `sentence-transformers/all-MiniLM-L6-v2`
+- **Banco**: PostgreSQL 15 + pgvector
+- **Orquestração**: Airflow (DAGs diárias)
+- **Frontend**: Next.js 14 + shadcn/ui
+- **Infra**: AWS (EC2, RDS, S3)
+
+## Resultados
+
+O sistema está em produção desde Q1 2025, processando emendas diariamente com:
+
+- **Tempo de triagem**: redução de 70%
+- **Latência de busca**: p95 < 200ms
+- **Recall**: > 0.92 em avaliação manual
+- **Uptime**: 99.9%
+
+## Aprendizados
+
+1. **Regras são importantes**: embeddings sozinhos não capturam todas as nuances do domínio
+2. **Feedback loop**: classificações manuais alimentam melhorias no modelo
+3. **Explicabilidade**: mostrar o "porquê" aumenta confiança do usuário

@@ -1,0 +1,24 @@
+---
+title: "Heurística rápida: quando usar Postgres + pgvector?"
+date: "2026-01-16"
+tags: ["ml", "infra", "postgres"]
+summary: "Se você quer um stack simples e tem volume moderado, pgvector costuma ser o melhor default."
+---
+
+Use pgvector quando:
+
+- Você **já usa Postgres** e quer evitar "mais um banco"
+- Seus vetores **cabem em RAM/SSD** razoavelmente (menos de 10M vetores)
+- Você **mede recall/latência** e aceita aproximação controlada
+- Você quer **transações ACID** com seus dados vetoriais
+
+Considere alternativas quando:
+
+- Volume muito alto (mais de 100M vetores)
+- Precisa de sharding nativo
+- Multi-tenancy complexa com isolamento forte
+- Latência p99 menor que 10ms é crítica
+
+<Callout type="decision">
+pgvector é o "boring technology" de busca vetorial. Na dúvida, comece com ele.
+</Callout>
