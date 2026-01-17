@@ -1,21 +1,31 @@
 # 04 — ARQUITETURA, INFRA E DEPLOY
 
+> **Atualizado:** Janeiro 2026
+
 ## Decisão (recomendada)
 **Next.js (App Router) + MDX no Git + deploy na Vercel + DNS na Cloudflare.**
 
 Por quê:
 - Conteúdo versionado (Git = histórico/auditabilidade).
 - Performance e DX bons (ISR/SSG).
-- Infra mínima (custo baixo) e escala “de graça”.
-- Dá para plugar features “de produto” (⌘K, OG images dinâmicas, search local).
+- Infra mínima (custo baixo) e escala "de graça".
+- Dá para plugar features "de produto" (⌘K, OG images dinâmicas, search local).
 
 ---
 
 ## 1) Stack (MVP)
 ### Frontend
-- Next.js (App Router) + TypeScript
-- TailwindCSS + shadcn/ui (componentes base)
+- Next.js 16 (App Router) + TypeScript
+- TailwindCSS 4
 - Font: Geist Mono (primary)
+
+### Internacionalização (i18n)
+- **100% client-side** — troca sem page refresh
+- Locales: `pt-BR` (default), `en` (prefix /en)
+- LocaleProvider com React Context
+- Componente `<T>` para texto traduzido com animação matrix (2.5s)
+- Persistência em localStorage
+- URL sync via `history.replaceState`
 
 ### Conteúdo
 - MDX em `/content`

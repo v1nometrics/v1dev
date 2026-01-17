@@ -27,8 +27,8 @@ src/
 │       └── readme/          # Sobre
 ├── components/
 │   ├── layout/              # Header, Footer
-│   ├── ui/                  # Theme toggle, Language toggle
-│   └── providers/           # Theme provider
+│   ├── ui/                  # Theme toggle, Language toggle, T (texto traduzido)
+│   └── providers/           # Theme provider, Locale provider
 ├── content/
 │   ├── blog/                # Artigos MDX
 │   ├── notes/               # Notas curtas MDX
@@ -61,6 +61,9 @@ src/
 - Ingles (com /en prefix)
 - `localePrefix: "as-needed"`
 - Language toggle com SVG bandeiras
+- **100% client-side** — troca sem page refresh
+- Animacao matrix scramble ao trocar idioma (2.5s)
+- Persistencia em localStorage
 
 ### Design System
 - Monocromatico: preto, branco, cinza (sem cores)
@@ -133,7 +136,3 @@ bun run lint
 ## Design System
 
 Consulte [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) para tokens completos.
-
-## Deploy
-
-Configurado para Vercel com Edge runtime.

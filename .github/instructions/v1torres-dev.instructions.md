@@ -4,7 +4,7 @@ applyTo: "frontend/**"
 
 # v1torres.dev — Development Guidelines
 
-> **Versao:** 2.0 — Janeiro 2026  
+> **Versao:** 3.0 — Janeiro 2026  
 > **Autor:** Vinicius Torres
 
 ---
@@ -79,8 +79,9 @@ src/
 │       └── readme/          # Sobre
 ├── components/
 │   ├── layout/              # Header, Footer
-│   ├── ui/                  # Theme toggle, Language toggle
-│   └── providers/           # Theme provider
+│   ├── ui/                  # Theme toggle, Language toggle, T (texto traduzido)
+│   ├── mdx/                 # Componentes MDX
+│   └── providers/           # Theme provider, Locale provider
 ├── content/
 │   ├── blog/                # Artigos MDX
 │   ├── notes/               # Notas curtas MDX
@@ -322,42 +323,75 @@ w-0 → w-2
 
 ## 7. i18n
 
-### 7.1 Configuracao
+### 7.1 Arquitetura
+
+Sistema 100% **client-side** para troca de idioma sem page refresh:
+
+```
+LocaleProvider (Context)
+├── locale: "pt-BR" | "en"
+├── messages: Record<string, unknown>
+├── toggleLocale(): void
+├── t(key: string): string
+└── lastChange: number (timestamp para trigger de animacao)
+```
+
+### 7.2 Configuracao
 
 - Locales: `pt-BR` (default), `en`
 - Prefix: `as-needed` (sem /pt-BR na URL default)
+- Persistencia: `localStorage` key `v1-locale`
+- URL sync: `history.replaceState` (sem navegacao)
 
-### 7.2 Routing
-
-```tsx
-// src/i18n/routing.ts
-import { createNavigation } from "next-intl/navigation";
-import { routing } from "@/i18n";
-
-export const { Link, redirect, usePathname, useRouter } = createNavigation(routing);
-```
-
-### 7.3 Uso
+### 7.3 Componente T (Texto Traduzido)
 
 ```tsx
-import { useTranslations } from "next-intl";
+// Uso basico — texto com animacao matrix ao trocar idioma
+<T k="home.bio" />
 
-function Component() {
-  const t = useTranslations("section");
-  return <h1>{t("title")}</h1>;
+// Com tag customizada
+<T k="readme.title" as="h1" className="text-xl" />
+
+// Props
+interface TProps {
+  k: string;         // Chave de traducao (dot notation)
+  className?: string;
+  duration?: number; // Duracao da animacao (default: 2500ms)
+  as?: ElementType;  // Tag HTML (default: "span")
 }
 ```
 
-### 7.4 Language Toggle
+### 7.4 Regras de Traducao
+
+| Elemento | Traduzido? | Componente |
+|----------|------------|------------|
+| Header/Nav | Nao | Static text |
+| Conteudo paginas | Sim | `<T k="..." />` |
+| Titulos secoes | Sim | `<T k="..." />` |
+| Labels UI | Sim | `<T k="..." />` |
+
+### 7.5 Language Toggle
 
 ```tsx
-import { useRouter, usePathname } from "@/i18n/routing";
-
-const toggleLocale = () => {
-  const newLocale = locale === "pt-BR" ? "en" : "pt-BR";
-  router.replace(pathname, { locale: newLocale });
-};
+// Mostra bandeira do idioma destino (para onde vai mudar)
+<LanguageToggle />
+// pt-BR ativo -> mostra bandeira USA
+// en ativo -> mostra bandeira Brasil
 ```
+
+### 7.6 Matrix Scramble Animation
+
+Efeito de troca de caracteres estilo "matrix/hacker" ao trocar idioma:
+
+- **Duracao:** 2500ms (2.5 segundos)
+- **Charset:** `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>[]{}`
+- **Easing:** ease-out cubico
+- **Preserva:** espacos e pontuacao durante animacao
+
+**Funcionamento:**
+1. Detecta mudanca de locale via `lastChange` timestamp
+2. Compara texto anterior com novo texto traduzido
+3. Se diferentes, executa animacao scramble caractere por caractere
 
 ---
 

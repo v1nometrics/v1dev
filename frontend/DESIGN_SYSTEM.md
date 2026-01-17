@@ -1,6 +1,6 @@
 # v1torres.dev — Design System
 
-> **Versao:** 2.0  
+> **Versao:** 3.0  
 > **Ultima atualizacao:** Janeiro 2026  
 > **Autor:** Vinicius Torres
 
@@ -203,7 +203,34 @@ Animacao: `transition-all duration-300 ease-out`
 
 Usado no logo: `›v1_`
 
-### 6.2 Grid Rows Transition
+### 6.2 Matrix Scramble Animation
+
+Animacao de troca de caracteres estilo "matrix/hacker" ao trocar idioma:
+
+```tsx
+// Componente <T> com animacao scramble
+<T k="home.bio" />  // Texto traduzido com efeito matrix
+
+// Props disponiveis
+interface TProps {
+  k: string;         // Chave de traducao (dot notation)
+  className?: string;
+  duration?: number; // Default: 2500ms
+  as?: ElementType;  // Default: "span"
+}
+```
+
+**Funcionamento:**
+1. Detecta mudanca de locale via `lastChange` timestamp
+2. Compara texto anterior com novo texto traduzido
+3. Se diferentes, executa animacao scramble caractere por caractere
+4. Caracteres aleatorios: `ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>[]{}`
+5. Preserva espacos e pontuacao durante animacao
+6. Easing: `1 - Math.pow(1 - progress, 3)` (ease-out cubico)
+
+**Duracao default:** 2500ms (2.5 segundos)
+
+### 6.3 Grid Rows Transition
 
 ```css
 .grid-rows-[0fr] → .grid-rows-[1fr]
@@ -212,7 +239,7 @@ transition-all duration-300 ease-out
 
 Usado em CollapsibleSection.
 
-### 6.3 Width Animation (Menu Ativo)
+### 6.4 Width Animation (Menu Ativo)
 
 ```css
 transition-all duration-200
@@ -278,3 +305,72 @@ xl: 1280px
 - Mobile: single column, collapsible sections
 - Desktop: sidebars quando aplicavel (blog notes, refs filters)
 - Padding aumenta com viewport
+
+---
+
+## 11. Internacionalizacao (i18n)
+
+### 11.1 Arquitetura
+
+Sistema 100% client-side para troca de idioma sem page refresh:
+
+```
+LocaleProvider (Context)
+├── locale: "pt-BR" | "en"
+├── messages: Record<string, unknown>
+├── toggleLocale(): void
+├── t(key: string): string
+└── lastChange: number (timestamp para trigger de animacao)
+```
+
+### 11.2 Locales Suportados
+
+| Locale | Prefixo URL | Default |
+|--------|-------------|---------|
+| `pt-BR` | `/` | Sim |
+| `en` | `/en` | Nao |
+
+### 11.3 Arquivos de Traducao
+
+```
+src/locales/
+├── pt-BR.json
+└── en.json
+```
+
+Estrutura aninhada com dot notation: `home.greeting`, `readme.bio.title`
+
+### 11.4 Componente T (Texto Traduzido)
+
+```tsx
+// Uso basico
+<T k="home.bio" />
+
+// Com tag customizada
+<T k="readme.title" as="h1" className="text-xl" />
+
+// Props
+interface TProps {
+  k: string;         // Chave de traducao
+  className?: string;
+  duration?: number; // Duracao da animacao (default: 2500ms)
+  as?: ElementType;  // Tag HTML (default: "span")
+}
+```
+
+### 11.5 Regras de Traducao
+
+- **Header:** Estatico, nao traduzido (blog, lab, refs, prompts, readme)
+- **Conteudo:** Todas as paginas usam `<T>` para texto traduzivel
+- **Animacao:** Matrix scramble ao trocar idioma (2.5s)
+- **Persistencia:** `localStorage` key `v1-locale`
+- **URL:** `history.replaceState` para sincronizar sem navegacao
+
+### 11.6 LanguageToggle
+
+```tsx
+// Mostra bandeira do idioma destino (para onde vai mudar)
+<LanguageToggle />
+// pt-BR ativo → mostra bandeira USA
+// en ativo → mostra bandeira Brasil
+```
