@@ -1,5 +1,12 @@
 import { setRequestLocale } from "next-intl/server";
 
+export async function generateStaticParams() {
+  return [
+    { slug: "cache-hierarquico-swr" },
+    { slug: "embeddings-producao" },
+  ];
+}
+
 export default async function WritingSlugPage({
   params,
 }: {

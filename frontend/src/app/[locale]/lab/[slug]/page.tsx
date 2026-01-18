@@ -1,6 +1,14 @@
 import { setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 
+export async function generateStaticParams() {
+  return [
+    { slug: "econometria-modelo" },
+    { slug: "pgvector-default" },
+    { slug: "slo-busca" },
+  ];
+}
+
 export default async function LabDetailPage({
   params,
 }: {
