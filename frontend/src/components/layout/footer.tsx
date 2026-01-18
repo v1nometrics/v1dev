@@ -15,7 +15,7 @@ export function Footer() {
 
           <div className="flex items-center gap-4">
             <Link
-              href="https://github.com/v1-torres/v1torres.dev"
+              href="https://github.com/v1nometrics/v1dev"
               target="_blank"
               rel="noopener noreferrer"
               className="border-none hover:text-fg-primary transition-colors"
