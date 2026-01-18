@@ -1,8 +1,59 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useLocale } from "@/components/providers/locale-provider";
 import { T } from "@/components/ui/t";
+import { cn } from "@/lib/utils";
+
+/**
+ * Seção colapsável com animação suave
+ */
+function CollapsibleSection({
+  title,
+  defaultOpen = true,
+  children,
+  rightContent,
+}: {
+  title: React.ReactNode;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+  rightContent?: React.ReactNode;
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="flex items-center gap-2 text-sm font-medium text-fg-muted hover:text-fg-primary transition-colors group cursor-pointer"
+          aria-expanded={isOpen}
+        >
+          <span
+            className={cn(
+              "text-fg-subtle transition-transform duration-200 ease-out",
+              isOpen ? "rotate-90" : "rotate-0"
+            )}
+          >
+            ›
+          </span>
+          <span>{title}</span>
+        </button>
+        {rightContent}
+      </div>
+
+      <div
+        className={cn(
+          "grid transition-all duration-300 ease-out",
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        )}
+      >
+        <div className="overflow-hidden">{children}</div>
+      </div>
+    </div>
+  );
+}
 
 export default function HomePage() {
   const { locale } = useLocale();
@@ -36,32 +87,30 @@ export default function HomePage() {
           <hr className="separator-dotted" />
 
           {/* Recent posts */}
-          <section>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-sm font-medium text-fg-muted">
-                <span className="text-fg-subtle">›</span> <T k="home.recent.title" />
-              </h2>
+          <CollapsibleSection
+            title={<T k="home.recent.title" />}
+            defaultOpen={true}
+            rightContent={
               <Link
                 href={locale === "pt-BR" ? "/blog" : "/en/blog"}
                 className="text-xs text-fg-muted hover:text-fg-primary border-none"
               >
                 <T k="home.recent.viewAll" /> →
               </Link>
-            </div>
-
+            }
+          >
             <RecentPosts />
-          </section>
+          </CollapsibleSection>
         </div>
 
         {/* Sidebar - Now section */}
         <aside className="hidden lg:block">
           <div className="sticky top-8">
-            <h2 className="text-sm font-medium mb-4 text-fg-muted">
-              <span className="text-fg-subtle">›</span> <T k="home.now.title" />
-            </h2>
-            <div className="pl-4 border-l border-dotted border-border-default">
-              <NowContent />
-            </div>
+            <CollapsibleSection title={<T k="home.now.title" />} defaultOpen={true}>
+              <div className="pl-4 border-l border-dotted border-border-default">
+                <NowContent />
+              </div>
+            </CollapsibleSection>
           </div>
         </aside>
       </div>
@@ -69,12 +118,11 @@ export default function HomePage() {
       {/* Now section on mobile */}
       <section className="mt-16 lg:hidden">
         <hr className="separator-dotted mb-16" />
-        <h2 className="text-sm font-medium mb-4 text-fg-muted">
-          <span className="text-fg-subtle">›</span> <T k="home.now.title" />
-        </h2>
-        <div className="pl-4 border-l border-dotted border-border-default">
-          <NowContent />
-        </div>
+        <CollapsibleSection title={<T k="home.now.title" />} defaultOpen={true}>
+          <div className="pl-4 border-l border-dotted border-border-default">
+            <NowContent />
+          </div>
+        </CollapsibleSection>
       </section>
     </div>
   );

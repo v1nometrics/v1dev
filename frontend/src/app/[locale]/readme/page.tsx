@@ -106,8 +106,16 @@ function ReadmeContent() {
       ];
 
   const languageItems = locale === "pt-BR"
-    ? ["português (nativo)", "inglês (c1 · cambridge)", "espanhol (fluente)"]
-    : ["portuguese (native)", "english (c1 · cambridge)", "spanish (fluent)"];
+    ? [
+        "português (nativo)",
+        "inglês (c1 · cambridge)",
+        "espanhol (fluente · intercâmbio na argentina por 1 ano)"
+      ]
+    : [
+        "portuguese (native)",
+        "english (c1 · cambridge)",
+        "spanish (fluent · exchange student in argentina for 1 year)"
+      ];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
