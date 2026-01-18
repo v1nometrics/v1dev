@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   },
   description:
     "Tech Lead em Dados, IA e Arquitetura de Software. Machine learning, engenharia de dados, infraestrutura e system design.",
-  metadataBase: new URL("https://v1torres.dev"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://v1torres.dev"),
 };
 
 export default function RootLayout({
