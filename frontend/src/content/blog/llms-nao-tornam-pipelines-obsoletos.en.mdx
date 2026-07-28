@@ -201,7 +201,7 @@ That is why the comparison has to consider total system cost, not just the unit 
 
 That is where my view of the pipeline's value changed. The value sits less in the clustering algorithm, dimensionality reduction, heuristics, weights, or the number of metrics than in the contract built around the problem. Those pieces are replaceable.
 
-I started treating linguistic sentiment, *stance*, and the label that reaches the product as three distinct things, each with its own owner, its own versioning, and its own history. No new classification reaches the user without first passing through an explicit gate: benchmark, canary, comparison against the previous version. If that gate is not crossed, the system simply keeps showing what it already showed. The experimental path stays out until it proves it deserves to come in.
+Linguistic sentiment, *stance*, and the product label became three distinct classifications, each with its own version and history. A new version only reaches the user after an explicit gate of benchmark, canary, and comparison against the previous version. Until that happens, the product keeps showing the already approved version. The experimental path stays out until it proves it deserves to come in.
 
 The same applies to topics: each window can be recomputed without reprocessing the full history, and interrupted work does not pay twice for the same analysis. Calls, tokens, and cost have caps per operation and per execution; when the primary provider fails, containment kicks in inside known limits, instead of becoming a new source of surprise.
 

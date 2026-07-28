@@ -199,7 +199,7 @@ Por isso, a comparação precisa considerar o custo total do sistema, e não ape
 
 Foi aí que minha visão sobre o valor do pipeline mudou. O valor está menos no algoritmo de clusterização, na redução de dimensionalidade, nas heurísticas, nos pesos ou na quantidade de métricas do que no contrato construído ao redor do problema. Todas aquelas peças são substituíveis.
 
-Passei a tratar sentimento linguístico, *stance* e o label que chega ao produto como três coisas distintas, cada uma com seu próprio dono, seu próprio versionamento e sua própria história. Nenhuma classificação nova chega ao usuário sem antes passar por um portão explícito: benchmark, canary, comparação contra a versão anterior. Se esse portão não for atravessado, o sistema simplesmente continua mostrando o que já mostrava. O experimental fica de fora até provar que merece entrar.
+Sentimento linguístico, *stance* e o label do produto passaram a ser tratados como três classificações distintas, cada uma com versão e histórico próprios. Uma versão nova só chega ao usuário depois de um gate explícito de benchmark, canary e comparação com a versão anterior. Enquanto isso não acontece, o produto continua mostrando a versão já aprovada. O experimental fica de fora até provar que merece entrar.
 
 O mesmo vale para os tópicos: cada janela pode ser recalculada sem reprocessar o histórico inteiro, e um trabalho interrompido não paga duas vezes pela mesma análise. Chamadas, tokens e custo têm teto por operação e por execução; quando o provedor principal falha, a contenção entra dentro de limites conhecidos, em vez de virar uma nova fonte de surpresa.
 
