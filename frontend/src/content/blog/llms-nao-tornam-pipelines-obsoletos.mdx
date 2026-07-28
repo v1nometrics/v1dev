@@ -57,12 +57,12 @@ Também seria semanticamente errado.
 
 Além de classificar os comentários individualmente, o sistema precisa identificar os principais assuntos presentes na conversa.
 
-Os textos viram embeddings de 768 dimensões; a dimensionalidade é reduzida antes da clusterização para tornar a estrutura semântica mais tratável. Em seguida, um método baseado em densidade agrupa os pontos, com parâmetros ajustados para cada conjunto de dados.
+Os textos viram vetores de 768 dimensões; a dimensionalidade é reduzida antes da clusterização para tornar a estrutura semântica mais tratável. Em seguida, um método baseado em densidade agrupa os pontos, com parâmetros ajustados para cada conjunto de dados.
 
 <Flow
   caption="do texto ao rótulo: a llm só entra no fim"
   steps={[
-    { label: "embeddings (768d)", note: "representação semântica do comentário (+ contexto quando necessário)" },
+    { label: "vetores (768d)", note: "representação semântica do comentário (+ contexto quando necessário)" },
     { label: "redução de dimensionalidade", note: "estrutura tratável para agrupamento" },
     { label: "clusterização por densidade", note: "coesão e separação medidas; grupos quase iguais são fundidos" },
     { label: "fallback em amostra pequena", note: "quando a janela não sustenta múltiplos grupos sem inventar estrutura" },
@@ -78,7 +78,7 @@ Nem toda janela sustenta essa sofisticação. Quando a amostra é pequena, forç
 
 Por fim, uma LLM transforma os grupos encontrados em rótulos compreensíveis. Ela não decide como os comentários serão agrupados; recebe uma estrutura já formada e ajuda a convertê-la em linguagem útil para quem consulta o produto.
 
-Não se trata de gerar embeddings e rodar um algoritmo de clusterização. Cada etapa carrega uma decisão: como representar o texto, quando fundir grupos quase iguais, quando a amostra é pequena demais para forçar estrutura, e se a coesão entre clusters passa de "matematicamente ok" para "útil no painel". Só depois disso a LLM entra, e só para rotular o que já foi formado.
+Não se trata de gerar vetores e rodar um algoritmo de clusterização. Cada etapa carrega uma decisão: como representar o texto, quando fundir grupos quase iguais, quando a amostra é pequena demais para forçar estrutura, e se a coesão entre clusters passa de "matematicamente ok" para "útil no painel". Só depois disso a LLM entra, e só para rotular o que já foi formado.
 
 ## O notebook é a parte fácil
 
