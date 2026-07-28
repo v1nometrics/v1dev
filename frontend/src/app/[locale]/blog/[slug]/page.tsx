@@ -1,14 +1,31 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import {
+  BlogArticleContent,
+  type ArticleMeta,
+} from "@/components/blog/blog-article-content";
 import { MdxArticle } from "@/components/mdx/mdx-article";
 import type { Locale } from "@/i18n";
-import { getAllContentSlugs, getContentBySlug } from "@/lib/content";
-import { formatDate, getAbsoluteUrl } from "@/lib/utils";
+import {
+  getAllContentSlugs,
+  getContentBySlug,
+  type ContentEntry,
+} from "@/lib/content";
+import { getAbsoluteUrl } from "@/lib/utils";
 
 export function generateStaticParams() {
   return getAllContentSlugs().map((slug) => ({ slug }));
+}
+
+function toMeta(entry: ContentEntry): ArticleMeta {
+  return {
+    title: entry.title,
+    date: entry.date,
+    tags: entry.tags,
+    readingTime: entry.readingTime,
+    summary: entry.summary,
+  };
 }
 
 export async function generateMetadata({
@@ -56,53 +73,26 @@ export default async function WritingSlugPage({
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const entry = getContentBySlug(slug, locale as Locale);
+  const entryPt = getContentBySlug(slug, "pt-BR");
+  const entryEn = getContentBySlug(slug, "en");
 
-  if (!entry) {
+  if (!entryPt && !entryEn) {
     notFound();
   }
 
-  const t = await getTranslations("common");
+  const pt = entryPt ?? entryEn!;
+  const en = entryEn ?? entryPt!;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
-      <article>
-        <header className="mb-10">
-          <Link
-            href={`/${locale === "pt-BR" ? "" : "en/"}blog`}
-            className="text-xs text-fg-muted hover:text-fg-primary border-none inline-flex items-center gap-1 mb-6"
-          >
-            <span>‹</span>
-            <span>{t("backToBlog")}</span>
-          </Link>
-
-          <h1 className="text-2xl font-medium mb-3 leading-tight">
-            {entry.title}
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-3 text-xs text-fg-subtle">
-            <time dateTime={entry.date}>
-              {formatDate(entry.date, locale)}
-            </time>
-            <span>·</span>
-            <span>
-              {entry.readingTime} {t("readingTime")}
-            </span>
-          </div>
-
-          {entry.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-4">
-              {entry.tags.map((tag) => (
-                <span key={tag} className="badge">
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </header>
-
-        <MdxArticle source={entry.content} locale={locale as Locale} />
-      </article>
-    </div>
+    <BlogArticleContent
+      metaByLocale={{
+        "pt-BR": toMeta(pt),
+        en: toMeta(en),
+      }}
+      bodyByLocale={{
+        "pt-BR": <MdxArticle source={pt.content} locale="pt-BR" />,
+        en: <MdxArticle source={en.content} locale="en" />,
+      }}
+    />
   );
 }

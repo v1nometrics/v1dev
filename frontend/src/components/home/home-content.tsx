@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale } from "@/components/providers/locale-provider";
+import { ScrambleText } from "@/components/ui/scramble-text";
 import { T } from "@/components/ui/t";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n";
 import type { ContentMeta } from "@/lib/content";
 
 function CollapsibleSection({
@@ -53,8 +55,13 @@ function CollapsibleSection({
   );
 }
 
-export function HomeContent({ recentPosts }: { recentPosts: ContentMeta[] }) {
+export function HomeContent({
+  recentPostsByLocale,
+}: {
+  recentPostsByLocale: Record<Locale, ContentMeta[]>;
+}) {
   const { locale } = useLocale();
+  const recentPosts = recentPostsByLocale[locale];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
@@ -172,7 +179,7 @@ function RecentPosts({ posts }: { posts: ContentMeta[] }) {
           >
             <div className="flex items-baseline justify-between gap-4">
               <span className="text-fg-primary group-hover:text-fg-muted transition-colors">
-                {post.title}
+                <ScrambleText text={post.title} duration={2500} />
               </span>
               <span className="text-xs text-fg-subtle shrink-0">
                 {post.date}

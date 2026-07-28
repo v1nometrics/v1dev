@@ -1,15 +1,22 @@
 import { BlogContent } from "@/components/blog/blog-content";
-import type { Locale } from "@/i18n";
 import { getAllNotes, getAllPosts } from "@/lib/content";
 
-export default async function WritingPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const articles = getAllPosts(locale as Locale);
-  const notes = getAllNotes(locale as Locale);
+export default async function WritingPage() {
+  // Both locales so LanguageToggle can swap client-side without refresh
+  // (same pattern as lab/refs — LocaleProvider does not navigate).
+  const articlesByLocale = {
+    "pt-BR": getAllPosts("pt-BR"),
+    en: getAllPosts("en"),
+  };
+  const notesByLocale = {
+    "pt-BR": getAllNotes("pt-BR"),
+    en: getAllNotes("en"),
+  };
 
-  return <BlogContent articles={articles} notes={notes} />;
+  return (
+    <BlogContent
+      articlesByLocale={articlesByLocale}
+      notesByLocale={notesByLocale}
+    />
+  );
 }

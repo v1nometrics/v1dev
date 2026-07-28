@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import { useLocale } from "@/components/providers/locale-provider";
+import { ScrambleText } from "@/components/ui/scramble-text";
 import { T } from "@/components/ui/t";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n";
 import type { ContentMeta } from "@/lib/content";
+
+type LocalizedList = Record<Locale, ContentMeta[]>;
 
 /**
  * Seção colapsável com animação suave
@@ -53,17 +57,18 @@ function CollapsibleSection({
 }
 
 export function BlogContent({
-  articles,
-  notes,
+  articlesByLocale,
+  notesByLocale,
 }: {
-  articles: ContentMeta[];
-  notes: ContentMeta[];
+  articlesByLocale: LocalizedList;
+  notesByLocale: LocalizedList;
 }) {
   const { locale } = useLocale();
+  const articles = articlesByLocale[locale];
+  const notes = notesByLocale[locale];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
-      {/* Header */}
       <header className="mb-10">
         <h1 className="text-xl font-medium mb-2">
           <T k="blog.title" />
@@ -74,7 +79,6 @@ export function BlogContent({
       </header>
 
       <div className="lg:grid lg:grid-cols-[1fr_200px] lg:gap-20">
-        {/* Main - Articles */}
         <section>
           <CollapsibleSection title={<T k="blog.articles.title" />} defaultOpen={true}>
             {articles.length === 0 ? (
@@ -91,13 +95,15 @@ export function BlogContent({
                     >
                       <div className="flex items-baseline justify-between gap-4 mb-1">
                         <span className="text-fg-primary group-hover:text-fg-muted transition-colors">
-                          {post.title}
+                          <ScrambleText text={post.title} duration={2500} />
                         </span>
                         <span className="text-xs text-fg-subtle shrink-0">
                           {post.date}
                         </span>
                       </div>
-                      <p className="text-sm text-fg-muted mb-2">{post.summary}</p>
+                      <p className="text-sm text-fg-muted mb-2">
+                        <ScrambleText text={post.summary} duration={2500} />
+                      </p>
                       <div className="flex gap-2">
                         {post.tags.map((tag) => (
                           <span key={tag} className="badge">
@@ -113,7 +119,6 @@ export function BlogContent({
           </CollapsibleSection>
         </section>
 
-        {/* Sidebar - Notes */}
         <aside className="hidden lg:block">
           <div className="sticky top-8">
             <CollapsibleSection title={<T k="blog.notes.title" />} defaultOpen={true}>
@@ -125,7 +130,7 @@ export function BlogContent({
                       className="group block border-none text-sm"
                     >
                       <span className="text-fg-primary group-hover:text-fg-muted transition-colors">
-                        {note.title}
+                        <ScrambleText text={note.title} duration={2500} />
                       </span>
                       <div className="flex gap-2 mt-1">
                         {note.tags.map((tag) => (
@@ -143,7 +148,6 @@ export function BlogContent({
         </aside>
       </div>
 
-      {/* Notes on mobile */}
       <section className="mt-16 lg:hidden">
         <hr className="separator-dotted mb-16" />
         <CollapsibleSection title={<T k="blog.notes.title" />} defaultOpen={true}>
@@ -155,7 +159,7 @@ export function BlogContent({
                   className="group flex items-baseline justify-between gap-4 border-none"
                 >
                   <span className="text-fg-primary group-hover:text-fg-muted transition-colors">
-                    {note.title}
+                    <ScrambleText text={note.title} duration={2500} />
                   </span>
                   <div className="flex items-center gap-2">
                     {note.tags.map((tag) => (

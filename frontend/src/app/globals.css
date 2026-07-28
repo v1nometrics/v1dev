@@ -305,6 +305,19 @@ pre {
   color: var(--fg-secondary);
 }
 
+.mdx-locale-body {
+  animation: mdx-locale-fade 0.35s ease;
+}
+
+@keyframes mdx-locale-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .mdx-content > * + * {
   margin-top: calc(var(--space-unit) * 5);
 }
