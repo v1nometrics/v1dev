@@ -27,7 +27,7 @@ The system follows a daily data flow:
 1. **Collection**: bot queries the SIOP API (Integrated Planning and Budget System)
 2. **Landing**: raw data stored in S3
 3. **ETL**: cleaning, text normalization, field extraction
-4. **Embeddings**: vectorization with Sentence Transformers
+4. **Vectorization**: Sentence Transformers
 5. **Matchmaking**: vector search + business rules
 6. **Frontend**: search UI and filters
 
@@ -49,12 +49,12 @@ def score_emenda(emenda: Emenda, programas: List[Programa]) -> float:
 
 | Decision | Alternative | Why we chose it |
 |----------|-------------|-----------------|
-| Embeddings | Generative LLM | Deterministic, auditable, lower cost |
+| Vectors | Generative LLM | Deterministic, auditable, lower cost |
 | HNSW | Exact search | Acceptable latency with recall > 0.95 |
 | Daily batch | Streaming | Volume did not justify the complexity |
 
-<Callout type="decision" title="Embeddings vs LLM">
-We chose embeddings because we needed reproducible, explainable scores. LLMs would have brought unwanted variance.
+<Callout type="decision" title="Vectors vs LLM">
+We chose vectors because we needed reproducible, explainable scores. LLMs would have brought unwanted variance.
 </Callout>
 
 ## Detailed stack
@@ -77,6 +77,6 @@ The system has been in production since Q1 2025, processing amendments daily wit
 
 ## Lessons learned
 
-1. **Rules matter**: embeddings alone do not capture every domain nuance
+1. **Rules matter**: vectors alone do not capture every domain nuance
 2. **Feedback loop**: manual classifications feed model improvements
 3. **Explainability**: showing the "why" increases user trust

@@ -27,7 +27,7 @@ O sistema segue um fluxo de dados diário:
 1. **Coleta**: Bot consulta API do SIOP (Sistema Integrado de Planejamento e Orçamento)
 2. **Landing**: Dados brutos armazenados em S3
 3. **ETL**: Limpeza, normalização de texto, extração de campos
-4. **Embeddings**: Vetorização com Sentence Transformers
+4. **Vetorização**: Sentence Transformers
 5. **Matchmaking**: Busca vetorial + regras de negócio
 6. **Frontend**: Interface de busca e filtros
 
@@ -49,12 +49,12 @@ def score_emenda(emenda: Emenda, programas: List[Programa]) -> float:
 
 | Decisão | Alternativa | Por que escolhemos |
 |---------|-------------|-------------------|
-| Embeddings | LLM generativo | Determinístico, auditável, custo menor |
+| Vetores | LLM generativo | Determinístico, auditável, custo menor |
 | HNSW | Busca exata | Latência aceitável com recall > 0.95 |
 | Batch diário | Streaming | Volume não justifica complexidade |
 
-<Callout type="decision" title="Embeddings vs LLM">
-Optamos por embeddings porque precisávamos de scores reproduzíveis e explicáveis. LLMs trariam variância indesejada.
+<Callout type="decision" title="Vetores vs LLM">
+Optamos por vetores porque precisávamos de scores reproduzíveis e explicáveis. LLMs trariam variância indesejada.
 </Callout>
 
 ## Stack detalhado
@@ -77,6 +77,6 @@ O sistema está em produção desde Q1 2025, processando emendas diariamente com
 
 ## Aprendizados
 
-1. **Regras são importantes**: embeddings sozinhos não capturam todas as nuances do domínio
+1. **Regras são importantes**: vetores sozinhos não capturam todas as nuances do domínio
 2. **Feedback loop**: classificações manuais alimentam melhorias no modelo
 3. **Explicabilidade**: mostrar o "porquê" aumenta confiança do usuário

@@ -57,12 +57,12 @@ It would also be semantically wrong.
 
 Beyond classifying comments one by one, the system needs to identify the main subjects in the conversation.
 
-Texts become 768-dimensional embeddings; dimensionality is reduced before clustering so the semantic structure is easier to work with. Then a density-based method groups the points, with parameters tuned for each dataset.
+Texts become 768-dimensional vectors; dimensionality is reduced before clustering so the semantic structure is easier to work with. Then a density-based method groups the points, with parameters tuned for each dataset.
 
 <Flow
   caption="from text to label: the llm only shows up at the end"
   steps={[
-    { label: "embeddings (768d)", note: "semantic representation of the comment (+ context when needed)" },
+    { label: "vectors (768d)", note: "semantic representation of the comment (+ context when needed)" },
     { label: "dimensionality reduction", note: "structure that clustering can handle" },
     { label: "density-based clustering", note: "cohesion and separation measured; near-duplicate groups get merged" },
     { label: "small-sample fallback", note: "when the window cannot support multiple groups without inventing structure" },
@@ -78,7 +78,7 @@ Not every window can support that sophistication. When the sample is small, forc
 
 Finally, an LLM turns the discovered groups into readable labels. It does not decide how comments are grouped; it receives a structure that already exists and helps turn it into language useful for whoever reads the product.
 
-This is not about generating embeddings and running a clustering algorithm. Each step carries a decision: how to represent the text, when to merge near-duplicate groups, when the sample is too small to force structure, and whether cluster cohesion has moved from "mathematically fine" to "useful on the dashboard". Only after that does the LLM enter, and only to label what has already been formed.
+This is not about generating vectors and running a clustering algorithm. Each step carries a decision: how to represent the text, when to merge near-duplicate groups, when the sample is too small to force structure, and whether cluster cohesion has moved from "mathematically fine" to "useful on the dashboard". Only after that does the LLM enter, and only to label what has already been formed.
 
 ## The notebook is the easy part
 
