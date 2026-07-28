@@ -12,6 +12,7 @@ import {
   getContentBySlug,
   type ContentEntry,
 } from "@/lib/content";
+import { mdxToPlainText } from "@/lib/scramble";
 import { getAbsoluteUrl } from "@/lib/utils";
 
 export function generateStaticParams() {
@@ -92,6 +93,10 @@ export default async function WritingSlugPage({
       bodyByLocale={{
         "pt-BR": <MdxArticle source={pt.content} locale="pt-BR" />,
         en: <MdxArticle source={en.content} locale="en" />,
+      }}
+      plainByLocale={{
+        "pt-BR": mdxToPlainText(pt.content),
+        en: mdxToPlainText(en.content),
       }}
     />
   );

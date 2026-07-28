@@ -8,160 +8,128 @@ import {
 } from "react";
 import { useLocale } from "@/components/providers/locale-provider";
 import type { Locale } from "@/i18n";
+import { scrambleFrame } from "@/lib/scramble";
 import { cn } from "@/lib/utils";
 
-const CHARS =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>[]{}";
-
-const PRESERVE = /[\s.,;:!?()[\]{}<>\/\\-–—·│─┌┐└┘┬▼►←→]/;
-
-function scrambleFrame(from: string, to: string, eased: number): string {
-  const maxLength = Math.max(from.length, to.length);
-  let result = "";
-
-  for (let i = 0; i < maxLength; i++) {
-    // Same sweep as <T>: left-to-right settle with a long tail of noise
-    const charProgress = Math.min(1, eased * 1.8 - (i / maxLength) * 0.8);
-
-    if (charProgress >= 1) {
-      result += to[i] ?? "";
-    } else if (charProgress <= 0) {
-      result += from[i] ?? " ";
-    } else {
-      const target = to[i] ?? "";
-      if (PRESERVE.test(target)) {
-        result += target;
-      } else {
-        result += CHARS[Math.floor(Math.random() * CHARS.length)];
-      }
-    }
-  }
-
-  return result;
-}
-
-function readPlain(el: HTMLElement | null): string {
-  if (!el) return "";
-  // innerText keeps block newlines; falls back if unavailable
-  return (el.innerText || el.textContent || "").replace(/\n{3,}/g, "\n\n");
-}
-
 /**
- * Swaps locale-bound rich content with the same matrix scramble used by <T>.
- * Both trees stay mounted so we can morph plain text, then reveal the MDX.
+ * Locale-bound MDX body with matrix scramble on toggle.
+ *
+ * Invariants:
+ * 1. Rendered body is always `byLocale[locale]` (never a stale displayLocale).
+ * 2. Overlay is decorative; cleanup never leaves the wrong language on screen.
+ * 3. Frames write to a DOM node (no setState per frame).
+ * 4. Plain texts come from props (stable, no hidden-tree innerText).
  */
 export function ScrambleSwap({
   byLocale,
+  plainByLocale,
   duration = 2500,
   className,
 }: {
   byLocale: Record<Locale, ReactNode>;
+  plainByLocale: Record<Locale, string>;
   duration?: number;
   className?: string;
 }) {
   const { locale, lastChange } = useLocale();
-  const [displayLocale, setDisplayLocale] = useState<Locale>(locale);
-  const [overlay, setOverlay] = useState<string | null>(null);
+  const [scrambling, setScrambling] = useState(false);
 
-  const ptRef = useRef<HTMLDivElement>(null);
-  const enRef = useRef<HTMLDivElement>(null);
-  const displayLocaleRef = useRef(displayLocale);
-  const lastChangeRef = useRef(lastChange);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const localeRef = useRef<Locale>(locale);
+  const handledChangeRef = useRef(0);
   const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    displayLocaleRef.current = displayLocale;
-  }, [displayLocale]);
+    if (lastChange === 0) return;
+    if (handledChangeRef.current === lastChange) return;
 
-  useEffect(() => {
-    const localeChanged =
-      lastChangeRef.current !== lastChange && lastChange > 0;
-    lastChangeRef.current = lastChange;
-
-    if (!localeChanged || locale === displayLocaleRef.current) {
+    const fromLocale = localeRef.current;
+    if (fromLocale === locale) {
+      handledChangeRef.current = lastChange;
       return;
     }
 
-    const fromEl =
-      displayLocaleRef.current === "pt-BR" ? ptRef.current : enRef.current;
-    const toEl = locale === "pt-BR" ? ptRef.current : enRef.current;
-    const fromText = readPlain(fromEl);
-    const toText = readPlain(toEl);
+    const fromText = plainByLocale[fromLocale] ?? "";
+    const toText = plainByLocale[locale] ?? "";
 
-    if (frameRef.current) {
-      cancelAnimationFrame(frameRef.current);
-    }
-
-    // Defer all setState into rAF (lint: no sync setState in effect body)
-    if (fromText === toText) {
-      frameRef.current = requestAnimationFrame(() => {
-        setDisplayLocale(locale);
-        setOverlay(null);
-        frameRef.current = null;
-      });
+    if (!fromText || !toText || fromText === toText) {
+      localeRef.current = locale;
+      handledChangeRef.current = lastChange;
       return;
     }
+
+    let cancelled = false;
+    let finished = false;
+
+    const finish = () => {
+      finished = true;
+      localeRef.current = locale;
+      handledChangeRef.current = lastChange;
+      frameRef.current = null;
+      setScrambling(false);
+    };
 
     const startTime = performance.now();
 
     const animate = (now: number) => {
+      if (cancelled) return;
+
       const progress = Math.min((now - startTime) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setOverlay(scrambleFrame(fromText, toText, eased));
+
+      if (overlayRef.current) {
+        overlayRef.current.textContent = scrambleFrame(fromText, toText, eased);
+      }
 
       if (progress < 1) {
         frameRef.current = requestAnimationFrame(animate);
       } else {
-        setDisplayLocale(locale);
-        setOverlay(null);
-        frameRef.current = null;
+        finish();
       }
     };
 
-    frameRef.current = requestAnimationFrame(animate);
+    // Overlay node is always mounted — safe to write immediately after flag flip.
+    frameRef.current = requestAnimationFrame(() => {
+      if (cancelled) return;
+      setScrambling(true);
+      if (overlayRef.current) {
+        overlayRef.current.textContent = fromText;
+      }
+      frameRef.current = requestAnimationFrame(animate);
+    });
 
     return () => {
+      cancelled = true;
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      if (!finished) {
+        // Strict Mode remount can retry (localeRef unchanged, handledChange unset).
+        setScrambling(false);
       }
     };
-  }, [locale, lastChange, duration]);
-
-  const scrambling = overlay !== null;
-  const showPt = displayLocale === "pt-BR" && !scrambling;
-  const showEn = displayLocale === "en" && !scrambling;
-
-  // Inactive tree stays visibility:hidden (not display:none) so innerText
-  // still returns laid-out plain text with paragraph breaks.
-  const inactive =
-    "invisible absolute inset-x-0 top-0 -z-10 w-full pointer-events-none";
+  }, [locale, lastChange, duration, plainByLocale]);
 
   return (
     <div className={cn("relative", className)}>
       <div
-        ref={ptRef}
-        className={showPt ? "relative" : inactive}
-        aria-hidden={!showPt}
+        className={cn(scrambling && "invisible")}
+        aria-hidden={scrambling}
       >
-        {byLocale["pt-BR"]}
-      </div>
-      <div
-        ref={enRef}
-        className={showEn ? "relative" : inactive}
-        aria-hidden={!showEn}
-      >
-        {byLocale.en}
+        {byLocale[locale]}
       </div>
 
-      {scrambling ? (
-        <div
-          className="mdx-content mdx-scramble-overlay"
-          aria-live="polite"
-          aria-busy="true"
-        >
-          {overlay}
-        </div>
-      ) : null}
+      <div
+        ref={overlayRef}
+        className={cn(
+          "mdx-content mdx-scramble-overlay absolute inset-x-0 top-0",
+          !scrambling && "hidden"
+        )}
+        aria-hidden={!scrambling}
+        aria-live="polite"
+        aria-busy={scrambling}
+      />
     </div>
   );
 }

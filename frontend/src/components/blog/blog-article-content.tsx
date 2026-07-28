@@ -19,15 +19,17 @@ export type ArticleMeta = {
 
 /**
  * Client shell for /blog/[slug].
- * LocaleProvider toggles without navigation — both locales are preloaded.
- * Header + full article body use the matrix scramble (same feel as <T>).
+ * Toggle is client-only (no navigation). Title/chrome scramble via lastChange;
+ * body always follows locale, with a decorative scramble overlay.
  */
 export function BlogArticleContent({
   metaByLocale,
   bodyByLocale,
+  plainByLocale,
 }: {
   metaByLocale: Record<Locale, ArticleMeta>;
   bodyByLocale: Record<Locale, ReactNode>;
+  plainByLocale: Record<Locale, string>;
 }) {
   const { locale } = useLocale();
   const meta = metaByLocale[locale];
@@ -47,12 +49,12 @@ export function BlogArticleContent({
           </Link>
 
           <h1 className="text-2xl font-medium mb-3 leading-tight">
-            <ScrambleText text={meta.title} duration={2500} />
+            <ScrambleText text={meta.title} />
           </h1>
 
           <div className="flex flex-wrap items-center gap-3 text-xs text-fg-subtle">
             <time dateTime={meta.date}>
-              <ScrambleText text={formatDate(meta.date, locale)} duration={2500} />
+              <ScrambleText text={formatDate(meta.date, locale)} />
             </time>
             <span>·</span>
             <span>
@@ -71,7 +73,10 @@ export function BlogArticleContent({
           )}
         </header>
 
-        <ScrambleSwap byLocale={bodyByLocale} duration={2500} />
+        <ScrambleSwap
+          byLocale={bodyByLocale}
+          plainByLocale={plainByLocale}
+        />
       </article>
     </div>
   );
