@@ -1,98 +1,78 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*";
+import { useEffect, useRef, useState } from "react";
+import { useLocale } from "@/components/providers/locale-provider";
+import { scrambleFrame } from "@/lib/scramble";
 
 interface ScrambleTextProps {
   text: string;
   className?: string;
-  /** Duration in ms for the scramble effect */
+  /** Duration in ms — default matches `<T>` */
   duration?: number;
-  /** Delay before starting scramble */
-  delay?: number;
 }
 
 /**
- * Matrix-style text scramble effect.
- * Characters randomly cycle through glyphs before settling on final text.
+ * Matrix scramble for dynamic (non-JSON) strings.
+ * Uses `lastChange` from LocaleProvider — same contract as `<T>`.
  */
 export function ScrambleText({
   text,
   className,
-  duration = 600,
-  delay = 0,
+  duration = 2500,
 }: ScrambleTextProps) {
-  const [scrambledText, setScrambledText] = useState<string | null>(null);
-  const previousText = useRef(text);
+  const { lastChange } = useLocale();
+  const [animationText, setAnimationText] = useState<string | null>(null);
+  const previousTextRef = useRef(text);
+  const lastChangeRef = useRef(lastChange);
   const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Skip animation if text hasn't changed from initial render
-    if (previousText.current === text) {
+    const prevText = previousTextRef.current;
+    const newText = text;
+    const localeChanged =
+      lastChangeRef.current !== lastChange && lastChange > 0;
+
+    previousTextRef.current = newText;
+    lastChangeRef.current = lastChange;
+
+    if (!localeChanged || prevText === newText) {
       return;
     }
 
-    const startText = previousText.current;
-    const endText = text;
-    previousText.current = text;
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current);
+    }
 
-    // Calculate max length for animation
-    const maxLength = Math.max(startText.length, endText.length);
-    const startTime = performance.now() + delay;
+    let cancelled = false;
+    const startTime = performance.now();
 
     const animate = (now: number) => {
-      if (now < startTime) {
-        frameRef.current = requestAnimationFrame(animate);
-        return;
-      }
+      if (cancelled) return;
 
       const progress = Math.min((now - startTime) / duration, 1);
-      // Easing: ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-
-      let result = "";
-      for (let i = 0; i < maxLength; i++) {
-        const charProgress = Math.min(1, eased * 1.5 - (i / maxLength) * 0.5);
-
-        if (charProgress >= 1) {
-          // Character has settled
-          result += endText[i] ?? "";
-        } else if (charProgress <= 0) {
-          // Character hasn't started transitioning
-          result += startText[i] ?? " ";
-        } else {
-          // Character is scrambling
-          const targetChar = endText[i] ?? "";
-          // Preserve spaces and punctuation
-          if (targetChar === " " || /[.,;:!?()[\]{}<>\/\\-]/.test(targetChar)) {
-            result += targetChar;
-          } else {
-            result += CHARS[Math.floor(Math.random() * CHARS.length)];
-          }
-        }
-      }
-
-      setScrambledText(result);
+      setAnimationText(scrambleFrame(prevText, newText, eased));
 
       if (progress < 1) {
         frameRef.current = requestAnimationFrame(animate);
       } else {
-        setScrambledText(null); // Clear scrambled state, show actual text
+        frameRef.current = null;
+        setAnimationText(null);
       }
     };
 
     frameRef.current = requestAnimationFrame(animate);
 
     return () => {
+      cancelled = true;
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
       }
+      // Fall through to live `text` if cancelled mid-flight.
+      setAnimationText(null);
     };
-  }, [text, duration, delay]);
+  }, [text, lastChange, duration]);
 
-  // Show scrambled text during animation, otherwise show actual text
-  const displayText = scrambledText ?? text;
-
-  return <span className={className}>{displayText}</span>;
+  return <span className={className}>{animationText ?? text}</span>;
 }

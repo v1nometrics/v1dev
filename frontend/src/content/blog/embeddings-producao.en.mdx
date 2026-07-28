@@ -1,0 +1,77 @@
+---
+title: "Embeddings in production: why SBERT + Postgres (pgvector) is still a solid choice"
+date: "2026-01-15"
+tags: ["ml", "nlp", "search", "postgres"]
+summary: "A pragmatic view of embeddings, vector search, and operational trade-offs with Postgres + HNSW."
+draft: true
+---
+
+## TL;DR
+- Embeddings are a stable mathematical interface for semantic search and matching.
+- Postgres + pgvector covers 80% of cases without adding "another database" to the stack.
+- The trade-off is index tuning + quality metrics (recall/latency).
+
+## Why embeddings (and not a generative LLM)?
+
+Embeddings are **discriminative**: you compare vectors and make reproducible decisions.
+
+LLMs are great for generation, but they bring variance and cost to tasks that are sometimes pure similarity.
+
+<Callout type="note">
+Embeddings turn text into fixed-dimension vectors. The "semantics" live in the vector's position in space.
+</Callout>
+
+## Recommended stack
+
+```python
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer('all-MiniLM-L6-v2')
+embeddings = model.encode(texts)
+```
+
+**Why this model?**
+- Small size (~80MB)
+- Low latency
+- Reasonable quality for general use
+
+## Postgres + pgvector
+
+```sql
+CREATE EXTENSION vector;
+
+CREATE TABLE documents (
+  id SERIAL PRIMARY KEY,
+  content TEXT,
+  embedding vector(384)
+);
+
+CREATE INDEX ON documents 
+USING hnsw (embedding vector_cosine_ops);
+```
+
+<Callout type="tip" title="Performance">
+HNSW (Hierarchical Navigable Small World) provides approximate search with high recall and low latency.
+</Callout>
+
+## Metrics that matter
+
+| Metric | What it measures | Typical target |
+|--------|------------------|----------------|
+| p95 latency | Response time | < 100ms |
+| Recall@K | Search quality | > 0.9 |
+| Semantic drift | Domain change | Monitor |
+| Cost | CPU/RAM/IO | Budget |
+
+## When NOT to use pgvector
+
+- **Very high volume** (>100M vectors): consider Pinecone, Weaviate, Qdrant
+- **Real-time search with a hard SLA**: evaluate specialized solutions
+- **Complex multi-tenancy**: may need sharding
+
+## Next steps
+
+1. Measure recall@K on a labeled set
+2. Tune the index (HNSW params: `m`, `ef_construction`)
+3. Instrument query logs and alerts
+4. Document the re-indexing policy

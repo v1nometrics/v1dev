@@ -1,57 +1,27 @@
-import { readFileSync, readdirSync } from "fs";
-import { join } from "path";
-import matter from "gray-matter";
+import { getAllNotes, getAllPosts } from "@/lib/content";
 
 export async function GET() {
   const baseUrl = "https://v1torres.dev";
-  const contentDir = join(process.cwd(), "src/content");
 
-  const articles: Array<{
-    title: string;
-    date: string;
-    slug: string;
-    summary: string;
-    path: string;
-  }> = [];
-
-  // Ler blog posts
-  const blogDir = join(contentDir, "blog");
-  const blogFiles = readdirSync(blogDir).filter((f) => f.endsWith(".mdx"));
-  for (const file of blogFiles) {
-    const filePath = join(blogDir, file);
-    const content = readFileSync(filePath, "utf-8");
-    const { data } = matter(content);
-    articles.push({
-      title: data.title,
-      date: data.date,
-      slug: file.replace(".mdx", ""),
-      summary: data.summary,
+  const articles = [
+    ...getAllPosts().map((post) => ({
+      title: post.title,
+      date: post.date,
+      slug: post.slug,
+      summary: post.summary,
       path: "/blog/",
-    });
-  }
-
-  // Ler notes
-  const notesDir = join(contentDir, "notes");
-  const notesFiles = readdirSync(notesDir).filter((f) => f.endsWith(".mdx"));
-  for (const file of notesFiles) {
-    const filePath = join(notesDir, file);
-    const content = readFileSync(filePath, "utf-8");
-    const { data } = matter(content);
-    articles.push({
-      title: data.title,
-      date: data.date,
-      slug: file.replace(".mdx", ""),
-      summary: data.summary,
+    })),
+    ...getAllNotes().map((note) => ({
+      title: note.title,
+      date: note.date,
+      slug: note.slug,
+      summary: note.summary,
       path: "/blog/",
-    });
-  }
-
-  // Ordenar por data decrescente
-  articles.sort(
+    })),
+  ].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
-  // Gerar XML RSS
   const rssItems = articles
     .map((article) => {
       const url = `${baseUrl}${article.path}${article.slug}`;

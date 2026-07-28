@@ -1,0 +1,34 @@
+---
+title: "Check: SLOs for a search API"
+date: "2026-01-14"
+tags: ["sre", "system-design"]
+summary: "A simple SLO that prevents self-deception: p95 latency, errors, and availability."
+---
+
+## Minimum SLOs for a search API
+
+| Metric | Target | Window |
+|--------|--------|--------|
+| p95 latency | < 300ms | 7 days |
+| 5xx error rate | < 0.1% | 7 days |
+| Availability | ≥ 99.9% | 30 days |
+
+<Callout type="warning">
+If you do not measure, you do not know. Define SLOs before saying "it works".
+</Callout>
+
+## How to measure
+
+```sql
+-- p95 latency (if you log into a table)
+SELECT percentile_cont(0.95) WITHIN GROUP (ORDER BY latency_ms)
+FROM api_logs
+WHERE endpoint = '/search'
+  AND created_at > NOW() - INTERVAL '7 days';
+```
+
+## Error budget
+
+With 99.9% availability over 30 days:
+- **Budget**: 43 minutes of downtime
+- **Burn rate**: monitor how much of the budget is being consumed

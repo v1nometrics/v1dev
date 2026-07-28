@@ -9,10 +9,19 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Format date to locale string
+ * Format date to locale string.
+ * Parses YYYY-MM-DD as a calendar date (avoids UTC midnight shifting the day).
  */
-export function formatDate(date: string | Date): string {
-  return new Date(date).toLocaleDateString("pt-BR", {
+export function formatDate(
+  date: string | Date,
+  locale: string = "pt-BR"
+): string {
+  const d =
+    typeof date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(date)
+      ? new Date(`${date}T12:00:00`)
+      : new Date(date);
+
+  return d.toLocaleDateString(locale === "en" ? "en-US" : "pt-BR", {
     year: "numeric",
     month: "long",
     day: "numeric",

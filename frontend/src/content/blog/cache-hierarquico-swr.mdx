@@ -3,6 +3,7 @@ title: "Cache hierárquico + SWR: UX de produto sem explodir custo"
 date: "2026-01-17"
 tags: ["frontend", "system-design", "performance"]
 summary: "Memória → localStorage → S3/CDN: uma estratégia prática para carregar rápido e revalidar em background."
+draft: true
 ---
 
 ## TL;DR
@@ -12,10 +13,10 @@ summary: "Memória → localStorage → S3/CDN: uma estratégia prática para ca
 
 ## Camadas
 
-1. **Memória (runtime)** — mais rápido, volátil
-2. **localStorage (cliente)** — persiste entre sessões
-3. **CDN (assets estáticos)** — distribuído globalmente
-4. **Storage (S3) ou DB** — fonte de verdade
+1. **Memória (runtime)**: mais rápido, volátil
+2. **localStorage (cliente)**: persiste entre sessões
+3. **CDN (assets estáticos)**: distribuído globalmente
+4. **Storage (S3) ou DB**: fonte de verdade
 
 ## Política
 
@@ -52,6 +53,6 @@ Use SWR quando a UX percebida (tempo de resposta) importa mais que consistência
 
 ## Métricas para monitorar
 
-- **Cache hit rate** — quanto do tráfego está servindo do cache
-- **Stale data served** — frequência de dados desatualizados
-- **Revalidation latency** — tempo para refresh em background
+- **Cache hit rate**: quanto do tráfego está servindo do cache
+- **Stale data served**: frequência de dados desatualizados
+- **Revalidation latency**: tempo para refresh em background
