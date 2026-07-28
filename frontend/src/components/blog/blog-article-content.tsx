@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { useLocale } from "@/components/providers/locale-provider";
 import { ScrambleText } from "@/components/ui/scramble-text";
-import { ScrambleSwap } from "@/components/ui/scramble-swap";
 import { T } from "@/components/ui/t";
 import type { Locale } from "@/i18n";
 import { formatDate } from "@/lib/utils";
@@ -19,17 +18,15 @@ export type ArticleMeta = {
 
 /**
  * Client shell for /blog/[slug].
- * Toggle is client-only (no navigation). Title/chrome scramble via lastChange;
- * body always follows locale, with a decorative scramble overlay.
+ * LocaleProvider toggles without navigation — both locales are preloaded.
+ * Title scrambles like the rest of the site; body crossfades.
  */
 export function BlogArticleContent({
   metaByLocale,
   bodyByLocale,
-  plainByLocale,
 }: {
   metaByLocale: Record<Locale, ArticleMeta>;
   bodyByLocale: Record<Locale, ReactNode>;
-  plainByLocale: Record<Locale, string>;
 }) {
   const { locale } = useLocale();
   const meta = metaByLocale[locale];
@@ -73,10 +70,9 @@ export function BlogArticleContent({
           )}
         </header>
 
-        <ScrambleSwap
-          byLocale={bodyByLocale}
-          plainByLocale={plainByLocale}
-        />
+        <div key={locale} className="mdx-locale-body">
+          {bodyByLocale[locale]}
+        </div>
       </article>
     </div>
   );

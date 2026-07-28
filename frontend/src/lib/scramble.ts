@@ -36,17 +36,3 @@ export function scrambleFrame(
 
   return result;
 }
-
-/**
- * Rough plain text from MDX source for scramble morphs.
- * Keeps template-literal diagram bodies; strips JSX tags / expressions.
- */
-export function mdxToPlainText(source: string): string {
-  return source
-    .replace(/\{`([\s\S]*?)`\}/g, "\n$1\n")
-    .replace(/<\/?[A-Za-z][^>]*>/g, "\n")
-    .replace(/\{[^}]*\}/g, " ")
-    .replace(/[ \t]+\n/g, "\n")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
