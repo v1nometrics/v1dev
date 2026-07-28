@@ -361,7 +361,8 @@ interface TProps {
 ### 11.5 Regras de Traducao
 
 - **Header:** Estatico, nao traduzido (blog, lab, refs, prompts, readme)
-- **Conteudo:** Todas as paginas usam `<T>` para texto traduzivel
+- **UI:** Paginas usam `<T>` / `next-intl` para chrome traduzivel
+- **Conteudo MDX:** `slug.mdx` (pt-BR) + `slug.en.mdx` (en); loader em `lib/content.ts`
 - **Animacao:** Matrix scramble ao trocar idioma (2.5s)
 - **Persistencia:** `localStorage` key `v1-locale`
 - **URL:** `history.replaceState` para sincronizar sem navegacao
@@ -374,3 +375,20 @@ interface TProps {
 // pt-BR ativo → mostra bandeira USA
 // en ativo → mostra bandeira Brasil
 ```
+
+---
+
+## 12. Componentes MDX (blog)
+
+Disponiveis em artigos/notas via `components/mdx/`:
+
+| Componente | Uso |
+|------------|-----|
+| `Callout` | nota / dica / atencao / decisao (labels PT/EN) |
+| `Diagram` | figura tipografica (ASCII/box-drawing + caption) |
+| `Flow` | fluxo vertical de etapas |
+| `Compare` | painel lado a lado (ex.: demo vs sistema) |
+| `Delta` | metrica antes → depois (ex.: latencia) |
+
+Estilos em `app/globals.css` (classes `.mdx-content`, `.mdx-diagram`, `.callout`, …).
+Frontmatter: `draft: true` oculta o post; `readingTime` opcional sobrescreve o calculo automatico.

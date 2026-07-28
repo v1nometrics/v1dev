@@ -1,0 +1,29 @@
+---
+title: "Econometrics: always write the model before the code"
+date: "2026-01-17"
+tags: ["econometrics", "statistics"]
+summary: "One equation line saves 200 lines of debugging."
+---
+
+Before opening Jupyter, write:
+
+1. **Dependent variable**: what you want to explain
+2. **Regressors**: what you think explains it
+3. **Fixed effects / controls**: what you need to "clean"
+4. **Identification hypothesis**: why your estimate is causal (or not)
+5. **Standard errors**: clustered? robust? bootstrap?
+
+```latex
+Y_{it} = \alpha + \beta X_{it} + \gamma Z_{it} + \mu_i + \epsilon_{it}
+```
+
+<Callout type="tip">
+If you cannot write the equation, you do not know what you are estimating.
+</Callout>
+
+## Why this matters
+
+- Forces clarity about what you are testing
+- Avoids variable "fishing"
+- Documents methodological decisions
+- Makes code review and replication easier

@@ -1,0 +1,82 @@
+---
+title: "SAEP: semantic matchmaking for parliamentary amendments"
+status: "in production"
+period: "2025"
+stack: ["Python", "Sentence Transformers", "PostgreSQL", "pgvector", "Next.js", "AWS"]
+summary: "Daily pipeline + vector search + rule ensemble to classify amendments by adherence."
+outcomes:
+  - "70% reduction in manual triage time"
+  - "Semantic search with p95 latency < 200ms"
+  - "Auditable system with explainable scores"
+---
+
+## Context
+
+The problem was triaging a high daily volume of parliamentary amendments with heterogeneous descriptions and ambiguous language. The team needed to identify which amendments adhered to the organization's programs.
+
+## Technical challenges
+
+1. **Inconsistent language**: amendments written by different aides, with varied vocabulary
+2. **Volume**: hundreds of new amendments per day
+3. **Auditability**: need to explain why an amendment was classified
+
+## Architecture
+
+The system follows a daily data flow:
+
+1. **Collection**: bot queries the SIOP API (Integrated Planning and Budget System)
+2. **Landing**: raw data stored in S3
+3. **ETL**: cleaning, text normalization, field extraction
+4. **Embeddings**: vectorization with Sentence Transformers
+5. **Matchmaking**: vector search + business rules
+6. **Frontend**: search UI and filters
+
+```python
+# Simplified matchmaking example
+def score_emenda(emenda: Emenda, programas: List[Programa]) -> float:
+    emenda_vec = encoder.encode(emenda.descricao)
+    scores = []
+    
+    for programa in programas:
+        sim = cosine_similarity(emenda_vec, programa.embedding)
+        regra_score = aplicar_regras(emenda, programa)
+        scores.append(0.7 * sim + 0.3 * regra_score)
+    
+    return max(scores)
+```
+
+## Trade-offs
+
+| Decision | Alternative | Why we chose it |
+|----------|-------------|-----------------|
+| Embeddings | Generative LLM | Deterministic, auditable, lower cost |
+| HNSW | Exact search | Acceptable latency with recall > 0.95 |
+| Daily batch | Streaming | Volume did not justify the complexity |
+
+<Callout type="decision" title="Embeddings vs LLM">
+We chose embeddings because we needed reproducible, explainable scores. LLMs would have brought unwanted variance.
+</Callout>
+
+## Detailed stack
+
+- **Language**: Python 3.11
+- **Encoder**: `sentence-transformers/all-MiniLM-L6-v2`
+- **Database**: PostgreSQL 15 + pgvector
+- **Orchestration**: Airflow (daily DAGs)
+- **Frontend**: Next.js 14 + shadcn/ui
+- **Infra**: AWS (EC2, RDS, S3)
+
+## Results
+
+The system has been in production since Q1 2025, processing amendments daily with:
+
+- **Triage time**: 70% reduction
+- **Search latency**: p95 < 200ms
+- **Recall**: > 0.92 in manual evaluation
+- **Uptime**: 99.9%
+
+## Lessons learned
+
+1. **Rules matter**: embeddings alone do not capture every domain nuance
+2. **Feedback loop**: manual classifications feed model improvements
+3. **Explainability**: showing the "why" increases user trust

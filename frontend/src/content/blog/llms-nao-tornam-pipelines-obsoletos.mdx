@@ -2,7 +2,8 @@
 title: "LLMs não tornam pipelines de machine learning obsoletos"
 date: "2026-07-27"
 tags: ["ml", "llm", "system-design", "mlops"]
-summary: "Um relato sobre construir um pipeline híbrido de sentimento, clusterização e stance — e sobre o que realmente justifica cada camada quando uma chamada de LLM parece suficiente."
+summary: "Um relato sobre construir um pipeline híbrido de sentimento, clusterização e stance, e sobre o que realmente justifica cada camada quando uma chamada de LLM parece suficiente."
+readingTime: 10
 ---
 
 *Elas tornam mais difícil justificar cada etapa deles.*
@@ -11,7 +12,7 @@ Há alguns meses, venho desenvolvendo um sistema para analisar comentários de r
 
 Classificar um comentário como positivo, negativo ou neutro é apenas o começo.
 
-Um texto pode ter tom linguístico negativo e, ainda assim, expressar uma posição favorável em relação ao objeto analisado. "Corrupto desde sempre, mas pelo menos não é ele" é claramente negativo — e claramente um voto de confiança em outra pessoa. Um comentário pode elogiar alguém mencionado de passagem sem demonstrar apoio direto ao assunto principal. Pode parecer neutro para um modelo genérico, mas carregar um significado bastante claro dentro de um contexto específico.
+Um texto pode ter tom linguístico negativo e, ainda assim, expressar uma posição favorável em relação ao objeto analisado. "Corrupto desde sempre, mas pelo menos não é ele" é claramente negativo, e claramente um voto de confiança em outra pessoa. Um comentário pode elogiar alguém mencionado de passagem sem demonstrar apoio direto ao assunto principal. Pode parecer neutro para um modelo genérico, mas carregar um significado bastante claro dentro de um contexto específico.
 
 Ironia, negação, referências externas e múltiplos alvos na mesma frase tornam essa separação ainda mais difícil.
 
@@ -35,21 +36,49 @@ Unificar tudo em uma única classificação seria mais simples.
 
 Também seria semanticamente errado.
 
+<Diagram caption="três camadas: unificar seria mais simples e semanticamente errado">{`comentário
+    │
+    ▼
+┌─────────────────────────────┐
+│ 1 · sentimento linguístico  │  tom do texto (pos / neu / neg)
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│ 2 · stance                  │  posição relativa ao objeto
+└─────────────┬───────────────┘
+              │
+              ▼
+┌─────────────────────────────┐
+│ 3 · label de produto        │  resolução + gate de promoção
+└─────────────────────────────┘`}</Diagram>
+
 ## A descoberta de tópicos
 
 Além de classificar os comentários individualmente, o sistema precisa identificar os principais assuntos presentes na conversa.
 
 Os textos viram embeddings de 768 dimensões; a dimensionalidade é reduzida antes da clusterização para tornar a estrutura semântica mais tratável. Em seguida, um método baseado em densidade agrupa os pontos, com parâmetros ajustados para cada conjunto de dados.
 
-Os resultados não são aceitos apenas porque o algoritmo conseguiu separar alguns grupos: a qualidade da estrutura é avaliada por métricas de coesão interna e separação entre clusters, e grupos semanticamente próximos são comparados e, quando necessário, fundidos — para que o produto não mostre três tópicos que são, na prática, a mesma conversa com sotaques diferentes.
+<Flow
+  caption="do texto ao rótulo: a llm só entra no fim"
+  steps={[
+    { label: "embeddings (768d)", note: "representação semântica do comentário (+ contexto quando necessário)" },
+    { label: "redução de dimensionalidade", note: "estrutura tratável para agrupamento" },
+    { label: "clusterização por densidade", note: "coesão e separação medidas; grupos quase iguais são fundidos" },
+    { label: "fallback em amostra pequena", note: "quando a janela não sustenta múltiplos grupos sem inventar estrutura" },
+    { label: "llm → rótulos legíveis", note: "recebe a estrutura; não decide o agrupamento" },
+  ]}
+/>
+
+Os resultados não são aceitos apenas porque o algoritmo conseguiu separar alguns grupos. A qualidade da estrutura é avaliada sob mais de um critério: coesão dentro de cada grupo, distância entre grupos e o equilíbrio entre essas duas forças. Grupos semanticamente próximos são comparados e, quando necessário, fundidos. O objetivo é que o produto não mostre três tópicos que são, na prática, a mesma conversa com sotaques diferentes.
 
 Comentário e conteúdo original também recebem pesos diferentes na representação final, para que um texto curto não seja interpretado sem a informação à qual ele responde.
 
-Nem toda janela sustenta essa sofisticação. Quando a amostra é pequena, forçar uma clusterização produz uma precisão artificial — e o sistema precisa reconhecer essa limitação e aplicar um comportamento determinístico mais simples.
+Nem toda janela sustenta essa sofisticação. Quando a amostra é pequena, forçar uma clusterização produz uma precisão artificial, e o sistema precisa reconhecer essa limitação e aplicar um comportamento determinístico mais simples.
 
 Por fim, uma LLM transforma os grupos encontrados em rótulos compreensíveis. Ela não decide como os comentários serão agrupados; recebe uma estrutura já formada e ajuda a convertê-la em linguagem útil para quem consulta o produto.
 
-Não se trata, portanto, de gerar embeddings e rodar um algoritmo de clusterização. O resultado depende de uma sequência de decisões sobre representação, dimensionalidade, densidade, validação, redundância, contexto e interpretação — construídas, testadas e corrigidas até que os tópicos deixassem de ser apenas matematicamente plausíveis e passassem a ser realmente úteis.
+Não se trata de gerar embeddings e rodar um algoritmo de clusterização. Cada etapa carrega uma decisão: como representar o texto, quando fundir grupos quase iguais, quando a amostra é pequena demais para forçar estrutura, e se a coesão entre clusters passa de "matematicamente ok" para "útil no painel". Só depois disso a LLM entra, e só para rotular o que já foi formado.
 
 ## O notebook é a parte fácil
 
@@ -67,7 +96,7 @@ Os principais assuntos de uma semana não são necessariamente os mesmos de um m
 
 Cada job precisa saber exatamente qual entidade, plataforma e período está processando.
 
-Também precisa conviver com filas persistentes, concorrência, idempotência, recuperação de execuções interrompidas, limites de custo, circuit breaker, canário, versionamento de imagem e rollback.
+Também precisa conviver com filas persistentes, concorrência, idempotência, recuperação de execuções interrompidas, limites de custo, circuit breaker, canary, versionamento de imagem e rollback.
 
 São preocupações que raramente aparecem em uma demonstração.
 
@@ -83,7 +112,26 @@ O que fazer quando um job é interrompido depois de já ter realizado chamadas e
 
 Como garantir que uma nova versão do modelo não altere silenciosamente aquilo que o usuário enxerga?
 
-Essas perguntas pararam de ser retóricas numa madrugada em que o provedor de LLM ficou lento sob concorrência. Cada execução, isolada, respondia em poucos segundos. O problema apareceu quando várias execuções passaram a rodar ao mesmo tempo, cada uma abrindo suas próprias chamadas externas, disputando o mesmo provedor até ele engasgar: uma tarefa que levava cerca de cinco segundos passou a levar mais de um minuto, sob uma carga que antes era trivial. A correção não foi trocar de modelo. Foi tirar essas chamadas do caminho principal e concentrá-las em um único processo, que faz fila e absorve a contenção sozinho. Nada disso aparece numa demo. Aparece às sete da manhã, quando alguém pergunta por que o painel ainda não atualizou.
+Essas perguntas pararam de ser retóricas numa madrugada em que o provedor de LLM ficou lento sob concorrência. Cada execução, isolada, respondia em poucos segundos. O problema apareceu quando várias execuções passaram a rodar ao mesmo tempo, cada uma abrindo suas próprias chamadas externas, disputando o mesmo provedor até ele engasgar: uma tarefa que levava cerca de cinco segundos passou a levar mais de um minuto, sob uma carga que antes era trivial.
+
+<Delta
+  label="latência p50 da chamada llm"
+  from="~5"
+  to="~64"
+  unit="s"
+  caption="não foi o modelo que piorou: foi a contenção sob carga concorrente"
+/>
+
+A correção não foi trocar de modelo. Foi tirar essas chamadas do caminho principal e concentrá-las em um único processo, que faz fila e absorve a contenção sozinho.
+
+<Diagram caption="antes: cada job disputa o provedor · depois: um drain absorve a contenção">{`antes                              depois
+─────                              ──────
+
+job A ──┐                          job A ──┐
+job B ──┼──► provedor llm          job B ──┼──► fila ──► drain ──► provedor
+job C ──┘    (contenção)           job C ──┘         (1×)`}</Diagram>
+
+Nada disso aparece numa demo. Aparece às sete da manhã, quando alguém pergunta por que o painel ainda não atualizou.
 
 Há ainda uma restrição operacional bastante concreta: os dados precisam estar disponíveis dentro de uma janela definida.
 
@@ -101,7 +149,7 @@ Ou simplesmente enviaria os comentários para uma LLM e pediria:
 
 "Encontre os principais tópicos, agrupe os comentários e explique cada grupo"?
 
-A resposta honesta é que, em uma demonstração, uma LLM chegaria perto — talvez produzisse tópicos até mais interessantes em alguns recortes, com menos código e um custo direto comparável ao custo computacional de algumas execuções do pipeline.
+A resposta honesta é que, em uma demonstração, uma LLM chegaria perto. Talvez produzisse tópicos até mais interessantes em alguns recortes, com menos código e um custo direto comparável ao custo computacional de algumas execuções do pipeline.
 
 Essa possibilidade precisa ser levada a sério. Ela só para de valer no dia seguinte, quando a mesma pergunta chega pela quinta vez e a resposta muda sem que ninguém tenha mudado nada.
 
@@ -129,11 +177,33 @@ Tampouco explica como recuperar o trabalho depois de uma falha, impedir custo du
 
 Esse ponto costuma desaparecer quando comparamos uma arquitetura inteira com uma chamada isolada de API.
 
+<Compare
+  caption="resultado parecido ≠ sistema equivalente"
+  left={{
+    title: "boa resposta (demo)",
+    items: [
+      "tópicos interessantes numa amostra",
+      "pouco código",
+      "custo unitário aparente baixo",
+      "variância entre execuções",
+    ],
+  }}
+  right={{
+    title: "sistema confiável",
+    items: [
+      "estabilidade entre janelas e versões",
+      "recuperação sem custo duplicado",
+      "auditoria e promoção explícita",
+      "previsibilidade sob carga",
+    ],
+  }}
+/>
+
 A LLM pode entregar uma excelente resposta.
 
 O sistema precisa entregar uma excelente resposta de forma repetível, observável, economicamente previsível e recuperável.
 
-Um responde bem uma vez. O outro precisa responder bem sempre — inclusive numa segunda-feira de manhã, com backlog, sem ninguém olhando.
+Um responde bem uma vez. O outro precisa responder bem sempre, inclusive numa segunda-feira de manhã, com backlog, sem ninguém olhando.
 
 São problemas diferentes.
 
@@ -169,13 +239,13 @@ O valor não está no algoritmo de clusterização. Não está na redução de d
 
 O valor está no contrato construído ao redor do problema.
 
-Passei a tratar sentimento linguístico, *stance* e o label que chega ao produto como três coisas distintas — cada uma com seu próprio dono, seu próprio versionamento e sua própria história. Nenhuma classificação nova chega ao usuário sem antes passar por um portão explícito: benchmark, canário, comparação contra a versão anterior. Se esse portão não for atravessado, o sistema simplesmente continua mostrando o que já mostrava — o experimental fica de fora até provar que merece entrar.
+Passei a tratar sentimento linguístico, *stance* e o label que chega ao produto como três coisas distintas, cada uma com seu próprio dono, seu próprio versionamento e sua própria história. Nenhuma classificação nova chega ao usuário sem antes passar por um portão explícito: benchmark, canary, comparação contra a versão anterior. Se esse portão não for atravessado, o sistema simplesmente continua mostrando o que já mostrava. O experimental fica de fora até provar que merece entrar.
 
 O mesmo vale para os tópicos: cada janela pode ser recalculada sem reprocessar o histórico inteiro, e um trabalho interrompido não paga duas vezes pela mesma análise. Chamadas, tokens e custo têm teto por operação e por execução; quando o provedor principal falha, a contenção entra dentro de limites conhecidos, em vez de virar uma nova fonte de surpresa.
 
 A LLM deixa de ser tratada como uma entidade que recebe um texto e devolve a verdade. Ela passa a ser um componente probabilístico dentro de um sistema que controla quando, por que e sob quais condições esse componente pode decidir.
 
-Isso não significa que o pipeline atual precise ser preservado para sempre. Significa apenas que qualquer substituto deve competir com o sistema inteiro — não só com o resultado mais visível dele.
+Isso não significa que o pipeline atual precise ser preservado para sempre. Significa apenas que qualquer substituto deve competir com o sistema inteiro, não só com o resultado mais visível dele.
 
 A comparação correta não é:
 
@@ -200,6 +270,17 @@ Na operação, filas, budgets, circuitos, versões e gates de promoção impedem
 A arquitetura deixou de ser "modelo clássico ou LLM".
 
 Passou a ser roteamento por workload.
+
+<Diagram caption="roteamento por workload: cada peça compete pelo próprio critério">{`                    ┌──────────────────────┐
+   volume alto ───► │ modelo especializado │ escala · custo previsível
+   repetibilidade   └──────────────────────┘
+                    ┌──────────────────────┐
+   ambiguidade ───► │ llm                  │ interpretação contextual
+   contexto         └──────────────────────┘
+                    ┌──────────────────────┐
+   promoção ──────► │ gates · budgets ·    │ o que chega ao usuário
+   falha            │ filas · versões      │
+                    └──────────────────────┘`}</Diagram>
 
 Métodos especializados onde precisamos de escala, repetibilidade e custo previsível.
 

@@ -1,0 +1,115 @@
+---
+title: "Migration to AWS VPC: cost, security, and observability"
+status: "completed"
+period: "2025"
+stack: ["AWS VPC", "RDS Postgres", "EC2 ARM64", "Docker", "ECR", "CloudWatch", "GitHub Actions"]
+summary: "Deploy standardization via images and network isolation for core systems."
+outcomes:
+  - "40% reduction in compute cost (ARM64)"
+  - "Zero security incidents after migration"
+  - "Deploy time from 15min to 3min"
+---
+
+## Goal
+
+Consolidate applications in a dedicated VPC, reducing attack surface and improving EC2↔RDS latency.
+
+## Previous problem
+
+- Applications on the default VPC EC2
+- Public database access
+- Manual deploy via SSH
+- No image standardization
+
+## Final architecture
+
+### Network
+
+```
+VPC 10.0.0.0/16
+├── Public Subnet (10.0.1.0/24)
+│   └── NAT Gateway
+├── Private Subnet A (10.0.2.0/24)
+│   └── EC2 instances
+├── Private Subnet B (10.0.3.0/24)
+│   └── EC2 instances
+└── Private Subnet DB (10.0.4.0/24)
+    └── RDS Postgres
+```
+
+### Security Groups
+
+| SG | Inbound | Source |
+|----|---------|--------|
+| ALB | 443 | 0.0.0.0/0 |
+| App | 8000 | ALB SG |
+| RDS | 5432 | App SG |
+
+<Callout type="note">
+Least privilege: each layer only accepts traffic from the previous one.
+</Callout>
+
+## Components
+
+1. **VPC + private subnets**: network isolation
+2. **Restrictive Security Groups**: minimum required access
+3. **RDS Postgres**: Multi-AZ for HA
+4. **EC2 ARM64 + Docker**: cost-performance
+5. **ECR**: private image registry
+6. **CloudWatch**: centralized logs + alarms
+
+## Deploy pipeline
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build & Push to ECR
+        run: |
+          docker build -t $ECR_REPO:$SHA .
+          docker push $ECR_REPO:$SHA
+      
+      - name: Deploy to EC2
+        run: |
+          ssh ec2-user@$HOST "
+            docker pull $ECR_REPO:$SHA
+            docker stop app || true
+            docker run -d --name app $ECR_REPO:$SHA
+          "
+```
+
+## Deploy runbook
+
+1. **Build**: `docker build` + push to ECR
+2. **Pull**: EC2 pulls the new image
+3. **Migrate**: `alembic upgrade head`
+4. **Healthcheck**: verify `/health`
+5. **Rollback**: `docker run` with the previous tag
+
+<Callout type="warning" title="Rollback">
+Always keep the last 3 tags in ECR for a fast rollback.
+</Callout>
+
+## Results
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Monthly cost | $450 | $270 |
+| Deploy time | 15min | 3min |
+| DB latency | 8ms | 2ms |
+| Incidents/month | 2-3 | 0 |
+
+## Next steps
+
+1. Move to ECS Fargate (remove EC2 management)
+2. Implement blue/green deployments
+3. Add WAF on the ALB
