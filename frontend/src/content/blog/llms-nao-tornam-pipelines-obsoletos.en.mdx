@@ -36,19 +36,19 @@ Merging everything into a single classification would be simpler.
 
 It would also be semantically wrong.
 
-<Diagram caption="three layers: merging them would be simpler and semantically wrong">{`comment
-    │
-    ▼
+<Diagram caption="three layers: merging them would be simpler and semantically wrong">{`            comment
+               │
+               ▼
 ┌─────────────────────────────┐
 │ 1 · linguistic sentiment    │  tone of the text (pos / neu / neg)
-└─────────────┬───────────────┘
-              │
-              ▼
+└──────────────┬──────────────┘
+               │
+               ▼
 ┌─────────────────────────────┐
 │ 2 · stance                  │  position relative to the object
-└─────────────┬───────────────┘
-              │
-              ▼
+└──────────────┬──────────────┘
+               │
+               ▼
 ┌─────────────────────────────┐
 │ 3 · product label           │  resolution + promotion gate
 └─────────────────────────────┘`}</Diagram>
@@ -273,7 +273,7 @@ The architecture stopped being "classic model or LLM".
 
 It became workload routing.
 
-<Diagram caption="workload routing: each piece competes on its own criteria">{`                   ┌──────────────────────┐
+<Diagram caption="workload routing: each piece competes on its own criteria">{`                    ┌──────────────────────┐
    high volume ───► │ specialized model    │ scale · predictable cost
    repeatability    └──────────────────────┘
                     ┌──────────────────────┐
