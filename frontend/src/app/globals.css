@@ -468,10 +468,13 @@ pre {
   background: transparent;
   border: none;
   color: var(--fg-secondary);
+  font-family: var(--font-mono);
   font-size: var(--font-size-xs);
   line-height: 1.55;
   white-space: pre;
   border-radius: 0;
+  font-kerning: none;
+  font-variant-ligatures: none;
 }
 
 .mdx-diagram-caption {

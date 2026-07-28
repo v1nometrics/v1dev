@@ -273,16 +273,16 @@ The architecture stopped being "classic model or LLM".
 
 It became workload routing.
 
-<Diagram caption="workload routing: each piece competes on its own criteria">{`                    ┌──────────────────────┐
-   high volume ───► │ specialized model    │ scale · predictable cost
-   repeatability    └──────────────────────┘
-                    ┌──────────────────────┐
-   ambiguity   ───► │ llm                  │ contextual interpretation
-   context          └──────────────────────┘
-                    ┌──────────────────────┐
-   promotion   ───► │ gates · budgets ·    │ what reaches the user
-   failure          │ queues · versions    │
-                    └──────────────────────┘`}</Diagram>
+<Diagram caption="workload routing: each piece competes on its own criteria">{`                   ┌──────────────────────┐
+   high volume ──→ │ specialized model    │ scale · predictable cost
+   repeatability   └──────────────────────┘
+                   ┌──────────────────────┐
+   ambiguity  ──→ │ llm                  │ contextual interpretation
+   context         └──────────────────────┘
+                   ┌──────────────────────┐
+   promotion  ──→ │ gates · budgets ·    │ what reaches the user
+   failure         │ queues · versions    │
+                   └──────────────────────┘`}</Diagram>
 
 Specialized methods where we need scale, repeatability, and predictable cost.
 
