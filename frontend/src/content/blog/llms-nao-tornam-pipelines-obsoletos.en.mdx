@@ -22,19 +22,11 @@ At the base, a model specialized in social media language does the initial class
 
 The original post also enters the analysis when needed. For longer texts, a compressed representation keeps the context without exceeding the model's limits.
 
-*Stance* classification runs in a separate stage from linguistic sentiment.
-
-That distinction matters.
-
-Linguistic sentiment describes the tone of the text.
-
-*Stance* identifies the position expressed relative to the object under analysis.
+*Stance* classification runs in a separate stage from linguistic sentiment: sentiment describes the tone of the text; *stance* identifies the position relative to the object under analysis.
 
 The label that reaches the product belongs to a third layer: a controlled resolution across models, context, human corrections, and explicitly approved versions.
 
-Merging everything into a single classification would be simpler.
-
-It would also be semantically wrong.
+Merging everything into a single classification would be simpler, and semantically wrong.
 
 <Diagram caption="three layers: merging them would be simpler and semantically wrong">{`            comment
                 │
@@ -78,7 +70,7 @@ Not every window can support that sophistication. When the sample is small, forc
 
 Finally, an LLM turns the discovered groups into readable labels. It does not decide how comments are grouped; it receives a structure that already exists and helps turn it into language useful for whoever reads the product.
 
-This is not about generating vectors and running a clustering algorithm. Each step carries a decision: how to represent the text, when to merge near-duplicate groups, when the sample is too small to force structure, and whether cluster cohesion has moved from "mathematically fine" to "useful on the dashboard". Only after that does the LLM enter, and only to label what has already been formed.
+Generating vectors and running a clustering algorithm, on its own, is not enough. Each step carries a decision: how to represent the text, when to merge near-duplicate groups, when the sample is too small to force structure, and whether cluster cohesion has moved from "mathematically fine" to "useful on the dashboard". Only after that does the LLM enter, and only to label what has already been formed.
 
 ## The notebook is the easy part
 
@@ -121,10 +113,10 @@ Those questions stopped being rhetorical one night when the LLM provider slowed 
   unit="s"
   fromHint="isolated"
   toHint="under contention"
-  caption="the model did not get worse: contention under concurrent load did"
+  caption="the model did not get worse; contention under concurrent load did"
 />
 
-The fix was not switching models. It was pulling those calls out of the hot path and concentrating them in a single process that queues work and absorbs contention on its own.
+The fix was to pull those calls out of the hot path and concentrate them in a single process that queues work and absorbs contention on its own, rather than switching models.
 
 <Diagram caption="before: every job fights the provider · after: one drain absorbs contention">{`before                             after
 ──────                             -----
@@ -155,11 +147,7 @@ The honest answer is that, in a demo, an LLM would get close. It might even prod
 
 That possibility has to be taken seriously. It only stops holding up the next day, when the same question arrives for the fifth time and the answer changes without anyone changing anything.
 
-After months invested in a solution, it is easy to start defending it for the effort it required. Complexity becomes a badge of pride, and decisions that should remain technical hypotheses start being treated as personal property.
-
-But construction difficulty is not a competitive advantage.
-
-Technical pride is a terrible criterion for architectural permanence.
+After months invested in a solution, it is easy to start defending it for the effort it required. Complexity becomes a badge of pride, and decisions that should remain technical hypotheses start being treated as personal property. But construction difficulty is not a competitive advantage, and technical pride is a terrible criterion for architectural permanence.
 
 If an LLM call delivers the same quality, with lower total cost, lower latency, and acceptable operational risk, the right decision is to replace what exists.
 
@@ -169,23 +157,13 @@ The problem is that a visually similar result is not an equivalent system.
 
 ## A good answer is not the same as a reliable system
 
-A reasonable topic cloud on a sample does not show that results will be stable across runs.
+A reasonable topic cloud on a sample does not show that results will be stable across runs, that groups will stay comparable across periods, or that behavior will be reproducible after a model change.
 
-It also does not guarantee that groups will stay comparable across periods, or that behavior will be reproducible after a model change.
-
-A demo rarely answers how the solution will behave when volume grows, when context shifts, or when a single entity concentrates thousands more comments than the others.
-
-Nor does it explain how to recover work after a failure, prevent duplicate cost, audit old decisions, or separate an experimental version from the one actually approved for the product.
+A demo rarely answers how the solution will behave when volume grows, when context shifts, or when a single entity concentrates thousands more comments than the others. Nor does it explain how to recover work after a failure, prevent duplicate cost, audit old decisions, or separate an experimental version from the one actually approved for the product.
 
 That point usually disappears when we compare an entire architecture with a single API call.
 
-The LLM can deliver an excellent answer.
-
-The system needs to deliver an excellent answer in a way that is repeatable, observable, economically predictable, and recoverable.
-
-One answers well once. The other has to answer well every time, including on a Monday morning, with a backlog, and nobody watching.
-
-Those are different problems.
+The LLM can deliver an excellent answer. The system needs to deliver that answer in a way that is repeatable, observable, economically predictable, and recoverable: well on a Monday morning, with a backlog, and nobody watching. Those are different problems.
 
 <Compare
   caption="a similar-looking result ≠ an equivalent system"
@@ -211,21 +189,7 @@ Those are different problems.
 
 ## Cost is not only inference
 
-Comparing the price of an API call with cloud CPU and memory usage is not enough.
-
-Real cost includes inference, engineering, observability, recovery, auditing, and operational risk.
-
-It includes a duplicated run.
-
-It includes the backlog that delays a delivery.
-
-It includes the wrong classification that changes a report.
-
-It includes the investigation required when nobody can explain why the system reached a given result.
-
-It includes invalid responses in the middle of thousands of processings.
-
-And it includes dependence on an external behavior that can change without the rest of the architecture being ready.
+Comparing the price of an API call with cloud CPU and memory usage is not enough. Real cost includes inference, engineering, observability, recovery, auditing, and operational risk: a duplicated run, the backlog that delays a delivery, the wrong classification that changes a report, the investigation when nobody can explain a result, invalid responses in the middle of thousands of processings, and dependence on an external behavior that can change without the rest of the architecture being ready.
 
 A solution that looks cheaper can become expensive when it demands reprocessing, constant manual review, or recurring inconsistency investigations.
 
@@ -235,11 +199,7 @@ That is why the comparison has to consider total system cost, not just the unit 
 
 ## The value is not in the algorithm
 
-That is where my view of the pipeline's value changed.
-
-The value is not in the clustering algorithm. It is not in dimensionality reduction, heuristics, weights, or the number of metrics computed. All of those pieces are replaceable.
-
-The value is in the contract built around the problem.
+That is where my view of the pipeline's value changed. The value sits less in the clustering algorithm, dimensionality reduction, heuristics, weights, or the number of metrics than in the contract built around the problem. Those pieces are replaceable.
 
 I started treating linguistic sentiment, *stance*, and the label that reaches the product as three distinct things, each with its own owner, its own versioning, and its own history. No new classification reaches the user without first passing through an explicit gate: benchmark, canary, comparison against the previous version. If that gate is not crossed, the system simply keeps showing what it already showed. The experimental path stays out until it proves it deserves to come in.
 
@@ -247,7 +207,7 @@ The same applies to topics: each window can be recomputed without reprocessing t
 
 The LLM stops being treated as an entity that receives text and returns truth. It becomes a probabilistic component inside a system that controls when, why, and under which conditions that component may decide.
 
-That does not mean the current pipeline has to be preserved forever. It only means any substitute has to compete with the whole system, not just with its most visible result.
+That does not force the current pipeline to be preserved forever; it only requires any substitute to compete with the whole system, not just with its most visible result.
 
 The right comparison is not:
 
@@ -257,9 +217,7 @@ It involves semantic quality, temporal stability, cost per processed volume, lat
 
 ## The architecture is already hybrid
 
-After that reflection, my conclusion was not to choose between traditional data science and LLMs.
-
-It was to stop treating them as competing approaches.
+After that reflection, my conclusion was not to choose between traditional data science and LLMs, but to stop treating them as competing approaches.
 
 In the current system, a specialized model quickly handles most comments. The LLM enters the cases where uncertainty and semantic complexity justify its cost.
 
@@ -269,9 +227,7 @@ In contextual classification, deterministic information and structured outputs d
 
 In operations, queues, budgets, circuits, versions, and promotion gates keep the LLM's probabilistic capacity from turning into unpredictability for the product.
 
-The architecture stopped being "classic model or LLM".
-
-It became workload routing.
+The architecture stopped being "classic model or LLM" and became workload routing.
 
 <Diagram caption="workload routing: each piece competes on its own criteria">{`
                    ┌──────────────────────┐
@@ -293,22 +249,10 @@ And objective criteria to replace any of those parts when a better alternative a
 
 ## What actually needs defending
 
-Maturity is not defending the solution that took the most work.
+Maturity sits less in defending the solution that took the most work, or in putting an LLM on everything because it represents the current state of technology, than in understanding the problem, measuring the trade-offs, and knowing why each component remains in the architecture.
 
-It is also not putting an LLM on everything just because it represents the current state of technology.
-
-It is understanding the problem deeply, measuring the trade-offs, and knowing exactly why each component remains in the architecture.
-
-A step does not deserve to stay because it was hard to build.
-
-It deserves to stay while it delivers measurable value.
-
-In the same way, an LLM should not enter just because it looks modern, elegant, or simple.
-
-It should enter when it improves the balance between quality, cost, speed, and risk.
+A step deserves to stay while it delivers measurable value, not because it was hard to build. In the same way, an LLM should enter when it improves the balance between quality, cost, speed, and risk, not just because it looks modern, elegant, or simple.
 
 Specialized methods stay where they deliver consistency and efficiency. LLMs enter where contextual interpretation truly expands what the system can do.
 
-In the end, it came down to this:
-
-**I did not build a pipeline to compete with LLMs. I built a system that knows when to use them.**
+In the end, I built a system that knows when to use LLMs, not a pipeline to compete with them.

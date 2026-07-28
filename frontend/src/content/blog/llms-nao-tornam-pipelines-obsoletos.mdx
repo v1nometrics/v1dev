@@ -22,19 +22,11 @@ Na base, um modelo especializado em linguagem de redes sociais realiza a classif
 
 O conteúdo original também entra na análise quando necessário. Em textos mais longos, uma representação resumida preserva o contexto sem ultrapassar os limites do modelo.
 
-A classificação de *stance* acontece em uma etapa separada do sentimento linguístico.
-
-Essa distinção é importante.
-
-Sentimento linguístico descreve o tom do texto.
-
-*Stance* identifica a posição expressa em relação ao objeto analisado.
+A classificação de *stance* acontece em uma etapa separada do sentimento linguístico: o sentimento descreve o tom do texto; o *stance* identifica a posição em relação ao objeto analisado.
 
 Já o label que chega ao produto pertence a uma terceira camada: uma resolução controlada entre modelos, contexto, correções humanas e versões explicitamente aprovadas.
 
-Unificar tudo em uma única classificação seria mais simples.
-
-Também seria semanticamente errado.
+Unificar tudo em uma única classificação seria mais simples, e semanticamente errado.
 
 <Diagram caption="três camadas: unificar seria mais simples e semanticamente errado">{`          comentário
                 │
@@ -78,7 +70,7 @@ Nem toda janela sustenta essa sofisticação. Quando a amostra é pequena, forç
 
 Por fim, uma LLM transforma os grupos encontrados em rótulos compreensíveis. Ela não decide como os comentários serão agrupados; recebe uma estrutura já formada e ajuda a convertê-la em linguagem útil para quem consulta o produto.
 
-Não se trata de gerar vetores e rodar um algoritmo de clusterização. Cada etapa carrega uma decisão: como representar o texto, quando fundir grupos quase iguais, quando a amostra é pequena demais para forçar estrutura, e se a coesão entre clusters passa de "matematicamente ok" para "útil no painel". Só depois disso a LLM entra, e só para rotular o que já foi formado.
+Gerar vetores e rodar um algoritmo de clusterização, sozinho, não basta. Cada etapa carrega uma decisão: como representar o texto, quando fundir grupos quase iguais, quando a amostra é pequena demais para forçar estrutura, e se a coesão entre clusters passa de "matematicamente ok" para "útil no painel". Só depois disso a LLM entra, e só para rotular o que já foi formado.
 
 ## O notebook é a parte fácil
 
@@ -119,10 +111,10 @@ Essas perguntas pararam de ser retóricas numa madrugada em que o provedor de LL
   from="~5"
   to="~64"
   unit="s"
-  caption="não foi o modelo que piorou: foi a contenção sob carga concorrente"
+  caption="o modelo não piorou; a contenção sob carga concorrente, sim"
 />
 
-A correção não foi trocar de modelo. Foi tirar essas chamadas do caminho principal e concentrá-las em um único processo, que faz fila e absorve a contenção sozinho.
+A correção foi tirar essas chamadas do caminho principal e concentrá-las em um único processo, que faz fila e absorve a contenção sozinho, em vez de trocar de modelo.
 
 <Diagram caption="antes: cada job disputa o provedor · depois: um drain absorve a contenção">{`antes                              depois
 ─────                              ──────
@@ -153,11 +145,7 @@ A resposta honesta é que, em uma demonstração, uma LLM chegaria perto. Talvez
 
 Essa possibilidade precisa ser levada a sério. Ela só para de valer no dia seguinte, quando a mesma pergunta chega pela quinta vez e a resposta muda sem que ninguém tenha mudado nada.
 
-Depois de investir meses em uma solução, é fácil começar a defendê-la pelo esforço que ela exigiu. A complexidade vira motivo de orgulho, e decisões que deveriam continuar sendo hipóteses técnicas passam a ser tratadas como patrimônio pessoal.
-
-Mas dificuldade de construção não é vantagem competitiva.
-
-Orgulho técnico é um péssimo critério de permanência arquitetural.
+Depois de investir meses em uma solução, é fácil começar a defendê-la pelo esforço que ela exigiu. A complexidade vira motivo de orgulho, e decisões que deveriam continuar sendo hipóteses técnicas passam a ser tratadas como patrimônio pessoal. Mas dificuldade de construção não é vantagem competitiva, e orgulho técnico é um péssimo critério de permanência arquitetural.
 
 Se uma chamada de LLM entregar a mesma qualidade, com menor custo total, menor latência e risco operacional aceitável, a decisão correta é substituir o que existe.
 
@@ -167,13 +155,9 @@ O problema é que resultado visualmente parecido não significa sistema equivale
 
 ## Uma boa resposta não é o mesmo que um sistema confiável
 
-Uma nuvem de tópicos razoável em uma amostra não demonstra que os resultados serão estáveis entre execuções.
+Uma nuvem de tópicos razoável em uma amostra não demonstra que os resultados serão estáveis entre execuções, nem que os grupos continuarão comparáveis entre períodos, nem que o comportamento será reproduzível depois de uma mudança de modelo.
 
-Também não garante que os grupos continuarão comparáveis entre períodos ou que o comportamento será reproduzível depois de uma mudança de modelo.
-
-Uma demonstração dificilmente responde como a solução se comportará quando o volume crescer, quando o contexto mudar ou quando uma única entidade concentrar milhares de comentários a mais do que as outras.
-
-Tampouco explica como recuperar o trabalho depois de uma falha, impedir custo duplicado, auditar decisões antigas ou separar uma versão experimental daquela efetivamente aprovada para o produto.
+Uma demonstração dificilmente responde como a solução se comportará quando o volume crescer, quando o contexto mudar ou quando uma única entidade concentrar milhares de comentários a mais do que as outras. Também não explica como recuperar o trabalho depois de uma falha, impedir custo duplicado, auditar decisões antigas ou separar uma versão experimental daquela efetivamente aprovada para o produto.
 
 Esse ponto costuma desaparecer quando comparamos uma arquitetura inteira com uma chamada isolada de API.
 
@@ -199,31 +183,11 @@ Esse ponto costuma desaparecer quando comparamos uma arquitetura inteira com uma
   }}
 />
 
-A LLM pode entregar uma excelente resposta.
-
-O sistema precisa entregar uma excelente resposta de forma repetível, observável, economicamente previsível e recuperável.
-
-Um responde bem uma vez. O outro precisa responder bem sempre, inclusive numa segunda-feira de manhã, com backlog, sem ninguém olhando.
-
-São problemas diferentes.
+A LLM pode entregar uma excelente resposta. O sistema precisa entregar essa resposta de forma repetível, observável, economicamente previsível e recuperável: bem numa segunda-feira de manhã, com backlog, sem ninguém olhando. São problemas diferentes.
 
 ## O custo não está apenas na inferência
 
-Comparar o preço de uma chamada de API com o consumo de CPU e memória do processamento em nuvem é insuficiente.
-
-O custo real inclui inferência, engenharia, observabilidade, recuperação, auditoria e risco operacional.
-
-Inclui uma execução duplicada.
-
-Inclui o backlog que atrasa uma entrega.
-
-Inclui a classificação incorreta que altera um relatório.
-
-Inclui a investigação necessária quando ninguém consegue explicar por que o sistema chegou a determinado resultado.
-
-Inclui respostas inválidas no meio de milhares de processamentos.
-
-E inclui a dependência de um comportamento externo que pode mudar sem que o restante da arquitetura esteja preparado.
+Comparar o preço de uma chamada de API com o consumo de CPU e memória do processamento em nuvem é insuficiente. O custo real inclui inferência, engenharia, observabilidade, recuperação, auditoria e risco operacional: execução duplicada, backlog que atrasa entrega, classificação incorreta que altera um relatório, investigação quando ninguém explica o resultado, respostas inválidas no meio de milhares de processamentos, e a dependência de um comportamento externo que pode mudar sem que o restante da arquitetura esteja preparado.
 
 Uma solução aparentemente mais barata pode se tornar cara quando exige reprocessamento, revisão manual constante ou investigação recorrente de inconsistências.
 
@@ -233,11 +197,7 @@ Por isso, a comparação precisa considerar o custo total do sistema, e não ape
 
 ## O valor não está no algoritmo
 
-Foi aí que minha visão sobre o valor do pipeline mudou.
-
-O valor não está no algoritmo de clusterização. Não está na redução de dimensionalidade, nas heurísticas, nos pesos ou na quantidade de métricas calculadas. Todas essas peças são substituíveis.
-
-O valor está no contrato construído ao redor do problema.
+Foi aí que minha visão sobre o valor do pipeline mudou. O valor está menos no algoritmo de clusterização, na redução de dimensionalidade, nas heurísticas, nos pesos ou na quantidade de métricas do que no contrato construído ao redor do problema. Todas aquelas peças são substituíveis.
 
 Passei a tratar sentimento linguístico, *stance* e o label que chega ao produto como três coisas distintas, cada uma com seu próprio dono, seu próprio versionamento e sua própria história. Nenhuma classificação nova chega ao usuário sem antes passar por um portão explícito: benchmark, canary, comparação contra a versão anterior. Se esse portão não for atravessado, o sistema simplesmente continua mostrando o que já mostrava. O experimental fica de fora até provar que merece entrar.
 
@@ -245,7 +205,7 @@ O mesmo vale para os tópicos: cada janela pode ser recalculada sem reprocessar 
 
 A LLM deixa de ser tratada como uma entidade que recebe um texto e devolve a verdade. Ela passa a ser um componente probabilístico dentro de um sistema que controla quando, por que e sob quais condições esse componente pode decidir.
 
-Isso não significa que o pipeline atual precise ser preservado para sempre. Significa apenas que qualquer substituto deve competir com o sistema inteiro, não só com o resultado mais visível dele.
+Isso não obriga a preservar o pipeline atual para sempre; só exige que qualquer substituto compita com o sistema inteiro, não só com o resultado mais visível dele.
 
 A comparação correta não é:
 
@@ -255,9 +215,7 @@ Ela envolve qualidade semântica, estabilidade temporal, custo por volume proces
 
 ## A arquitetura já é híbrida
 
-Depois dessa reflexão, minha conclusão não foi escolher entre ciência de dados tradicional e LLMs.
-
-Foi parar de tratá-las como abordagens concorrentes.
+Depois dessa reflexão, minha conclusão não foi escolher entre ciência de dados tradicional e LLMs, e sim parar de tratá-las como abordagens concorrentes.
 
 No sistema atual, um modelo especializado resolve rapidamente a maior parte dos comentários. A LLM entra nos casos em que a incerteza e a complexidade semântica justificam seu custo.
 
@@ -267,9 +225,7 @@ Na classificação contextual, informações determinísticas e outputs estrutur
 
 Na operação, filas, budgets, circuitos, versões e gates de promoção impedem que a capacidade probabilística da LLM se transforme em imprevisibilidade para o produto.
 
-A arquitetura deixou de ser "modelo clássico ou LLM".
-
-Passou a ser roteamento por workload.
+A arquitetura deixou de ser "modelo clássico ou LLM" e passou a ser roteamento por workload.
 
 <Diagram caption="roteamento por workload: cada peça compete pelo próprio critério">{`
                    ┌──────────────────────┐
@@ -291,22 +247,10 @@ E critérios objetivos para substituir qualquer uma dessas partes quando surgir 
 
 ## O que realmente precisa ser defendido
 
-A maturidade não está em defender a solução que deu mais trabalho.
+A maturidade está menos em defender a solução que deu mais trabalho, ou em colocar uma LLM em tudo porque ela representa o estado atual da tecnologia, do que em compreender o problema, medir os trade-offs e saber por que cada componente continua dentro da arquitetura.
 
-Também não está em colocar uma LLM em tudo apenas porque ela representa o estado atual da tecnologia.
-
-Está em compreender profundamente o problema, medir os trade-offs e saber exatamente por que cada componente continua dentro da arquitetura.
-
-Uma etapa não merece permanecer porque foi difícil de construir.
-
-Ela merece permanecer enquanto entregar valor mensurável.
-
-Da mesma forma, uma LLM não deve entrar apenas porque parece moderna, elegante ou simples.
-
-Ela deve entrar quando melhora o equilíbrio entre qualidade, custo, velocidade e risco.
+Uma etapa merece permanecer enquanto entregar valor mensurável, não porque foi difícil de construir. Da mesma forma, uma LLM deve entrar quando melhora o equilíbrio entre qualidade, custo, velocidade e risco, não só porque parece moderna, elegante ou simples.
 
 Os métodos especializados continuam onde entregam consistência e eficiência. As LLMs entram onde a interpretação contextual realmente amplia a capacidade do sistema.
 
-No fim, ficou assim:
-
-**Eu não construí um pipeline para competir com as LLMs. Construí um sistema que sabe quando usá-las.**
+No fim, construí um sistema que sabe quando usar LLMs, não um pipeline para competir com elas.
