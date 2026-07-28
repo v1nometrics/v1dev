@@ -5,6 +5,9 @@ export default createMiddleware({
   locales,
   defaultLocale,
   localePrefix: "as-needed",
+  // URL is the source of truth. Do not redirect /blog/... to /en/...
+  // based on Accept-Language or NEXT_LOCALE cookie.
+  localeDetection: false,
 });
 
 export const config = {
