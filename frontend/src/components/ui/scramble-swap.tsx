@@ -88,18 +88,21 @@ export function ScrambleSwap({
     const fromText = readPlain(fromEl);
     const toText = readPlain(toEl);
 
-    if (fromText === toText) {
-      setDisplayLocale(locale);
-      setOverlay(null);
-      return;
-    }
-
     if (frameRef.current) {
       cancelAnimationFrame(frameRef.current);
     }
 
+    // Defer all setState into rAF (lint: no sync setState in effect body)
+    if (fromText === toText) {
+      frameRef.current = requestAnimationFrame(() => {
+        setDisplayLocale(locale);
+        setOverlay(null);
+        frameRef.current = null;
+      });
+      return;
+    }
+
     const startTime = performance.now();
-    setOverlay(fromText);
 
     const animate = (now: number) => {
       const progress = Math.min((now - startTime) / duration, 1);
