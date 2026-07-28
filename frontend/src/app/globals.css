@@ -296,6 +296,153 @@ pre {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   MDX ARTICLE CONTENT
+   ═══════════════════════════════════════════════════════════════ */
+
+.mdx-content {
+  font-size: var(--font-size-md);
+  line-height: var(--leading-relaxed);
+  color: var(--fg-secondary);
+}
+
+.mdx-content > * + * {
+  margin-top: calc(var(--space-unit) * 5);
+}
+
+.mdx-content h2 {
+  margin-top: calc(var(--space-unit) * 10);
+  padding-top: calc(var(--space-unit) * 6);
+  border-top: 1px dotted var(--border-dotted);
+}
+
+.mdx-content h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.mdx-content h3 {
+  margin-top: calc(var(--space-unit) * 8);
+}
+
+.mdx-content h2 a,
+.mdx-content h3 a,
+.mdx-content h4 a {
+  border-bottom: none;
+  color: inherit;
+}
+
+.mdx-content em {
+  color: var(--fg-primary);
+  font-style: italic;
+}
+
+.mdx-content strong {
+  color: var(--fg-primary);
+  font-weight: 600;
+}
+
+.mdx-content ul,
+.mdx-content ol {
+  padding-left: calc(var(--space-unit) * 5);
+  color: var(--fg-secondary);
+}
+
+.mdx-content ul {
+  list-style: none;
+}
+
+.mdx-content ul > li {
+  position: relative;
+}
+
+.mdx-content ul > li::before {
+  content: "—";
+  position: absolute;
+  left: calc(var(--space-unit) * -5);
+  color: var(--fg-subtle);
+}
+
+.mdx-content ol > li {
+  padding-left: calc(var(--space-unit) * 1);
+}
+
+.mdx-content ul > li + li,
+.mdx-content ol > li + li {
+  margin-top: calc(var(--space-unit) * 2);
+}
+
+.mdx-content blockquote {
+  border-left: 2px solid var(--border-strong);
+  padding-left: calc(var(--space-unit) * 4);
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.mdx-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.mdx-content th,
+.mdx-content td {
+  border: 1px solid var(--border-subtle);
+  padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 3);
+  text-align: left;
+}
+
+.mdx-content th {
+  color: var(--fg-primary);
+  font-weight: 500;
+  background-color: var(--bg-secondary);
+}
+
+.mdx-content pre {
+  font-size: var(--font-size-xs);
+}
+
+.mdx-content [data-rehype-pretty-code-figure] pre {
+  overflow-x: auto;
+}
+
+.mdx-content [data-line] {
+  padding: 0 calc(var(--space-unit) * 4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MDX CALLOUT
+   ═══════════════════════════════════════════════════════════════ */
+
+.callout {
+  border: 1px dotted var(--border-default);
+  padding: calc(var(--space-unit) * 4) calc(var(--space-unit) * 5);
+}
+
+.callout-warning,
+.callout-decision {
+  border-style: solid;
+  border-color: var(--border-strong);
+}
+
+.callout-label {
+  font-size: var(--font-size-xs);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  color: var(--fg-subtle);
+  margin-bottom: calc(var(--space-unit) * 2);
+}
+
+.callout-body {
+  color: var(--fg-secondary);
+  font-size: var(--font-size-base);
+}
+
+.callout-body > * + * {
+  margin-top: calc(var(--space-unit) * 3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
    ANIMATIONS (minimal)
    ═══════════════════════════════════════════════════════════════ */
 
