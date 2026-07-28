@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { useLocale } from "@/components/providers/locale-provider";
 import { ScrambleText } from "@/components/ui/scramble-text";
+import { ScrambleSwap } from "@/components/ui/scramble-swap";
 import { T } from "@/components/ui/t";
 import type { Locale } from "@/i18n";
 import { formatDate } from "@/lib/utils";
@@ -18,8 +19,8 @@ export type ArticleMeta = {
 
 /**
  * Client shell for /blog/[slug].
- * LocaleProvider toggles without navigation — both locales are preloaded
- * so title/chrome scramble and the MDX body swaps instantly.
+ * LocaleProvider toggles without navigation — both locales are preloaded.
+ * Header + full article body use the matrix scramble (same feel as <T>).
  */
 export function BlogArticleContent({
   metaByLocale,
@@ -70,9 +71,7 @@ export function BlogArticleContent({
           )}
         </header>
 
-        <div key={locale} className="mdx-locale-body">
-          {bodyByLocale[locale]}
-        </div>
+        <ScrambleSwap byLocale={bodyByLocale} duration={2500} />
       </article>
     </div>
   );
