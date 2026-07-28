@@ -1,24 +1,24 @@
 ---
-title: "Embeddings em produção: por que SBERT + Postgres (pgvector) ainda é uma escolha sólida"
+title: "Vetores em produção: por que SBERT + Postgres (pgvector) ainda é uma escolha sólida"
 date: "2026-01-15"
 tags: ["ml", "nlp", "search", "postgres"]
-summary: "Uma visão pragmática de embeddings, busca vetorial e trade-offs de operação com Postgres + HNSW."
+summary: "Uma visão pragmática de vetores, busca vetorial e trade-offs de operação com Postgres + HNSW."
 draft: true
 ---
 
 ## TL;DR
-- Embeddings são uma interface matemática estável para busca e matching semântico.
+- Vetores são uma interface matemática estável para busca e matching semântico.
 - Postgres + pgvector resolve 80% dos casos sem adicionar um "banco novo" no stack.
 - O trade-off é: tuning do índice + métricas de qualidade (recall/latência).
 
-## Por que embeddings (e não LLM generativo)?
+## Por que vetorização (e não LLM generativo)?
 
-Embeddings são **discriminativos**: você compara vetores e toma decisões reproduzíveis.
+Vetores são **discriminativos**: você compara posições no espaço e toma decisões reproduzíveis.
 
 LLMs são ótimos para geração, mas trazem variância e custo para tarefas que às vezes são puramente de similaridade.
 
 <Callout type="note">
-Embeddings transformam texto em vetores de dimensão fixa. A "semântica" fica codificada na posição do vetor no espaço.
+A vetorização transforma texto em vetores de dimensão fixa. A "semântica" fica codificada na posição do vetor no espaço.
 </Callout>
 
 ## Stack recomendado
