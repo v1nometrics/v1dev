@@ -9,6 +9,9 @@ import { Compare, Delta, Diagram, Flow } from "@/components/mdx/diagrams";
 import type { Locale } from "@/i18n";
 
 const mdxOptions = {
+  // Content is author-trusted (local MDX). v6 blocks JS expressions by default;
+  // diagrams/callouts use template literals and JSX props that need this.
+  blockJS: false,
   mdxOptions: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
