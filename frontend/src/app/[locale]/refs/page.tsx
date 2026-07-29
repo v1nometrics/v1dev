@@ -209,7 +209,7 @@ const references: Reference[] = [
     author: "Daniel Y. Chen",
     category: "books",
     year: 2023,
-    url: "https://www.pearson.com/en-us/subject-catalog/p/pandas-for-everyone-python-data-analysis/P200000007264/9780137891054",
+    url: "https://www.pearson.com/en-us/subject-catalog/p/pandas-for-everyone-python-data-analysis/P200000007264",
     description: {
       "pt-BR": "Guia prático de Pandas. Limpeza, transformação, visualização, séries temporais. 2ª edição atualizada.",
       en: "Practical Pandas guide. Cleaning, transformation, visualization, time series. Updated 2nd edition.",
