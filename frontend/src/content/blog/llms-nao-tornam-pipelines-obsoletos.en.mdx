@@ -145,7 +145,7 @@ Or would I just send the comments to an LLM and ask:
 
 The honest answer is that, in a demo, an LLM would get close. It might even produce more interesting topics in some slices, with less code and a direct API cost comparable to the compute cost of some pipeline runs.
 
-That possibility has to be taken seriously. It only stops holding up the next day, when the same question arrives for the fifth time and the answer changes without anyone changing anything.
+That possibility has to be taken seriously. The next day, though, the problems show up: the same prompt, with the same input, returns a different output; sometimes it simply ignores the structured output schema defined in the prompt, or any other attempt at a deterministic layer in the LLM flow. What is missing is the methodological reproducibility and mathematical determinism that, in many scenarios, are the pipeline's real differentiator.
 
 After months invested in a solution, it is easy to start defending it for the effort it required. Complexity becomes a badge of pride, and decisions that should remain technical hypotheses start being treated as personal property. But construction difficulty is not a competitive advantage, and technical pride is a terrible criterion for architectural permanence.
 
@@ -199,25 +199,19 @@ That is why the comparison has to consider total system cost, not just the unit 
 
 ## The value is not in the algorithm
 
-That is where my view of the pipeline's value changed. The value sits less in the clustering algorithm, dimensionality reduction, heuristics, weights, or the number of metrics than in the contract built around the problem. Those pieces are replaceable.
+That is where my view of the pipeline's value changed. The clustering algorithm, dimensionality reduction, heuristics, weights, and metrics are replaceable pieces. What remains, and what actually matters, is the contract built around the problem.
 
-I started treating linguistic sentiment, *stance*, and the label that reaches the product as three distinct things, each with its own owner, its own versioning, and its own history. No new classification reaches the user without first passing through an explicit gate: benchmark, canary, comparison against the previous version. If that gate is not crossed, the system simply keeps showing what it already showed. The experimental path stays out until it proves it deserves to come in.
+That contract shows up in concrete decisions. Linguistic sentiment, *stance*, and the product label are three distinct classifications, each with its own version and history. A new version only reaches the user after an explicit gate of benchmark, canary, and comparison against the previous version. Until that happens, the product keeps showing the already approved version. The experimental path stays out until it proves it deserves to come in.
 
-The same applies to topics: each window can be recomputed without reprocessing the full history, and interrupted work does not pay twice for the same analysis. Calls, tokens, and cost have caps per operation and per execution; when the primary provider fails, containment kicks in inside known limits, instead of becoming a new source of surprise.
+The same applies to topics: each window can be recomputed without reprocessing the full history, and interrupted work does not pay twice for the same analysis. Calls, tokens, and cost have caps per operation and per execution; when the primary provider fails, containment kicks in inside known limits.
 
-The LLM stops being treated as an entity that receives text and returns truth. It becomes a probabilistic component inside a system that controls when, why, and under which conditions that component may decide.
+In that design, the LLM becomes a probabilistic component inside a system that controls when, why, and under which conditions it may decide. It is no longer treated as the entity that receives text and returns truth.
 
-That does not force the current pipeline to be preserved forever; it only requires any substitute to compete with the whole system, not just with its most visible result.
-
-The right comparison is not:
-
-"Which approach produces the nicest topics?"
-
-It involves semantic quality, temporal stability, cost per processed volume, latency, coverage, abstention rate, reproducibility, auditability, recovery capacity, and the impact of a failure on the product.
+Hence the conclusion: the pipeline's value sits in that contract. The algorithm can change. Any substitute has to compete with the whole system, not just with its most visible result. The useful question stops being "which approach produces the nicest topics?" and starts covering semantic quality, temporal stability, cost per processed volume, latency, coverage, abstention rate, reproducibility, auditability, recovery capacity, and the impact of a failure on the product.
 
 ## The architecture is already hybrid
 
-After that reflection, my conclusion was not to choose between traditional data science and LLMs, but to stop treating them as competing approaches.
+After that reflection, I stopped treating traditional data science and LLMs as competing approaches.
 
 In the current system, a specialized model quickly handles most comments. The LLM enters the cases where uncertainty and semantic complexity justify its cost.
 
