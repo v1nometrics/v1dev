@@ -143,7 +143,7 @@ Ou simplesmente enviaria os comentários para uma LLM e pediria:
 
 A resposta honesta é que, em uma demonstração, uma LLM chegaria perto. Talvez produzisse tópicos até mais interessantes em alguns recortes, com menos código e um custo direto comparável ao custo computacional de algumas execuções do pipeline.
 
-Essa possibilidade precisa ser levada a sério. Ela só para de valer no dia seguinte, quando a mesma pergunta chega pela quinta vez e a resposta muda sem que ninguém tenha mudado nada.
+Essa possibilidade precisa ser levada a sério. Entretanto, no dia seguinte os problemas aparecem: o mesmo prompt, com o mesmo input, devolve um output diferente; às vezes simplesmente ignora o schema de structured output definido no prompt, ou qualquer outra tentativa de camada determinística no fluxo com a LLM. Falta aí a reprodutibilidade metodológica e o determinismo matemático que, em muitos cenários, são o grande diferencial do pipeline.
 
 Depois de investir meses em uma solução, é fácil começar a defendê-la pelo esforço que ela exigiu. A complexidade vira motivo de orgulho, e decisões que deveriam continuar sendo hipóteses técnicas passam a ser tratadas como patrimônio pessoal. Mas dificuldade de construção não é vantagem competitiva, e orgulho técnico é um péssimo critério de permanência arquitetural.
 
@@ -197,25 +197,19 @@ Por isso, a comparação precisa considerar o custo total do sistema, e não ape
 
 ## O valor não está no algoritmo
 
-Foi aí que minha visão sobre o valor do pipeline mudou. O valor está menos no algoritmo de clusterização, na redução de dimensionalidade, nas heurísticas, nos pesos ou na quantidade de métricas do que no contrato construído ao redor do problema. Todas aquelas peças são substituíveis.
+Foi aí que minha visão sobre o valor do pipeline mudou. Algoritmo de clusterização, redução de dimensionalidade, heurísticas, pesos e métricas são peças substituíveis. O que permanece, e o que de fato importa, é o contrato construído ao redor do problema.
 
-Passei a tratar sentimento linguístico, *stance* e o label que chega ao produto como três coisas distintas, cada uma com seu próprio dono, seu próprio versionamento e sua própria história. Nenhuma classificação nova chega ao usuário sem antes passar por um portão explícito: benchmark, canary, comparação contra a versão anterior. Se esse portão não for atravessado, o sistema simplesmente continua mostrando o que já mostrava. O experimental fica de fora até provar que merece entrar.
+Esse contrato aparece em decisões concretas. Sentimento linguístico, *stance* e o label do produto são três classificações distintas, cada uma com versão e histórico próprios. Uma versão nova só chega ao usuário depois de um gate explícito de benchmark, canary e comparação com a versão anterior. Enquanto isso não acontece, o produto continua mostrando a versão já aprovada. O experimental fica de fora até provar que merece entrar.
 
-O mesmo vale para os tópicos: cada janela pode ser recalculada sem reprocessar o histórico inteiro, e um trabalho interrompido não paga duas vezes pela mesma análise. Chamadas, tokens e custo têm teto por operação e por execução; quando o provedor principal falha, a contenção entra dentro de limites conhecidos, em vez de virar uma nova fonte de surpresa.
+O mesmo vale para os tópicos: cada janela pode ser recalculada sem reprocessar o histórico inteiro, e um trabalho interrompido não paga duas vezes pela mesma análise. Chamadas, tokens e custo têm teto por operação e por execução; quando o provedor principal falha, a contenção entra dentro de limites conhecidos.
 
-A LLM deixa de ser tratada como uma entidade que recebe um texto e devolve a verdade. Ela passa a ser um componente probabilístico dentro de um sistema que controla quando, por que e sob quais condições esse componente pode decidir.
+Nesse desenho, a LLM vira um componente probabilístico dentro de um sistema que controla quando, por que e sob quais condições ela pode decidir. Ela deixa de ser tratada como a entidade que recebe um texto e devolve a verdade.
 
-Isso não obriga a preservar o pipeline atual para sempre; só exige que qualquer substituto compita com o sistema inteiro, não só com o resultado mais visível dele.
-
-A comparação correta não é:
-
-"Qual abordagem gera os tópicos mais bonitos?"
-
-Ela envolve qualidade semântica, estabilidade temporal, custo por volume processado, latência, cobertura, taxa de abstenção, reprodutibilidade, auditabilidade, capacidade de recuperação e impacto de uma falha sobre o produto.
+Daí a conclusão: o valor do pipeline está nesse contrato. O algoritmo pode mudar. Qualquer substituto precisa competir com o sistema inteiro, não só com o resultado mais visível dele. A pergunta útil deixa de ser "qual abordagem gera os tópicos mais bonitos?" e passa a cobrir qualidade semântica, estabilidade temporal, custo por volume processado, latência, cobertura, taxa de abstenção, reprodutibilidade, auditabilidade, capacidade de recuperação e impacto de uma falha sobre o produto.
 
 ## A arquitetura já é híbrida
 
-Depois dessa reflexão, minha conclusão não foi escolher entre ciência de dados tradicional e LLMs, e sim parar de tratá-las como abordagens concorrentes.
+Depois dessa reflexão, parei de tratar ciência de dados tradicional e LLMs como abordagens concorrentes.
 
 No sistema atual, um modelo especializado resolve rapidamente a maior parte dos comentários. A LLM entra nos casos em que a incerteza e a complexidade semântica justificam seu custo.
 

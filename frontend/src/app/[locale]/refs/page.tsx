@@ -194,7 +194,7 @@ const references: Reference[] = [
     author: "Damodar N. Gujarati, Dawn C. Porter",
     category: "books",
     year: 2008,
-    url: "https://www.mheducation.com/highered/product/basic-econometrics-gujarati-porter/M9780073375779.html",
+    url: "https://www.amazon.com/Basic-Econometrics-Damodar-Gujarati/dp/0073375772",
     description: {
       "pt-BR": "Clássico de econometria. Regressão, séries temporais, dados em painel. Abordagem intuitiva com rigor matemático. 5ª edição.",
       en: "Econometrics classic. Regression, time series, panel data. Intuitive approach with mathematical rigor. 5th edition.",
@@ -209,7 +209,7 @@ const references: Reference[] = [
     author: "Daniel Y. Chen",
     category: "books",
     year: 2023,
-    url: "https://www.pearson.com/en-us/subject-catalog/p/pandas-for-everyone-python-data-analysis/P200000009561",
+    url: "https://www.pearson.com/en-us/subject-catalog/p/pandas-for-everyone-python-data-analysis/P200000007264",
     description: {
       "pt-BR": "Guia prático de Pandas. Limpeza, transformação, visualização, séries temporais. 2ª edição atualizada.",
       en: "Practical Pandas guide. Cleaning, transformation, visualization, time series. Updated 2nd edition.",
