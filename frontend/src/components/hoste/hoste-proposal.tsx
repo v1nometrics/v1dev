@@ -156,7 +156,7 @@ authorized go-live + verification`;
 
 const DELIVERY_TIMELINE = `                      wk1     wk2     wk3     wk4     wk5     wk6
                       │       │       │       │       │       │
-a  · claude assisted  ━━━━━━━●                                          20h  · US$ 280
+a  · claude assisted  ━━━━━━━●                                          20h  · US$ 280 + US$ 100–200/mo
 b0 · reduced pilot    ━━━━━━━━━━━━━━━━━━━●                              50h  · US$ 700
 b1 · api-first        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●                  80h  · US$ 1,120  · recommended
 b2 · browser-heavy    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●  120h · US$ 1,680
@@ -236,9 +236,11 @@ export function HosteProposal() {
             concentrated on photography, pricing exceptions, and final approval.
           </p>
           <p>
-            Comparing only US$ 20/mo Claude Pro to a few dollars of cloud spend
-            misses the main cost: administrative hours. The ROI case is hours
-            freed per listing, not subscription arithmetic alone.
+            A basic Claude Pro seat would not sustain the session volume of
+            this operation. A realistic Claude path starts at Max 5x (US$
+            100/mo) and can require Max 20x (US$ 200/mo). Even then, the main
+            cost is administrative hours. The ROI case is hours freed per
+            listing, plus a pipeline Hoste owns and can extend.
           </p>
         </Prose>
       </CollapsibleSection>
@@ -260,7 +262,11 @@ export function HosteProposal() {
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
-              <span>Claude Pro: US$ 20/mo (API billed separately)</span>
+              <span>Claude Max 5x: US$ 100/mo baseline (Pro at US$ 20 does not hold the sessions)</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>Claude Max 20x: US$ 200/mo for heavier weeks · both monthly only</span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
@@ -272,10 +278,11 @@ export function HosteProposal() {
             </li>
           </ul>
           <p>
-            a Pro subscription may support a small assisted pilot, but it does
-            not guarantee a fixed number of listings. session and weekly limits
-            apply; long tasks consume quota faster. Pro does not include the API
-            used by a custom system.
+            listing setup means long browser sessions and many tool calls per
+            property. Pro runs out within a session. Max raises the ceiling but
+            keeps five-hour and weekly caps, so no plan guarantees a fixed
+            number of listings. every run still needs a person at the computer,
+            and the subscription does not cover the API a custom system uses.
           </p>
           <p className="pt-2">
             <span className="text-fg-primary font-medium">path b · owned pipeline (recommended).</span>{" "}
@@ -514,14 +521,33 @@ export function HosteProposal() {
         />
         <Prose>
           <p className="pt-4">
-            <span className="text-fg-primary font-medium">would US$ 20 Claude Pro cover this?</span>{" "}
-            for a small assisted operation, maybe. it does not guarantee volume,
-            does not replace durable orchestration, and does not include API
-            usage for an autonomous pipeline. as an illustration only: a
-            Sonnet-style agent accumulating ~500k input + 30k output tokens
+            <span className="text-fg-primary font-medium">owned pipeline vs Claude subscriptions.</span>{" "}
+            same volumes, recurring cost only. Pro is left out because it does
+            not hold the sessions.
+          </p>
+        </Prose>
+        <DataTable
+          headers={[
+            "new listings / mo",
+            "Claude Max 20x",
+            "Claude Max 5x",
+            "owned pipeline",
+          ]}
+          rows={[
+            ["25", "US$ 200", "US$ 100", "US$ 3.14"],
+            ["100", "US$ 200", "US$ 100", "US$ 5.54"],
+            ["500", "US$ 200+ ³", "US$ 100+ ³", "US$ 26.48"],
+            ["1,000", "US$ 200+ ³", "US$ 100+ ³", "US$ 58.18"],
+          ]}
+          footnote="³ one seat run by one person. at this volume the caps make extra seats or paid usage credits likely, plus the operator time to drive every session. the owned pipeline stays below a single Max 5x seat at every volume simulated."
+        />
+        <Prose>
+          <p className="pt-4">
+            the API alternative is not cheaper either. as an illustration only:
+            a Sonnet-style agent accumulating ~500k input + 30k output tokens
             could spend ~US$ 1.95 in AI per listing (about US$ 195 at 100
             listings), versus ~US$ 0.54 DeepSeek in the owned path. that agent
-            figure must be measured; it is not Pro billing.
+            figure must be measured before any decision.
           </p>
         </Prose>
       </CollapsibleSection>
@@ -559,35 +585,158 @@ export function HosteProposal() {
             maintenance.
           </p>
         </Prose>
+        <Prose>
+          <p className="pt-4">
+            subscriptions vs build, at 100 listings/mo, before counting any
+            admin hours:
+          </p>
+        </Prose>
         <DataTable
-          headers={["path", "build", "ops / year", "first year"]}
+          headers={["path", "build", "ops / year", "first year", "3 years"]}
           rows={[
             [
-              "Claude Pro + assisted pilot",
+              "Claude Max 5x + assisted setup",
               "US$ 280",
-              "US$ 240",
-              "US$ 520",
+              "US$ 1,200",
+              "US$ 1,480",
+              "US$ 3,880",
+            ],
+            [
+              "Claude Max 20x + assisted setup",
+              "US$ 280",
+              "US$ 2,400",
+              "US$ 2,680",
+              "US$ 7,480",
             ],
             [
               "owned pipeline · API-first",
               "US$ 1,120",
               "US$ 66.48",
               "US$ 1,186.48",
+              "US$ 1,319.44",
             ],
             [
               "owned pipeline · browser-heavy",
               "US$ 1,680",
-              "US$ 66.48³",
+              "US$ 66.48⁴",
               "US$ 1,746.48",
+              "US$ 1,879.44",
             ],
           ]}
-          footnote="³ keeps the 20-minute/listing compute hypothesis; browser-heavy may use more. table excludes human hours and optional maintenance. Claude is cheaper to start; owned pipeline wins on recurring cost, dashboard, history, and machine-independent execution. ~4 extra admin hours saved per month at US$ 14/h closes the first-year gap vs Claude for the US$ 1,120 option."
+          footnote="⁴ keeps the 20-minute/listing compute hypothesis; browser-heavy may use more. table excludes human hours and optional maintenance."
         />
+        <Prose>
+          <p className="pt-4">
+            the API-first build is already cheaper than Max 5x in the first
+            year. against subscription cost alone, it pays back in{" "}
+            <span className="text-fg-primary">~9 months vs Max 5x</span> and{" "}
+            <span className="text-fg-primary">~4 months vs Max 20x</span>.
+            browser-heavy pays back in ~15 and ~7 months. over three years the
+            API-first build saves ~US$ 2,560 vs Max 5x and ~US$ 6,160 vs Max
+            20x. that is before the admin hours saved, which are the larger
+            number.
+          </p>
+        </Prose>
       </CollapsibleSection>
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="9 · scope · in / out" defaultOpen={true}>
+      <CollapsibleSection title="9 · why own the pipeline · what comes next" defaultOpen={true}>
+        <Prose>
+          <p>
+            a Claude subscription rents capacity that runs on one person&apos;s
+            computer. an owned pipeline is an asset: Hoste keeps the code, the
+            data, and the integrations, and can extend them.
+          </p>
+        </Prose>
+        <DataTable
+          headers={["", "Claude subscription", "owned pipeline"]}
+          rows={[
+            ["runs without a person", "no, every session is driven", "yes, triggered by events"],
+            ["cost as volume grows", "seats and caps", "cents per listing"],
+            ["listing history & audit", "scattered in chats", "every step logged in one place"],
+            ["AI model choice", "Claude only", "best model per step, swappable"],
+            ["business rules", "re-explained in prompts", "fixed in code, same every time"],
+            ["failure recovery", "start the session over", "resume from last confirmed step"],
+            ["reuse for other workflows", "manual, per session", "same connectors, new jobs"],
+          ]}
+        />
+        <Prose>
+          <p className="pt-4">
+            once Typeform, Guesty, Breezeway, PriceLabs, and Besty are wired
+            into one system with shared state, each new automation is a smaller
+            project. the expensive part, connecting the tools and modeling the
+            data, is already paid for. possible next modules, each scoped and
+            priced separately:
+          </p>
+          <ul className="space-y-1">
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">listing quality monitor</span>
+                {" · "}flag listings with missing photos, weak copy, or drift
+                between channels
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">homeowner reporting</span>
+                {" · "}onboarding status and performance summaries sent to owners
+                automatically
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">pricing & occupancy alerts</span>
+                {" · "}PriceLabs and calendar signals turned into actions for the
+                team
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">operations follow-up</span>
+                {" · "}Breezeway tasks, cleanings, and maintenance tickets tracked
+                against each property
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">reviews & guest messages</span>
+                {" · "}classify feedback and draft replies for approval
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">new markets</span>
+                {" · "}the same flow serves new Colorado and Arizona cities
+                without extra headcount
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <span>
+                <span className="text-fg-primary">other apps</span>
+                {" · "}Slack, email, Google Drive, CRM, or BI connected through the
+                same webhooks and API
+              </span>
+            </li>
+          </ul>
+          <p>
+            Claude can still be one of the models inside the pipeline where it
+            is the best fit. the difference is that Hoste controls when it runs,
+            what it costs, and what happens to the results.
+          </p>
+        </Prose>
+      </CollapsibleSection>
+
+      <hr className="separator-dotted" />
+
+      <CollapsibleSection title="10 · scope · in / out" defaultOpen={true}>
         <Prose>
           <p>
             <span className="text-fg-primary font-medium">in scope (owned pipeline)</span>
@@ -646,7 +795,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="10 · other costs · explicit" defaultOpen={false}>
+      <CollapsibleSection title="11 · other costs · explicit" defaultOpen={false}>
         <Prose>
           <ul className="space-y-1">
             <li className="flex gap-2">
@@ -678,16 +827,17 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="11 · recommendation & acceptance" defaultOpen={true}>
+      <CollapsibleSection title="12 · recommendation & acceptance" defaultOpen={true}>
         <Prose>
           <p>
             start with the owned pipeline targeting{" "}
             <span className="text-fg-primary font-medium">US$ 1,120 · ~4 weeks</span>
             {" "}
             at 20h/week, confirming the technical path in the first four hours.
-            operating under US$ 20/mo is viable at low volume under the
-            hypotheses above. at higher volume, the win is low cost per listing
-            plus admin hours saved, proven in the pilot.
+            operating cost stays between ~US$ 3 and ~US$ 60/mo across the
+            simulated volumes, below a single Claude Max 5x seat. on top of
+            that come the admin hours saved and a pipeline Hoste can extend to
+            other workflows, both proven in the pilot.
           </p>
           <p>
             <span className="text-fg-primary font-medium">acceptance.</span>{" "}
