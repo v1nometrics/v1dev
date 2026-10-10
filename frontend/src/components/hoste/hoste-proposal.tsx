@@ -681,67 +681,6 @@ export function HosteProposal() {
         </div>
       </CollapsibleSection>
 
-      <hr className="separator-dotted" />
-
-      <footer className="text-xs text-fg-subtle space-y-1">
-        <p>
-          references ·{" "}
-          <a
-            href="https://open-api-docs.guesty.com/reference/propertieslistingcreate"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
-          >
-            Guesty API
-          </a>
-          {" · "}
-          <a
-            href="https://open-api-docs.guesty.com/docs/guesty-mcp-server-beta"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
-          >
-            Guesty MCP
-          </a>
-          {" · "}
-          <a
-            href="https://cloud.google.com/run/pricing"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
-          >
-            Cloud Run pricing
-          </a>
-          {" · "}
-          <a
-            href="https://api-docs.deepseek.com/quick_start/pricing/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
-          >
-            DeepSeek pricing
-          </a>
-          {" · "}
-          <a
-            href="https://render.com/docs/static-sites"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
-          >
-            Render static sites
-          </a>
-          {" · "}
-          <a
-            href="https://support.claude.com/en/articles/8325606-what-is-the-pro-plan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
-          >
-            Claude Pro
-          </a>
-        </p>
-        <p>vinícius torres · v1torres.dev · rates and hours are partnership pricing for Hoste</p>
-      </footer>
     </div>
   );
 }
