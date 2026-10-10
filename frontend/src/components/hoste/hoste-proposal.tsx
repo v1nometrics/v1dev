@@ -371,8 +371,24 @@ export function HosteProposal() {
             </li>
           </ul>
           <p>
-            Guesty documents listing creation via Open API; the MCP server is
-            currently read-only. We will confirm write permissions on Hoste&apos;s
+            Guesty documents listing creation via{" "}
+            <a
+              href="https://open-api-docs.guesty.com/reference/propertieslistingcreate"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fg-primary hover:text-fg-muted transition-colors"
+            >
+              Open API
+            </a>{"; the "}
+            <a
+              href="https://open-api-docs.guesty.com/docs/guesty-mcp-server-beta"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-fg-primary hover:text-fg-muted transition-colors"
+            >
+              MCP server
+            </a>{" "}
+            is currently read-only. We will confirm write permissions on Hoste&apos;s
             account in the first hours. Where API coverage is incomplete, Python
             + browser automation fills the gap.
           </p>
@@ -856,6 +872,37 @@ export function HosteProposal() {
             </a>
           </div>
         </div>
+      </CollapsibleSection>
+
+      <hr className="separator-dotted" />
+
+      <CollapsibleSection title="13 · sources" defaultOpen={true}>
+        <ul className="space-y-2 text-sm">
+          {[
+            ["Guesty · create listing", "https://open-api-docs.guesty.com/reference/propertieslistingcreate"],
+            ["Guesty MCP", "https://open-api-docs.guesty.com/docs/guesty-mcp-server-beta"],
+            ["Cloud Run pricing", "https://cloud.google.com/run/pricing"],
+            ["Firestore pricing", "https://firebase.google.com/docs/firestore/pricing"],
+            ["DeepSeek pricing", "https://api-docs.deepseek.com/quick_start/pricing/"],
+            ["Render static sites", "https://render.com/docs/static-sites"],
+            ["Render free plan", "https://render.com/docs/free"],
+            ["Render pricing", "https://render.com/pricing"],
+            ["Claude Pro", "https://support.claude.com/en/articles/8325606-what-is-the-pro-plan"],
+            ["Claude Max", "https://support.claude.com/en/articles/11049741-what-is-the-max-plan"],
+          ].map(([label, href]) => (
+            <li key={href} className="flex gap-2">
+              <span className="text-fg-subtle shrink-0">-</span>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-fg-muted hover:text-fg-primary transition-colors"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </CollapsibleSection>
 
     </div>
