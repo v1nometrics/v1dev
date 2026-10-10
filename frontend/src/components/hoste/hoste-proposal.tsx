@@ -167,9 +167,9 @@ export function HosteProposal() {
           hoste · listing onboarding automation
         </h1>
         <p className="text-sm text-fg-secondary max-w-2xl leading-relaxed">
-          proposal for automating Hoste&apos;s property listing creation — from
+          proposal for automating Hoste&apos;s property listing creation from
           the existing Typeform through Guesty, content, integrations, and
-          publication — with a lean dashboard and measurable operating cost.
+          publication, with a lean dashboard and measurable operating cost.
         </p>
         <p className="mt-4 text-sm text-fg-muted">
           recommendation ·{" "}
@@ -198,7 +198,7 @@ export function HosteProposal() {
             Hoste already runs onboarding through Typeform, Guesty, Breezeway,
             PriceLabs, Besty, and team photography. Today the administrative
             path from form submit to a ready listing takes about one to two
-            weeks — not because someone works that whole time, but because data,
+            weeks. That is not because someone works that whole time. Data,
             photos, and decisions arrive in parallel and must be coordinated.
           </p>
           <p>
@@ -212,7 +212,7 @@ export function HosteProposal() {
           <p>
             Comparing only US$ 20/mo Claude Pro to a few dollars of cloud spend
             misses the main cost: administrative hours. The ROI case is hours
-            freed per listing — not subscription arithmetic alone.
+            freed per listing, not subscription arithmetic alone.
           </p>
         </Prose>
       </CollapsibleSection>
@@ -222,9 +222,8 @@ export function HosteProposal() {
       <CollapsibleSection title="2 · two paths" defaultOpen={true}>
         <Prose>
           <p>
-            <span className="text-fg-primary font-medium">path a · claude on a computer</span>
-            {" — "}
-            configure instructions, content templates, and tools so an agent
+            <span className="text-fg-primary font-medium">path a · claude on a computer.</span>{" "}
+            Configure instructions, content templates, and tools so an agent
             helps with listing setup. A person watches execution, unblocks
             issues, and approves publication.
           </p>
@@ -253,9 +252,8 @@ export function HosteProposal() {
             used by a custom system.
           </p>
           <p className="pt-2">
-            <span className="text-fg-primary font-medium">path b · owned pipeline (recommended)</span>
-            {" — "}
-            take the technical pipeline end-to-end with durable state, parallel
+            <span className="text-fg-primary font-medium">path b · owned pipeline (recommended).</span>{" "}
+            Take the technical pipeline end-to-end with durable state, parallel
             wait points, and a dashboard for completeness.
           </p>
         </Prose>
@@ -294,7 +292,7 @@ export function HosteProposal() {
             Breezeway onboarding, photos, visit data, and commercial rules can
             advance in parallel. the system needs a coordinator that keeps one
             listing state open for one to two weeks and resumes when each
-            delivery arrives — without holding a browser open while waiting.
+            delivery arrives. It does not hold a browser open while waiting.
           </p>
         </Prose>
         <MonoBlock caption="end-to-end onboarding with parallel fronts">{PIPELINE_FLOW}</MonoBlock>
@@ -304,36 +302,39 @@ export function HosteProposal() {
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">completeness</span> — checklist
-                of data, photos, configs, and integrations needed to publish
+                <span className="text-fg-primary">completeness</span>
+                {" · "}checklist of data, photos, configs, and integrations
+                needed to publish
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">resume</span> — continue from the
-                last confirmed step after failures or restarts
+                <span className="text-fg-primary">resume</span>
+                {" · "}continue from the last confirmed step after failures or
+                restarts
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">idempotency</span> — Typeform
-                retries must not create duplicate listings
+                <span className="text-fg-primary">idempotency</span>
+                {" · "}Typeform retries must not create duplicate listings
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">coordination</span> — owners,
-                due dates, blockers, alerts for stalled items
+                <span className="text-fg-primary">coordination</span>
+                {" · "}owners, due dates, blockers, alerts for stalled items
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">verification</span> — confirm
-                what was written in each system and that go-live happened
+                <span className="text-fg-primary">verification</span>
+                {" · "}confirm what was written in each system and that go-live
+                happened
               </span>
             </li>
           </ul>
@@ -352,8 +353,8 @@ export function HosteProposal() {
         <Prose>
           <p>
             human effort stays where it creates value. the system presents what
-            is missing, what diverges, and what needs a decision — not every
-            field for re-entry.
+            is missing, what diverges, and what needs a decision. It does not
+            ask for every field again.
           </p>
         </Prose>
         <DataTable
@@ -388,7 +389,7 @@ export function HosteProposal() {
         />
         <Prose>
           <p className="pt-4">
-            photos are Hoste&apos;s team work — the pipeline waits for them and
+            photos are Hoste&apos;s team work. The pipeline waits for them and
             resumes. DeepSeek Flash handles labeling: interpret answers,
             organize amenities, produce titles/descriptions from confirmed data.
             fee rules, dates, and publication stay in code.
@@ -405,7 +406,7 @@ export function HosteProposal() {
             <span className="text-fg-primary">dashboard.iamhoste.com</span>{" "}
             (subdomain on the existing domain). a path like{" "}
             <span className="text-fg-primary">iamhoste.com/dashboard</span>{" "}
-            would require wiring into the current site — subdomain is cleaner.
+            would require wiring into the current site. The subdomain is cleaner.
           </p>
         </Prose>
         <DataTable
@@ -468,9 +469,9 @@ export function HosteProposal() {
             does not replace durable orchestration, and does not include API
             usage for an autonomous pipeline. as an illustration only: a
             Sonnet-style agent accumulating ~500k input + 30k output tokens
-            could spend ~US$ 1.95 in AI per listing — US$ 195 at 100 listings —
-            vs ~US$ 0.54 DeepSeek in the owned path. that agent figure must be
-            measured; it is not Pro billing.
+            could spend ~US$ 1.95 in AI per listing (about US$ 195 at 100
+            listings), versus ~US$ 0.54 DeepSeek in the owned path. that agent
+            figure must be measured; it is not Pro billing.
           </p>
         </Prose>
       </CollapsibleSection>
@@ -493,9 +494,9 @@ export function HosteProposal() {
             ["admin work per listing", "2 hours", "15 minutes"],
             ["admin work per month", "40 hours", "5 hours"],
             ["value of that time", "US$ 560", "US$ 70"],
-            ["capacity released", "—", "35 hours · US$ 490/mo"],
+            ["capacity released", "n/a", "35 hours · US$ 490/mo"],
           ]}
-          footnote="example only — replace with Hoste's measured hours/listing and fully loaded cost of the person who owns the process. pilot must track real 1–2 week cycles including partial deliveries and resumes."
+          footnote="example only. replace with Hoste's measured hours/listing and fully loaded cost of the person who owns the process. pilot must track real 1–2 week cycles including partial deliveries and resumes."
         />
         <Prose>
           <p className="pt-4">
@@ -585,7 +586,7 @@ export function HosteProposal() {
             </li>
           </ul>
           <p>
-            the SOP still has incomplete steps — those must be defined before
+            the SOP still has incomplete steps. those must be defined before
             full automation. we automate available technical actions and
             coordinate human dependencies; we do not pretend every SOP line is
             already machine-ready.
@@ -601,24 +602,24 @@ export function HosteProposal() {
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">maintenance</span> — US$ 30/h
-                when needed; optional 2h/mo reserve = US$ 50/mo
+                <span className="text-fg-primary">maintenance</span>
+                {" · "}US$ 30/h when needed; optional 2h/mo reserve = US$ 50/mo
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">possible extras</span> — plan
-                upgrades, Guesty API access fees, external lookup services,
-                taxes/FX if applicable
+                <span className="text-fg-primary">possible extras</span>
+                {" · "}plan upgrades, Guesty API access fees, external lookup
+                services, taxes/FX if applicable
               </span>
             </li>
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">total company cost</span> —
-                current plans + automation + actual maintenance + human work +
-                applicable charges
+                <span className="text-fg-primary">total company cost</span>
+                {" · "}current plans + automation + actual maintenance + human
+                work + applicable charges
               </span>
             </li>
           </ul>
@@ -636,13 +637,14 @@ export function HosteProposal() {
             at 20h/week, confirming the technical path in the first four hours.
             operating under US$ 20/mo is viable at low volume under the
             hypotheses above. at higher volume, the win is low cost per listing
-            plus admin hours saved — proven in the pilot.
+            plus admin hours saved, proven in the pilot.
           </p>
           <p>
-            <span className="text-fg-primary font-medium">acceptance</span> — one
-            real listing completes the agreed flow: create, configure, reviewed
-            content, verified integrations, publish after approval — including
-            resume after an interruption without duplicating the listing.
+            <span className="text-fg-primary font-medium">acceptance.</span>{" "}
+            One real listing completes the agreed flow: create, configure,
+            reviewed content, verified integrations, publish after approval.
+            That includes resume after an interruption without duplicating the
+            listing.
           </p>
           <p>
             to close ROI precisely we need three Hoste inputs: listings per
