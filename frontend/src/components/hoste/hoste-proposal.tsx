@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { DeliveryTimeline, ListingCycle, WeekPlan } from "@/components/hoste/hoste-timeline";
 
 function CollapsibleSection({
   title,
@@ -154,32 +155,6 @@ team review & approval
         ↓
 authorized go-live + verification`;
 
-const DELIVERY_TIMELINE = `                      wk1     wk2     wk3     wk4     wk5     wk6
-                      │       │       │       │       │       │
-a  · claude assisted  ━━━━━━━●                                          20h  · US$ 280 + US$ 100–200/mo
-b0 · reduced pilot    ━━━━━━━━━━━━━━━━━━━●                              50h  · US$ 700
-b1 · api-first        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●                  80h  · US$ 1,120  · recommended
-b2 · browser-heavy    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●  120h · US$ 1,680
-
-◐ first 4h of wk1: access check confirms b1 or b2
-○ b0 can expand into b1 or b2; hours already done are not billed again`;
-
-const B1_WEEKS = `b1 · api-first · 80h at 20h/week
-
-wk1  ◐ access check (4h) · Typeform webhook · listing state · no duplicates
-wk2  ○ Guesty create + update · fees · calendar · messages
-wk3  ○ DeepSeek labeling + copy · photo upload · PriceLabs / Besty
-wk4  ● dashboard · tests on real listings · resume test · approved go-live
-
-then ops ~US$ 5.54/mo at 100 listings · maintenance US$ 30/h on demand`;
-
-const LISTING_CYCLE = `day 0         ● Typeform submitted        system validates, creates initial listing
-day 1–2       ○ Breezeway onboarding      system opens checklist, assigns owners
-day 2–7       ○ visit · photos · fees     team works, system waits (no compute)
-on delivery   ○ fill · copy · upload      Cloud Run Job resumes from saved state
-day 7–14      ○ review + approval         team decides exceptions only
-              ● go-live + verification    system publishes and confirms`;
-
 export function HosteProposal() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
@@ -229,7 +204,7 @@ export function HosteProposal() {
           </p>
           <p>
             This proposal covers two paths: a Claude-assisted setup on a
-            computer, or a owned pipeline (Render + Google Cloud Run Jobs +
+            computer, or an owned pipeline (Render + Google Cloud Run Jobs +
             DeepSeek Flash) with a dashboard on Hoste&apos;s domain. The
             recommended path is the owned pipeline: lower recurring cost per
             listing, durable state across the multi-day cycle, and human effort
@@ -278,10 +253,10 @@ export function HosteProposal() {
             </li>
           </ul>
           <p>
-            listing setup means long browser sessions and many tool calls per
+            Listing setup means long browser sessions and many tool calls per
             property. Pro runs out within a session. Max raises the ceiling but
             keeps five-hour and weekly caps, so no plan guarantees a fixed
-            number of listings. every run still needs a person at the computer,
+            number of listings. Every run still needs a person at the computer,
             and the subscription does not cover the API a custom system uses.
           </p>
           <p className="pt-2">
@@ -312,7 +287,7 @@ export function HosteProposal() {
               "~6 weeks",
             ],
           ]}
-          footnote="alternatives, not additive. first 4 hours (included) validate Guesty write access and confirm the technical path. a reduced pilot at US$ 700 / 50h remains available; work rolls forward if you expand to full scope."
+          footnote="Alternatives, not additive. The first 4 hours (included) validate Guesty write access and confirm the technical path. A reduced pilot at US$ 700 / 50h remains available. Work rolls forward if you expand to full scope."
         />
       </CollapsibleSection>
 
@@ -321,23 +296,23 @@ export function HosteProposal() {
       <CollapsibleSection title="3 · timeline · every option" defaultOpen={true}>
         <Prose>
           <p>
-            all options side by side at 20h/week. each bar ends at a working
+            All options side by side at 20h/week. Each bar ends at a working
             delivery, not at a document.
           </p>
         </Prose>
-        <MonoBlock caption="delivery timeline by option">{DELIVERY_TIMELINE}</MonoBlock>
-        <MonoBlock caption="recommended path · week by week">{B1_WEEKS}</MonoBlock>
+        <DeliveryTimeline />
+        <WeekPlan />
         <Prose>
           <p className="pt-4">
-            b2 runs the same phases. wk2 to wk5 stretch to cover browser
+            B2 runs the same phases. Weeks 2 to 5 stretch to cover browser
             automation wherever the Guesty API has gaps.
           </p>
           <p>
-            once live, every new listing follows its own one to two week cycle.
-            the system only spends compute when something arrives.
+            Once live, every new listing follows its own one to two week cycle.
+            The system only spends compute when something arrives.
           </p>
         </Prose>
-        <MonoBlock caption="one listing · from Typeform to go-live">{LISTING_CYCLE}</MonoBlock>
+        <ListingCycle />
       </CollapsibleSection>
 
       <hr className="separator-dotted" />
@@ -345,9 +320,9 @@ export function HosteProposal() {
       <CollapsibleSection title="4 · architecture · parallel + resilient" defaultOpen={true}>
         <Prose>
           <p>
-            onboarding is not one linear job. after the initial Guesty listing,
+            Onboarding is not one linear job. After the initial Guesty listing,
             Breezeway onboarding, photos, visit data, and commercial rules can
-            advance in parallel. the system needs a coordinator that keeps one
+            advance in parallel. The system needs a coordinator that keeps one
             listing state open for one to two weeks and resumes when each
             delivery arrives. It does not hold a browser open while waiting.
           </p>
@@ -397,8 +372,8 @@ export function HosteProposal() {
           </ul>
           <p>
             Guesty documents listing creation via Open API; the MCP server is
-            currently read-only. we will confirm write permissions on Hoste&apos;s
-            account in the first hours. where API coverage is incomplete, Python
+            currently read-only. We will confirm write permissions on Hoste&apos;s
+            account in the first hours. Where API coverage is incomplete, Python
             + browser automation fills the gap.
           </p>
         </Prose>
@@ -409,7 +384,7 @@ export function HosteProposal() {
       <CollapsibleSection title="5 · human vs system" defaultOpen={true}>
         <Prose>
           <p>
-            human effort stays where it creates value. the system presents what
+            Human effort stays where it creates value. The system presents what
             is missing, what diverges, and what needs a decision. It does not
             ask for every field again.
           </p>
@@ -446,10 +421,10 @@ export function HosteProposal() {
         />
         <Prose>
           <p className="pt-4">
-            photos are Hoste&apos;s team work. The pipeline waits for them and
+            Photos are Hoste&apos;s team work. The pipeline waits for them and
             resumes. DeepSeek Flash handles labeling: interpret answers,
             organize amenities, produce titles/descriptions from confirmed data.
-            fee rules, dates, and publication stay in code.
+            Fee rules, dates, and publication stay in code.
           </p>
         </Prose>
       </CollapsibleSection>
@@ -459,9 +434,9 @@ export function HosteProposal() {
       <CollapsibleSection title="6 · infrastructure · minimum spend" defaultOpen={true}>
         <Prose>
           <p>
-            no new domain purchase. use something like{" "}
+            No new domain purchase. Use something like{" "}
             <span className="text-fg-primary">dashboard.iamhoste.com</span>{" "}
-            (subdomain on the existing domain). a path like{" "}
+            (subdomain on the existing domain). A path like{" "}
             <span className="text-fg-primary">iamhoste.com/dashboard</span>{" "}
             would require wiring into the current site. The subdomain is cleaner.
           </p>
@@ -485,7 +460,7 @@ export function HosteProposal() {
               "joint reserve US$ 3–10/mo",
             ],
           ]}
-          footnote="lean default: Render static UI + Google for processing. Render Starter (always-on) adds ~US$ 7/mo if preferred. free Render web services spin down after 15 minutes idle."
+          footnote="Lean default: Render static UI + Google for processing. Render Starter (always-on) adds ~US$ 7/mo if preferred. Free Render web services spin down after 15 minutes idle."
         />
       </CollapsibleSection>
 
@@ -494,12 +469,12 @@ export function HosteProposal() {
       <CollapsibleSection title="7 · monthly cost at scale" defaultOpen={true}>
         <Prose>
           <p>
-            simulation assumptions: ~20 minutes total compute per listing
+            Simulation assumptions: ~20 minutes total compute per listing
             (including resumes), 2 vCPU / 2 GiB, region{" "}
             <span className="text-fg-primary">us-central1</span>, and ~10k input
             + 2k output tokens for DeepSeek. Flash peak pricing without cache ≈{" "}
             <span className="text-fg-primary">US$ 0.0054 per listing</span>.
-            off-peak roughly halves the AI line. numbers are planning estimates
+            Off-peak roughly halves the AI line. Numbers are planning estimates
             until the pilot measures real usage.
           </p>
         </Prose>
@@ -517,7 +492,7 @@ export function HosteProposal() {
             ["500", "US$ 18.78", "US$ 2.70", "US$ 5", "US$ 26.48"],
             ["1,000", "US$ 42.78", "US$ 5.40", "US$ 10", "US$ 58.18"],
           ]}
-          footnote="¹ with Cloud Run free tier available. without it ≈ US$ 4.34 / 10.34 / 31.70 / 63.40. tier is shared per billing account. ² budget provision, not a fixed vendor fee. more photos, retries, or browser time raise usage."
+          footnote="¹ With Cloud Run free tier available. Without it ≈ US$ 4.34 / 10.34 / 31.70 / 63.40. The tier is shared per billing account. ² Budget provision, not a fixed vendor fee. More photos, retries, or browser time raise usage."
         />
         <Prose>
           <p className="pt-4">
@@ -539,14 +514,14 @@ export function HosteProposal() {
             ["500", "US$ 200+ ³", "US$ 100+ ³", "US$ 26.48"],
             ["1,000", "US$ 200+ ³", "US$ 100+ ³", "US$ 58.18"],
           ]}
-          footnote="³ one seat run by one person. at this volume the caps make extra seats or paid usage credits likely, plus the operator time to drive every session. the owned pipeline stays below a single Max 5x seat at every volume simulated."
+          footnote="³ One seat, run by one person. At this volume the caps make extra seats or paid usage credits likely, plus the operator time to drive every session. The owned pipeline stays below a single Max 5x seat at every volume simulated."
         />
         <Prose>
           <p className="pt-4">
-            the API alternative is not cheaper either. as an illustration only:
+            The API alternative is not cheaper either. As an illustration only:
             a Sonnet-style agent accumulating ~500k input + 30k output tokens
             could spend ~US$ 1.95 in AI per listing (about US$ 195 at 100
-            listings), versus ~US$ 0.54 DeepSeek in the owned path. that agent
+            listings), versus ~US$ 0.54 DeepSeek in the owned path. That agent
             figure must be measured before any decision.
           </p>
         </Prose>
@@ -557,9 +532,9 @@ export function HosteProposal() {
       <CollapsibleSection title="8 · the real cost · administrative hours" defaultOpen={true}>
         <Prose>
           <p>
-            the week-long cycle is mostly waiting. the expensive part is active
+            The week-long cycle is mostly waiting. The expensive part is active
             administrative work: receiving information, filling systems,
-            chasing blockers, and checking results. automation should shrink
+            chasing blockers, and checking results. Automation should shrink
             that active work; photography and travel stay with the team.
           </p>
           <p>illustrative comparison at US$ 14/h (same rate as this proposal):</p>
@@ -572,14 +547,14 @@ export function HosteProposal() {
             ["value of that time", "US$ 560", "US$ 70"],
             ["capacity released", "n/a", "35 hours · US$ 490/mo"],
           ]}
-          footnote="example only. replace with Hoste's measured hours/listing and fully loaded cost of the person who owns the process. pilot must track real 1–2 week cycles including partial deliveries and resumes."
+          footnote="Example only. Replace with Hoste's measured hours per listing and the fully loaded cost of the person who owns the process. The pilot must track real 1–2 week cycles, including partial deliveries and resumes."
         />
         <Prose>
           <p className="pt-4">
-            this does not automatically remove a full salary. if the person
-            stays, you free capacity for more listings or other work. cash
+            This does not automatically remove a full salary. If the person
+            stays, you free capacity for more listings or other work. Cash
             savings appear when you avoid a new hire, overtime, outsourcing, or
-            other real spend. at the illustrative US$ 490/mo capacity release, a
+            other real spend. At the illustrative US$ 490/mo capacity release, a
             US$ 1,120 build pays back in roughly{" "}
             <span className="text-fg-primary">2.3 months</span> before infra and
             maintenance.
@@ -623,17 +598,17 @@ export function HosteProposal() {
               "US$ 1,879.44",
             ],
           ]}
-          footnote="⁴ keeps the 20-minute/listing compute hypothesis; browser-heavy may use more. table excludes human hours and optional maintenance."
+          footnote="⁴ Keeps the 20-minute-per-listing compute hypothesis. Browser-heavy may use more. The table excludes human hours and optional maintenance."
         />
         <Prose>
           <p className="pt-4">
-            the API-first build is already cheaper than Max 5x in the first
-            year. against subscription cost alone, it pays back in{" "}
+            The API-first build is already cheaper than Max 5x in the first
+            year. Against subscription cost alone, it pays back in{" "}
             <span className="text-fg-primary">~9 months vs Max 5x</span> and{" "}
             <span className="text-fg-primary">~4 months vs Max 20x</span>.
-            browser-heavy pays back in ~15 and ~7 months. over three years the
+            Browser-heavy pays back in ~15 and ~7 months. Over three years the
             API-first build saves ~US$ 2,560 vs Max 5x and ~US$ 6,160 vs Max
-            20x. that is before the admin hours saved, which are the larger
+            20x. That is before the admin hours saved, which are the larger
             number.
           </p>
         </Prose>
@@ -644,8 +619,8 @@ export function HosteProposal() {
       <CollapsibleSection title="9 · why own the pipeline · what comes next" defaultOpen={true}>
         <Prose>
           <p>
-            a Claude subscription rents capacity that runs on one person&apos;s
-            computer. an owned pipeline is an asset: Hoste keeps the code, the
+            A Claude subscription rents capacity that runs on one person&apos;s
+            computer. An owned pipeline is an asset: Hoste keeps the code, the
             data, and the integrations, and can extend them.
           </p>
         </Prose>
@@ -663,10 +638,10 @@ export function HosteProposal() {
         />
         <Prose>
           <p className="pt-4">
-            once Typeform, Guesty, Breezeway, PriceLabs, and Besty are wired
+            Once Typeform, Guesty, Breezeway, PriceLabs, and Besty are wired
             into one system with shared state, each new automation is a smaller
-            project. the expensive part, connecting the tools and modeling the
-            data, is already paid for. possible next modules, each scoped and
+            project. The expensive part, connecting the tools and modeling the
+            data, is already paid for. Possible next modules, each scoped and
             priced separately:
           </p>
           <ul className="space-y-1">
@@ -728,7 +703,7 @@ export function HosteProposal() {
           </ul>
           <p>
             Claude can still be one of the models inside the pipeline where it
-            is the best fit. the difference is that Hoste controls when it runs,
+            is the best fit. The difference is that Hoste controls when it runs,
             what it costs, and what happens to the results.
           </p>
         </Prose>
@@ -785,9 +760,9 @@ export function HosteProposal() {
             </li>
           </ul>
           <p>
-            the SOP still has incomplete steps. those must be defined before
-            full automation. we automate available technical actions and
-            coordinate human dependencies; we do not pretend every SOP line is
+            The SOP still has incomplete steps. Those must be defined before
+            full automation. We automate available technical actions and
+            coordinate human dependencies. We do not pretend every SOP line is
             already machine-ready.
           </p>
         </Prose>
@@ -795,7 +770,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="11 · other costs · explicit" defaultOpen={false}>
+      <CollapsibleSection title="11 · other costs · explicit" defaultOpen={true}>
         <Prose>
           <ul className="space-y-1">
             <li className="flex gap-2">
@@ -830,14 +805,14 @@ export function HosteProposal() {
       <CollapsibleSection title="12 · recommendation & acceptance" defaultOpen={true}>
         <Prose>
           <p>
-            start with the owned pipeline targeting{" "}
+            Start with the owned pipeline targeting{" "}
             <span className="text-fg-primary font-medium">US$ 1,120 · ~4 weeks</span>
             {" "}
             at 20h/week, confirming the technical path in the first four hours.
-            operating cost stays between ~US$ 3 and ~US$ 60/mo across the
-            simulated volumes, below a single Claude Max 5x seat. on top of
-            that come the admin hours saved and a pipeline Hoste can extend to
-            other workflows, both proven in the pilot.
+            Operating cost stays between ~US$ 3 and ~US$ 60/mo across the
+            simulated volumes, below a single Claude Max 5x seat. On top of
+            that come the admin hours saved and a pipeline Hoste can extend.
+            Both get measured in the pilot.
           </p>
           <p>
             <span className="text-fg-primary font-medium">acceptance.</span>{" "}
@@ -847,7 +822,7 @@ export function HosteProposal() {
             listing.
           </p>
           <p>
-            to close ROI precisely we need three Hoste inputs: listings per
+            To close ROI precisely we need three Hoste inputs: listings per
             month, admin hours per listing today, and monthly cost of the person
             who owns the process.
           </p>
