@@ -601,8 +601,8 @@ export function HosteProposal() {
             <li className="flex gap-2">
               <span className="text-fg-subtle shrink-0">-</span>
               <span>
-                <span className="text-fg-primary">maintenance</span> — US$ 14/h
-                when needed; optional 2h/mo reserve = US$ 28/mo
+                <span className="text-fg-primary">maintenance</span> — US$ 30/h
+                when needed; optional 2h/mo reserve = US$ 50/mo
               </span>
             </li>
             <li className="flex gap-2">
