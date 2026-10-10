@@ -16,6 +16,7 @@ export function Header() {
     { href: "/refs", label: "refs" },
     { href: "/prompts", label: "prompts" },
     { href: "/readme", label: "readme" },
+    { href: "/hoste", label: "hoste" },
   ];
 
   // Build href with locale prefix
