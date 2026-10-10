@@ -154,6 +154,32 @@ team review & approval
         ↓
 authorized go-live + verification`;
 
+const DELIVERY_TIMELINE = `                      wk1     wk2     wk3     wk4     wk5     wk6
+                      │       │       │       │       │       │
+a  · claude assisted  ━━━━━━━●                                          20h  · US$ 280
+b0 · reduced pilot    ━━━━━━━━━━━━━━━━━━━●                              50h  · US$ 700
+b1 · api-first        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●                  80h  · US$ 1,120  · recommended
+b2 · browser-heavy    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━●  120h · US$ 1,680
+
+◐ first 4h of wk1: access check confirms b1 or b2
+○ b0 can expand into b1 or b2; hours already done are not billed again`;
+
+const B1_WEEKS = `b1 · api-first · 80h at 20h/week
+
+wk1  ◐ access check (4h) · Typeform webhook · listing state · no duplicates
+wk2  ○ Guesty create + update · fees · calendar · messages
+wk3  ○ DeepSeek labeling + copy · photo upload · PriceLabs / Besty
+wk4  ● dashboard · tests on real listings · resume test · approved go-live
+
+then ops ~US$ 5.54/mo at 100 listings · maintenance US$ 30/h on demand`;
+
+const LISTING_CYCLE = `day 0         ● Typeform submitted        system validates, creates initial listing
+day 1–2       ○ Breezeway onboarding      system opens checklist, assigns owners
+day 2–7       ○ visit · photos · fees     team works, system waits (no compute)
+on delivery   ○ fill · copy · upload      Cloud Run Job resumes from saved state
+day 7–14      ○ review + approval         team decides exceptions only
+              ● go-live + verification    system publishes and confirms`;
+
 export function HosteProposal() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
@@ -285,7 +311,31 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="3 · architecture · parallel + resilient" defaultOpen={true}>
+      <CollapsibleSection title="3 · timeline · every option" defaultOpen={true}>
+        <Prose>
+          <p>
+            all options side by side at 20h/week. each bar ends at a working
+            delivery, not at a document.
+          </p>
+        </Prose>
+        <MonoBlock caption="delivery timeline by option">{DELIVERY_TIMELINE}</MonoBlock>
+        <MonoBlock caption="recommended path · week by week">{B1_WEEKS}</MonoBlock>
+        <Prose>
+          <p className="pt-4">
+            b2 runs the same phases. wk2 to wk5 stretch to cover browser
+            automation wherever the Guesty API has gaps.
+          </p>
+          <p>
+            once live, every new listing follows its own one to two week cycle.
+            the system only spends compute when something arrives.
+          </p>
+        </Prose>
+        <MonoBlock caption="one listing · from Typeform to go-live">{LISTING_CYCLE}</MonoBlock>
+      </CollapsibleSection>
+
+      <hr className="separator-dotted" />
+
+      <CollapsibleSection title="4 · architecture · parallel + resilient" defaultOpen={true}>
         <Prose>
           <p>
             onboarding is not one linear job. after the initial Guesty listing,
@@ -349,7 +399,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="4 · human vs system" defaultOpen={true}>
+      <CollapsibleSection title="5 · human vs system" defaultOpen={true}>
         <Prose>
           <p>
             human effort stays where it creates value. the system presents what
@@ -399,7 +449,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="5 · infrastructure · minimum spend" defaultOpen={true}>
+      <CollapsibleSection title="6 · infrastructure · minimum spend" defaultOpen={true}>
         <Prose>
           <p>
             no new domain purchase. use something like{" "}
@@ -434,7 +484,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="6 · monthly cost at scale" defaultOpen={true}>
+      <CollapsibleSection title="7 · monthly cost at scale" defaultOpen={true}>
         <Prose>
           <p>
             simulation assumptions: ~20 minutes total compute per listing
@@ -478,7 +528,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="7 · the real cost · administrative hours" defaultOpen={true}>
+      <CollapsibleSection title="8 · the real cost · administrative hours" defaultOpen={true}>
         <Prose>
           <p>
             the week-long cycle is mostly waiting. the expensive part is active
@@ -537,7 +587,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="8 · scope · in / out" defaultOpen={true}>
+      <CollapsibleSection title="9 · scope · in / out" defaultOpen={true}>
         <Prose>
           <p>
             <span className="text-fg-primary font-medium">in scope (owned pipeline)</span>
@@ -596,7 +646,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="9 · other costs · explicit" defaultOpen={false}>
+      <CollapsibleSection title="10 · other costs · explicit" defaultOpen={false}>
         <Prose>
           <ul className="space-y-1">
             <li className="flex gap-2">
@@ -628,7 +678,7 @@ export function HosteProposal() {
 
       <hr className="separator-dotted" />
 
-      <CollapsibleSection title="10 · recommendation & acceptance" defaultOpen={true}>
+      <CollapsibleSection title="11 · recommendation & acceptance" defaultOpen={true}>
         <Prose>
           <p>
             start with the owned pipeline targeting{" "}
