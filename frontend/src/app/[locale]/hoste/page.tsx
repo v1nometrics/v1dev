@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "hoste · listing onboarding automation",
   description:
     "Proposal for Hoste: automate vacation-rental listing onboarding from Typeform through Guesty with a lean dashboard and measured operating cost.",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
   openGraph: {
     title: "hoste · listing onboarding automation",
     description:
