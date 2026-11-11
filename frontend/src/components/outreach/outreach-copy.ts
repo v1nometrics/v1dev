@@ -63,7 +63,7 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     title: "hoste · owner outreach",
     lede: "A private panel to find rental listings, match property addresses with automated confidence scoring, and look up owner contacts for direct outreach.",
     recommendLabel: "fixed-price proposal",
-    priceValue: "US$ 1,700",
+    priceValue: "US$ 1,680",
     priceLabel: "phase 1 · one-time",
     recommendRest: "2–3 weeks · initial validation included · uses Hoste’s existing AirDNA account",
     priceAnchor: "AirDNA quoted US$ 12,000/year for the property-level API alone, before building the panel. Using Hoste’s existing account avoids that additional subscription.",
@@ -141,11 +141,11 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     buildHeaders: ["piece", "amount"],
     buildRows: [
       ["core system: automated matching engine, confidence scoring & threshold checks, skip-trace, spreadsheet export", "US$ 1,120"],
-      ["AirDNA automated connector (scraper)", "US$ 580"],
-      ["phase 1 total", "US$ 1,700"],
+      ["AirDNA automated connector (scraper)", "US$ 560"],
+      ["phase 1 total", "US$ 1,680"],
     ],
     buildFoot:
-      "US$ 1,700 total for this scope, including initial validation, setup, usage guidance, and team training. Estimated delivery in 2–3 weeks, subject to access, validation approval, and successful tests. Vendor usage fees are separate. Any additional scope requires a separate quote.",
+      "US$ 1,680 total for this scope, including initial validation, setup, usage guidance, and team training. Estimated delivery in 2–3 weeks, subject to access, validation approval, and successful tests. Vendor usage fees are separate. Any additional scope requires a separate quote.",
     timelineIntro: "Scraping comes first. We present a Phoenix sample for Hoste’s approval before building the rest of the pipeline. The target is 2–3 weeks, with the following planned checkpoints.",
     timeline: [
       { period: "week 1 · first days", name: "test scraping", note: "Use Hoste’s existing AirDNA account to test listing extraction and photo availability on a small Phoenix sample." },
@@ -175,7 +175,7 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     ],
     next: [
       "Give the green light and share access to Hoste’s existing AirDNA account through a secure channel. That is the account required for the proposed connector; Airbnb credentials alone do not replace it. We can then begin the Phoenix validation and present the scraping sample for your approval before proceeding.",
-      "This page is the formal proposal: US$ 1,120 for the core system + US$ 580 for the AirDNA connector = US$ 1,700 fixed. Initial validation and team training are included.",
+      "This page is the formal proposal: US$ 1,120 for the core system + US$ 560 for the AirDNA connector = US$ 1,680 fixed. Initial validation and team training are included.",
     ],
     nextLabel: "next step",
     email: "email · contato@v1torres.dev",
@@ -192,7 +192,7 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     title: "hoste · prospecção de donos",
     lede: "Um painel privado para buscar anúncios, identificar endereços de imóveis com validação automatizada e consultar contatos de proprietários para prospecção direta.",
     recommendLabel: "proposta de preço fechado",
-    priceValue: "US$ 1.700",
+    priceValue: "US$ 1.680",
     priceLabel: "fase 1 · uma única vez",
     recommendRest: "2–3 semanas · validação inicial incluída · usa a conta AirDNA da Hoste",
     priceAnchor: "A AirDNA cotou US$ 12.000/ano só pela API de imóveis, além da construção do painel. Usar a conta que a Hoste já tem evita essa assinatura adicional.",
@@ -270,11 +270,11 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     buildHeaders: ["parte", "valor"],
     buildRows: [
       ["sistema central: motor automatizado de correspondência, pontuação de confiança e limiares, skip-trace, exportação em planilha", "US$ 1.120"],
-      ["conector automatizado da AirDNA (scraper)", "US$ 580"],
-      ["total da fase 1", "US$ 1.700"],
+      ["conector automatizado da AirDNA (scraper)", "US$ 560"],
+      ["total da fase 1", "US$ 1.680"],
     ],
     buildFoot:
-      "US$ 1.700 no total deste escopo, incluindo validação inicial, configuração, orientação de uso e treinamento da equipe. Entrega estimada em 2–3 semanas, condicionada ao acesso, à aprovação da validação e aos testes. O uso dos fornecedores é pago à parte. Escopo adicional exige outro orçamento.",
+      "US$ 1.680 no total deste escopo, incluindo validação inicial, configuração, orientação de uso e treinamento da equipe. Entrega estimada em 2–3 semanas, condicionada ao acesso, à aprovação da validação e aos testes. O uso dos fornecedores é pago à parte. Escopo adicional exige outro orçamento.",
     timelineIntro: "Primeiro, o scraping. Apresentamos uma amostra de Phoenix para aprovação da Hoste antes de construir o restante do pipeline. A previsão é de 2–3 semanas, com os seguintes marcos planejados.",
     timeline: [
       { period: "semana 1 · primeiros dias", name: "testar o scraping", note: "Usar a conta AirDNA que a Hoste já tem para testar a extração de anúncios e a disponibilidade de fotos em uma pequena amostra de Phoenix." },
@@ -304,7 +304,7 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     ],
     next: [
       "Dê o sinal verde e compartilhe o acesso à conta AirDNA que a Hoste já tem por um canal seguro. Essa é a conta necessária para o conector proposto; o acesso ao Airbnb sozinho não a substitui. Com isso, iniciamos a validação em Phoenix e apresentamos a amostra do scraping para aprovação antes de avançar.",
-      "Esta página formaliza a proposta: US$ 1.120 pelo sistema central + US$ 580 pelo conector AirDNA = US$ 1.700 fechado. A validação inicial e o treinamento da equipe estão incluídos.",
+      "Esta página formaliza a proposta: US$ 1.120 pelo sistema central + US$ 560 pelo conector AirDNA = US$ 1.680 fechado. A validação inicial e o treinamento da equipe estão incluídos.",
     ],
     nextLabel: "próximo passo",
     email: "email · contato@v1torres.dev",

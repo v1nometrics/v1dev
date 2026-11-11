@@ -12,7 +12,7 @@ For 3,000 unique properties processed per month:
 - Total vendor budget: $50–110 + $120 = $170–230/month. $170/3,000 = $0.0567; $230/3,000 = $0.0767, rounded to $0.06–0.08/property.
 - Assumes public county parcel data and Google Geocoding within its available 10,000-event monthly free quota (shared billing-account usage matters). Extra geocoding costs $5/1,000. No paid imagery, external search APIs, proxies or alternative property databases assumed; determine need during validation.
 - Existing AirDNA subscription, hosting, taxes and currency conversion are outside this vendor estimate. The removed maintenance/hosting and in/out sections are intentionally absent from the client proposal.
-- Initial validation, setup, usage guidance and team training are included in the $1,700 development quote. Training here means helping the team use the delivered system.
+- Initial validation, setup, usage guidance and team training are included in the $1,680 development quote. Training here means helping the team use the delivered system.
 
 Official references checked:
 

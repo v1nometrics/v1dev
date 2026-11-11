@@ -27,8 +27,8 @@ export async function generateMetadata({
     openGraph: {
       title: portuguese ? "hoste · prospecção de donos" : "hoste · owner outreach",
       description: portuguese
-        ? "Fase 1 da prospecção de donos da Hoste. Usa a conta AirDNA já paga. US$ 1.700 fechado."
-        : "Phase 1 panel for Hoste owner outreach. Uses the AirDNA account already paid for. US$ 1,700 fixed.",
+        ? "Fase 1 da prospecção de donos da Hoste. Usa a conta AirDNA já paga. US$ 1.680 fechado."
+        : "Phase 1 panel for Hoste owner outreach. Uses the AirDNA account already paid for. US$ 1,680 fixed.",
       url: portuguese ? "https://v1torres.dev/outreach" : "https://v1torres.dev/en/outreach",
       type: "website",
     },
