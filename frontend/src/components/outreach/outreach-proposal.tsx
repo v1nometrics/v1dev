@@ -84,12 +84,16 @@ function DataTable({
 function BuildTimeline({ rows, caption }: { rows: OutreachCopy["timeline"]; caption: string }) {
   return (
     <figure className="my-6">
-      <ol className="grid gap-4 border-y border-dotted border-border-default py-5 sm:grid-cols-3">
+      <ol className="ml-3 border-l border-dotted border-border-default">
         {rows.map((row, index) => (
-          <li key={row.name} className="text-sm leading-6">
-            <span className="text-xs text-fg-muted">0{index + 1}</span>
-            <p className="mt-1 font-medium text-fg-primary">{row.name}</p>
-            <p className="mt-1 text-fg-secondary">{row.note}</p>
+          <li key={row.name} className="relative pb-7 pl-7 text-sm leading-6 last:pb-0 sm:grid sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-5">
+            <span aria-hidden="true" className="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center border border-border-default bg-[var(--bg-primary)] text-xs text-fg-primary">{index + 1}</span>
+            <p className="text-xs leading-6 text-fg-muted">{row.period}</p>
+            <div>
+              <h3 className="font-medium text-fg-primary">{row.name}</h3>
+              <p className="mt-1 text-fg-secondary">{row.note}</p>
+              {row.gate ? <p className="mt-3 border-l-2 border-[var(--fg-primary)] pl-3 text-fg-primary">{row.gate}</p> : null}
+            </div>
           </li>
         ))}
       </ol>
@@ -189,7 +193,6 @@ export function OutreachProposal() {
           rows={copy.buildRows}
           footnote={copy.buildFoot}
         />
-        <BuildTimeline rows={copy.timeline} caption={copy.timelineCaption} />
         <Prose>
           {copy.buildNotes.map((paragraph) => (
             <p key={paragraph} className="pt-4">
@@ -198,6 +201,14 @@ export function OutreachProposal() {
           ))}
         </Prose>
       </CollapsibleSection>
+
+      <hr className="separator-dotted" />
+
+      <section id="timeline" aria-labelledby="timeline-heading" className="mb-8 scroll-mt-8">
+        <h2 id="timeline-heading" className="flex min-h-12 items-center text-base font-medium tracking-normal text-fg-primary">{copy.sections.timeline}</h2>
+        <p className="mt-4 text-base leading-7 text-fg-secondary">{copy.timelineIntro}</p>
+        <BuildTimeline rows={copy.timeline} caption={copy.timelineCaption} />
+      </section>
 
       <hr className="separator-dotted" />
 
