@@ -66,7 +66,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
   en: {
     badges: ["proposal", "hoste", "owner outreach"],
     title: "hoste · owner outreach",
-    lede: "A private panel to find rental listings, confirm property addresses, and look up owner contacts. Start with a city and a rating cap; your team reviews uncertain matches.",
+    lede: "A private panel to find rental listings, match property addresses with automated confidence scoring, and look up owner contacts for direct outreach.",
     recommendLabel: "fixed-price proposal",
     price: "phase 1 · US$ 1,700",
     recommendRest: "about 3 weeks · initial validation included · uses Hoste’s existing AirDNA account",
@@ -90,24 +90,24 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     },
     what: [
       "Example: find Phoenix rentals rated 4.8 stars or below, identify the property, and export available owner contacts for Hoste’s outreach team.",
-      "The panel brings search, address matching, human review, and contact lookup into one workflow. Uncertain houses stay in a review queue; missing contacts are marked incomplete.",
+      "The panel automates search, address matching, and contact lookup into a single continuous pipeline. High-confidence matches flow straight to owner lookup, while borderline edge cases are isolated by confidence thresholds for optional verification.",
     ],
     steps: [
       {
         title: "search",
-        detail: "City, a ceiling of 4.8 stars, and how many leads. The result is a queue of listings, not a call list.",
+        detail: "City, a ceiling of 4.8 stars, and target volume. The system ingests listings and staging data automatically.",
       },
       {
         title: "address",
-        detail: "The pin is approximate on purpose. The system proposes the house and a confidence score.",
+        detail: "The pin is approximate on purpose. The system identifies candidate parcels, correlates attributes, and calculates a match confidence score.",
       },
       {
-        title: "confirm",
-        detail: "A clear match continues. A doubtful one stops, photos side by side, until a person says yes or no.",
+        title: "threshold",
+        detail: "High-confidence matches proceed automatically. Rare borderline edge cases below threshold flag side-by-side photos for quick spot-checking.",
       },
       {
         title: "owner",
-        detail: "Only a confirmed address is looked up. The row becomes a spreadsheet line, or an explicit incomplete.",
+        detail: "Confirmed addresses are queried for owner records and exported to a spreadsheet; missing data is flagged incomplete without breaking the batch.",
       },
     ],
     pathNotes: [
@@ -144,7 +144,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     ],
     buildHeaders: ["piece", "amount"],
     buildRows: [
-      ["core system: matching engine, confirmation queue, skip-trace, spreadsheet export", "US$ 1,120"],
+      ["core system: automated matching engine, confidence scoring & threshold checks, skip-trace, spreadsheet export", "US$ 1,120"],
       ["AirDNA automated connector (scraper)", "US$ 580"],
       ["phase 1 total", "US$ 1,700"],
     ],
@@ -152,14 +152,14 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "US$ 1,700 total for this scope, including initial validation. About 3 weeks at 20h/week, subject to access and successful tests. Vendor fees and optional maintenance are separate. Any additional scope requires a separate quote.",
     timeline: [
       { name: "validate first", note: "Phoenix · access, photos & address matching" },
-      { name: "build & connect", note: "Matching, review queue & owner lookup" },
-      { name: "deliver", note: "End-to-end review & spreadsheet export" },
+      { name: "build & connect", note: "Automated matching engine, threshold checks & owner lookup" },
+      { name: "deliver", note: "End-to-end pipeline validation & spreadsheet export" },
     ],
     timelineCaption: "The remaining build is confirmed only after validation. If access is blocked or results are insufficient, I report the findings before any change of approach or cost.",
     buildNotes: [
       "Phase 1 is one market at a time, started by a person, with a cap on how many listings come back. Phoenix is the first test, because that is the market in your video and the county publishes parcel maps.",
       "I have extensive scraping experience, including substantially more challenging sites. The project is technically feasible; the initial tests will validate AirDNA access, photos, and address matching before I confirm the remaining build.",
-      "Acceptance is one Phoenix search in the queue, one doubtful house confirmed by a person, one confirmed address that returns an owner or an explicit incomplete, and a spreadsheet. The system does not contact the owner.",
+      "Acceptance is one complete automated Phoenix batch: address matching across confidence thresholds, verified owner contact retrieval, and structured spreadsheet export. The system does not contact the owner.",
     ],
     costIntro: "The bill follows the lead, not the radius. Hoste pays the vendors directly. There is no markup.",
     costHeaders: ["step", "when", "unit estimate"],
@@ -178,7 +178,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ["1,000", "US$ 40", "about US$ 6.68", "about US$ 50"],
     ],
     scaleFoot:
-      "Illustration. Assumes one owner lookup per lead, one photo check per three leads, and geocoding within the free tier. Totals are rounded estimates, not measured operating costs. The AirDNA login Hoste already pays is not in this table. A person's time confirming doubtful houses costs more than these vendor fees once volume grows.",
+      "Illustration. Assumes one owner lookup per lead, one photo check per three leads, and geocoding within the free tier. Totals are rounded estimates, not measured operating costs. The AirDNA login Hoste already pays is not in this table. Filtering borderline cases by confidence threshold avoids wasting vendor fees on uncertain properties.",
     costNotes: [
       "The property-level API starts at US$ 1,000/month before a single extra call. The account Hoste already has, plus a few dollars of lookups, is the lean path.",
       "Calls and texts stay with Hoste. When the vendor returns a Do Not Call flag, the row shows it. The system does not dial.",
@@ -202,7 +202,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "market, rating cap, and lead cap",
       "listings from the AirDNA account, with pin and photos",
       "proposed address and a confidence score",
-      "a queue where a person confirms the doubtful houses",
+      "confidence threshold validation with side-by-side inspection for borderline edge cases",
       "owner lookup on confirmed addresses, then a spreadsheet",
     ],
     outLabel: "not in this build",
@@ -228,7 +228,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
   "pt-BR": {
     badges: ["proposta", "hoste", "prospecção"],
     title: "hoste · prospecção de donos",
-    lede: "Um painel privado para buscar anúncios, confirmar endereços e consultar contatos dos proprietários. Você escolhe a cidade e o teto de nota; sua equipe revisa as correspondências duvidosas.",
+    lede: "Um painel privado para buscar anúncios, identificar endereços de imóveis com validação automatizada e consultar contatos de proprietários para prospecção direta.",
     recommendLabel: "proposta de preço fechado",
     price: "fase 1 · US$ 1.700",
     recommendRest: "cerca de 3 semanas · validação inicial incluída · usa a conta AirDNA da Hoste",
@@ -252,24 +252,24 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     },
     what: [
       "Exemplo: buscar imóveis de temporada em Phoenix com nota de até 4,8 estrelas, identificar a casa e exportar os contatos disponíveis para a equipe de prospecção da Hoste.",
-      "O painel reúne busca, correspondência de endereços, revisão humana e consulta de contatos. Casas duvidosas ficam na fila de revisão; contatos ausentes são marcados como incompletos.",
+      "O painel integra busca, correspondência de endereços e consulta de contatos em um pipeline automatizado contínuo. Imóveis com alta pontuação de confiança seguem direto para a busca de proprietários, e casos limítrofes abaixo do limiar ficam sinalizados para verificação pontual opcional.",
     ],
     steps: [
       {
         title: "busca",
-        detail: "Cidade, teto de 4,8 estrelas e quantidade. O resultado é uma fila de anúncios, não uma lista para ligar.",
+        detail: "Cidade, teto de 4,8 estrelas e volume desejado. O sistema processa os anúncios e os dados do mercado automaticamente.",
       },
       {
         title: "endereço",
-        detail: "O ponto do mapa é impreciso de propósito. O sistema propõe a casa e uma nota de confiança.",
+        detail: "O ponto do mapa é aproximado de propósito. O sistema cruza lotes públicos, analisa atributos e calcula uma pontuação de confiança.",
       },
       {
-        title: "confirmação",
-        detail: "Um acerto claro segue. Uma dúvida para, com as fotos lado a lado, até alguém dizer sim ou não.",
+        title: "limiar",
+        detail: "Correspondências de alta confiança avançam de forma automática. Casos raros abaixo do limiar apresentam fotos lado a lado para validação rápida.",
       },
       {
         title: "dono",
-        detail: "Só o endereço confirmado é consultado. A linha vira planilha, ou um incompleto explícito.",
+        detail: "Endereços validados recebem a consulta de proprietário e vão para a planilha; dados ausentes são sinalizados como incompletos sem travar o lote.",
       },
     ],
     pathNotes: [
@@ -306,7 +306,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     ],
     buildHeaders: ["parte", "valor"],
     buildRows: [
-      ["sistema central: motor de correspondência, fila de confirmação, skip-trace, exportação de planilha", "US$ 1.120"],
+      ["sistema central: motor automatizado de correspondência, pontuação de confiança e limiares, skip-trace, exportação em planilha", "US$ 1.120"],
       ["conector automatizado da AirDNA (scraper)", "US$ 580"],
       ["total da fase 1", "US$ 1.700"],
     ],
@@ -314,14 +314,14 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "US$ 1.700 no total deste escopo, incluindo a validação inicial. Cerca de 3 semanas a 20h por semana, condicionado ao acesso e aos testes. Fornecedores e manutenção opcional são cobrados à parte. Escopo adicional exige outro orçamento.",
     timeline: [
       { name: "validar primeiro", note: "Phoenix · acesso, fotos e endereços" },
-      { name: "construir e integrar", note: "Correspondência, revisão e busca do dono" },
-      { name: "entregar", note: "Revisão do fluxo completo e planilha" },
+      { name: "construir e integrar", note: "Motor de correspondência, limiares de validação e busca do dono" },
+      { name: "entregar", note: "Validação do pipeline completo e planilha" },
     ],
     timelineCaption: "O restante da construção só é confirmado após a validação. Se o acesso for bloqueado ou o resultado for insuficiente, apresento os achados antes de qualquer mudança de caminho ou custo.",
     buildNotes: [
-      "A fase 1 é um mercado por vez, iniciado por uma pessoa, com teto de anúncios. Phoenix é o primeiro teste, porque é o mercado do vídeo e o condado publica o mapa de lotes.",
+      "A fase 1 é um mercado por vez, sob demanda, com teto de anúncios. Phoenix é o primeiro mercado de teste, aproveitando os mapas de lotes públicos do condado.",
       "Tenho ampla experiência com scraping, inclusive em sites muito mais desafiadores. O projeto é tecnicamente viável; os testes iniciais validarão o acesso à AirDNA, as fotos e a correspondência de endereços antes de eu confirmar o restante da construção.",
-      "A entrega aceita é uma busca de Phoenix na fila, uma casa duvidosa confirmada por uma pessoa, um endereço confirmado que volta com o dono ou com um incompleto explícito, e uma planilha. O sistema não fala com o dono.",
+      "A entrega aceita compreende um lote completo automatizado em Phoenix: correspondência de endereços com pontuação de confiança e validação de limiares, retorno de proprietários validados e exportação em planilha. O sistema não contata o proprietário.",
     ],
     costIntro: "A conta acompanha o lead, não o raio da busca. A Hoste paga os fornecedores direto. Não há margem em cima.",
     costHeaders: ["etapa", "quando", "estimativa unitária"],
@@ -340,7 +340,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ["1.000", "US$ 40", "cerca de US$ 6,68", "cerca de US$ 50"],
     ],
     scaleFoot:
-      "Ilustração. Premissas: uma consulta de proprietário por lead, uma checagem de foto a cada três leads e geocodificação na franquia gratuita. Totais arredondados, não custos operacionais medidos. O login da AirDNA que a Hoste já paga não entra nesta tabela. O tempo de uma pessoa confirmando casas duvidosas pesa mais do que essas taxas quando o volume sobe.",
+      "Ilustração. Premissas: uma consulta de proprietário por lead, uma checagem de foto a cada três leads e geocodificação na franquia gratuita. Totais arredondados, não custos operacionais medidos. O login da AirDNA que a Hoste já paga não entra nesta tabela. Isolar casos limítrofes por limiar de confiança evita desperdiçar taxas de fornecedor em imóveis incertos.",
     costNotes: [
       "A API no nível do imóvel começa em US$ 1.000/mês antes de qualquer chamada extra. A conta que a Hoste já tem, mais alguns dólares de consulta, é o caminho enxuto.",
       "Ligação e mensagem ficam com a Hoste. Quando o fornecedor devolve um aviso de não perturbe, a linha mostra. O sistema não disca.",
@@ -363,9 +363,9 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     inItems: [
       "mercado, teto de nota e teto de leads",
       "anúncios da conta AirDNA, com ponto no mapa e fotos",
-      "endereço proposto e nota de confiança",
-      "uma fila em que uma pessoa confirma as casas duvidosas",
-      "busca do dono nos endereços confirmados, e a planilha",
+      "correspondência automatizada de endereço com pontuação de confiança",
+      "validação por limiar de confiança com inspeção lado a lado para casos limítrofes",
+      "busca do dono nos endereços validados e exportação em planilha",
     ],
     outLabel: "não entra nesta entrega",
     outItems: [
