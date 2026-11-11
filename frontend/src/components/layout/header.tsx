@@ -48,8 +48,8 @@ export function Header() {
           </Link>
 
           {/* Navigation */}
-          <div className="flex items-center gap-6">
-            <ul className="flex items-center gap-4 text-sm">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <ul className="flex items-center gap-2 text-xs sm:gap-4 sm:text-sm">
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 return (
@@ -63,7 +63,7 @@ export function Header() {
                       }`}
                     >
                       <span 
-                        className={`text-fg-subtle text-xs transition-all duration-150 ${
+                        className={`text-fg-subtle text-xs transition-all duration-150 hidden sm:inline-block ${
                           active ? "w-3 opacity-100" : "w-0 opacity-0"
                         } overflow-hidden`}
                       >
@@ -77,7 +77,7 @@ export function Header() {
             </ul>
 
             {/* Controls */}
-            <div className="flex items-center gap-2 border-l border-dotted border-border-default pl-4">
+            <div className="flex items-center gap-2 border-l border-dotted border-border-default pl-2 sm:pl-4">
               <LanguageToggle />
               <ThemeToggle />
             </div>

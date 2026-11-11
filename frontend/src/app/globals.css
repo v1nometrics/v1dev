@@ -714,9 +714,61 @@ pre {
 
 /* Proposal reading: native disclosures and keyboard focus. */
 .proposal-section > summary::-webkit-details-marker { display: none; }
-.proposal-chevron { display: inline-block; }
+.proposal-chevron {
+  display: inline-block;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms ease;
+}
 .proposal-section[open] > summary .proposal-chevron { transform: rotate(90deg); }
+.proposal-section > summary:hover .proposal-chevron,
+.proposal-section > summary:focus-visible .proposal-chevron { color: var(--fg-primary); }
 .proposal-section > summary:active { opacity: 0.7; }
 .proposal-document a { text-underline-offset: 0.2em; }
 .proposal-document a:focus-visible,
 .proposal-section > summary:focus-visible { outline: 2px solid var(--fg-primary); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .proposal-chevron { transition: none; }
+}
+
+/*
+ * Print: the proposal doubles as an official document. Drop site chrome,
+ * force the light palette, and reveal source URLs.
+ */
+@media print {
+  @page { margin: 16mm; }
+
+  html { font-size: 10.5pt; }
+  body { background: #fff !important; }
+  header, footer { display: none !important; }
+
+  .proposal-document {
+    max-width: none;
+    padding: 0;
+    color: #000;
+    --bg-primary: #fff;
+    --bg-secondary: #f5f5f5;
+    --bg-tertiary: #f0f0f0;
+    --fg-primary: #000;
+    --fg-secondary: #1a1a1a;
+    --fg-muted: #444;
+    --fg-subtle: #555;
+    --border-default: #b5b5b5;
+    --border-subtle: #d8d8d8;
+    --border-dotted: #999;
+  }
+
+  .proposal-document a { color: #000; border-bottom: none; }
+  .proposal-document a[href^="http"]:not(.print-plain)::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+  .proposal-document h1,
+  .proposal-document h2,
+  .proposal-document h3 { break-after: avoid; }
+  .proposal-document tr,
+  .proposal-document li,
+  .proposal-document figure { break-inside: avoid; }
+  .proposal-section > summary { list-style: none; }
+  .proposal-chevron { display: none; }
+}

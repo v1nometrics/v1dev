@@ -1,24 +1,35 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { outreachCopy, type OutreachCopy } from "@/components/outreach/outreach-copy";
 import { cn } from "@/lib/utils";
+
+function SectionTitle({ value }: { value: string }) {
+  const [index, ...label] = value.split(" · ");
+
+  return (
+    <>
+      <span className="tabular-nums text-fg-subtle">{index}</span>
+      {label.length > 0 ? <span> · {label.join(" · ")}</span> : null}
+    </>
+  );
+}
 
 function CollapsibleSection({
   title,
   defaultOpen = true,
   children,
 }: {
-  title: ReactNode;
+  title: string;
   defaultOpen?: boolean;
   children: ReactNode;
 }) {
   return (
     <details open={defaultOpen} className="proposal-section mb-8">
-      <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 text-base font-medium text-fg-primary">
+      <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 text-[16px] font-medium text-fg-primary">
         <span className="proposal-chevron text-fg-muted" aria-hidden>›</span>
-        <h2 className="text-base font-medium tracking-normal">{title}</h2>
+        <h2 className="text-[16px] font-medium tracking-normal"><SectionTitle value={title} /></h2>
       </summary>
       <div className="pt-4">{children}</div>
     </details>
@@ -27,7 +38,7 @@ function CollapsibleSection({
 
 function Prose({ children }: { children: ReactNode }) {
   return (
-    <div className="space-y-4 text-base text-fg-secondary leading-7 pl-4 border-l border-dotted border-border-default">
+    <div className="max-w-3xl space-y-4 border-l border-dotted border-border-default pl-4 text-[15px] leading-7 text-fg-secondary">
       {children}
     </div>
   );
@@ -37,46 +48,116 @@ function DataTable({
   headers,
   rows,
   footnote,
+  widths,
+  numericLast = false,
 }: {
   headers: string[];
   rows: string[][];
   footnote?: string;
+  widths?: string[];
+  numericLast?: boolean;
 }) {
+  const lastRow = rows.length - 1;
+
   return (
     <div className="mt-4">
       <div className="hidden sm:block">
-        <table className="w-full text-sm leading-6 text-left border-collapse">
+        <table className="w-full table-fixed border-collapse text-left text-sm leading-6">
+          {widths ? (
+            <colgroup>
+              {widths.map((width, index) => (
+                <col key={index} style={{ width }} />
+              ))}
+            </colgroup>
+          ) : null}
           <thead>
             <tr className="border-b border-dotted border-border-default text-fg-muted">
-              {headers.map((header) => (
-                <th key={header} scope="col" className="py-3 pr-4 font-medium">{header}</th>
+              {headers.map((header, index) => (
+                <th
+                  key={header}
+                  scope="col"
+                  className={cn(
+                    "py-3 pr-4 font-medium",
+                    numericLast && index === headers.length - 1 && "pr-0 text-right",
+                  )}
+                >
+                  {header}
+                </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, i) => (
-              <tr key={i} className="border-b border-dotted border-border-default/60 text-fg-secondary">
-                {row.map((cell, j) => (
-                  <td key={j} className={cn("py-4 pr-4 align-top", j === row.length - 1 && "font-medium text-fg-primary")}>{cell}</td>
+            {rows.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={cn(
+                  "border-b border-dotted border-border-default/60 text-fg-secondary",
+                  rowIndex === lastRow && "bg-bg-secondary/40",
+                )}
+              >
+                {row.map((cell, cellIndex) => (
+                  <td
+                    key={cellIndex}
+                    className={cn(
+                      "py-4 pr-4 align-top whitespace-pre-line",
+                      cellIndex === row.length - 1 && "font-medium text-fg-primary",
+                      numericLast &&
+                        cellIndex === row.length - 1 &&
+                        "whitespace-nowrap pr-0 text-right tabular-nums",
+                    )}
+                  >
+                    {cell}
+                  </td>
                 ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="divide-y divide-dotted divide-border-default border-y border-dotted border-border-default sm:hidden">
-        {rows.map((row, i) => (
-          <dl key={i} className="space-y-3 py-4 text-sm leading-6">
-            {row.map((cell, j) => (
-              <div key={j}>
-                <dt className="text-xs text-fg-muted">{headers[j]}</dt>
-                <dd className={cn("mt-1 break-words text-fg-secondary", (j === 0 || j === row.length - 1) && "font-medium text-fg-primary")}>{cell}</dd>
-              </div>
-            ))}
-          </dl>
-        ))}
+
+      <div className="border-y border-dotted border-border-default sm:hidden">
+        {rows.map((row, rowIndex) => {
+          const [title, ...rest] = row;
+          return (
+            <div
+              key={rowIndex}
+              className={cn(
+                "py-4",
+                rowIndex > 0 && "border-t border-dotted border-border-default",
+                rowIndex === lastRow && "bg-bg-secondary/40",
+              )}
+            >
+              <p className="text-sm font-medium leading-6 text-fg-primary">{title}</p>
+              {rest.length > 0 ? (
+                <dl className="mt-2 space-y-2">
+                  {rest.map((cell, cellIndex) => (
+                    <div
+                      key={cellIndex}
+                      className="grid grid-cols-[minmax(0,7rem)_minmax(0,1fr)] gap-3"
+                    >
+                      <dt className="text-xs leading-6 text-fg-muted">
+                        {headers[cellIndex + 1]}
+                      </dt>
+                      <dd
+                        className={cn(
+                          "break-words whitespace-pre-line text-sm leading-6 text-fg-secondary",
+                          cellIndex === rest.length - 1 && "font-medium text-fg-primary",
+                        )}
+                      >
+                        {cell}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
+            </div>
+          );
+        })}
       </div>
-      {footnote ? <p className="mt-3 text-sm leading-6 text-fg-muted">{footnote}</p> : null}
+
+      {footnote ? (
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-fg-muted">{footnote}</p>
+      ) : null}
     </div>
   );
 }
@@ -91,13 +172,13 @@ function BuildTimeline({ rows, caption }: { rows: OutreachCopy["timeline"]; capt
             <p className="text-xs leading-6 text-fg-muted">{row.period}</p>
             <div>
               <h3 className="font-medium text-fg-primary">{row.name}</h3>
-              <p className="mt-1 text-fg-secondary">{row.note}</p>
-              {row.gate ? <p className="mt-3 border-l-2 border-[var(--fg-primary)] pl-3 text-fg-primary">{row.gate}</p> : null}
+              <p className="mt-1 text-[15px] leading-7 text-fg-secondary">{row.note}</p>
+              {row.gate ? <p className="mt-3 border-l-2 border-[var(--fg-primary)] pl-3 text-[15px] leading-7 text-fg-primary">{row.gate}</p> : null}
             </div>
           </li>
         ))}
       </ol>
-      <figcaption className="mt-3 text-sm leading-6 text-fg-muted">{caption}</figcaption>
+      <figcaption className="mt-3 max-w-3xl text-sm leading-6 text-fg-muted">{caption}</figcaption>
     </figure>
   );
 }
@@ -105,6 +186,20 @@ function BuildTimeline({ rows, caption }: { rows: OutreachCopy["timeline"]; capt
 export function OutreachProposal() {
   const { locale } = useLocale();
   const copy = outreachCopy[locale];
+
+  // Expand every section so a printed or PDF copy is complete.
+  useEffect(() => {
+    const openSections = () => {
+      document
+        .querySelectorAll<HTMLDetailsElement>(".proposal-section")
+        .forEach((section) => {
+          section.open = true;
+        });
+    };
+
+    window.addEventListener("beforeprint", openSections);
+    return () => window.removeEventListener("beforeprint", openSections);
+  }, []);
 
   return (
     <div className="mx-auto proposal-document max-w-4xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
@@ -117,38 +212,49 @@ export function OutreachProposal() {
           ))}
         </div>
         <h1 className="text-3xl sm:text-4xl leading-tight tracking-tight font-medium mb-5">{copy.title}</h1>
-        <p className="text-base text-fg-secondary max-w-2xl leading-7">{copy.lede}</p>
-        <div className="my-6 border-y border-border-default py-5 text-sm leading-6 text-fg-muted">
-          {copy.recommendLabel}
-          <span className="block my-2 text-2xl font-medium tracking-tight text-fg-primary sm:text-3xl">{copy.price}</span>
-          {copy.recommendRest}
-          <p className="mt-3 max-w-2xl text-fg-secondary">{copy.priceAnchor}</p>
+        <p className="text-base text-fg-secondary max-w-3xl leading-7">{copy.lede}</p>
+
+        <div className="mt-7 border border-border-default">
+          <div className="bg-bg-secondary/50 px-4 py-5 sm:px-5 sm:py-6">
+            <p className="text-xs leading-5 text-fg-subtle">{copy.recommendLabel}</p>
+            <p className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="text-[2rem] font-medium leading-none tracking-tight text-fg-primary sm:text-[2.25rem]">
+                {copy.priceValue}
+              </span>
+              <span className="text-sm text-fg-muted">{copy.priceLabel}</span>
+            </p>
+            <p className="mt-3 text-sm leading-6 text-fg-muted">{copy.recommendRest}</p>
+          </div>
+          <div className="border-t border-dotted border-border-default px-4 py-4 sm:px-5">
+            <p className="max-w-3xl text-sm leading-6 text-fg-secondary">{copy.priceAnchor}</p>
+          </div>
+          <dl className="grid border-t border-border-default sm:grid-cols-3">
+            {copy.facts.map((fact) => (
+              <div
+                key={fact.label}
+                className="border-b border-dotted border-border-default px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-l sm:first:border-l-0 sm:px-5"
+              >
+                <dt className="text-xs text-fg-subtle">{fact.label}</dt>
+                <dd className="mt-1 text-sm leading-6 text-fg-primary">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <p className="mt-3 text-sm leading-6 text-fg-muted">
+
+        <p className="mt-4 text-sm leading-6 text-fg-muted">
           {copy.prepared}
           {" · "}
           <a
             href="https://iamhoste.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-fg-primary transition-colors"
+            className="print-plain hover:text-fg-primary transition-colors"
           >
             iamhoste.com
           </a>
           {" · "}
           {copy.separate}
         </p>
-        <dl className="mt-8 grid border border-border-default sm:grid-cols-3">
-          {copy.facts.map((fact) => (
-            <div
-              key={fact.label}
-              className="border-b border-dotted border-border-default px-3 py-3 last:border-b-0 sm:border-b-0 sm:border-l sm:first:border-l-0"
-            >
-              <dt className="text-xs text-fg-subtle">{fact.label}</dt>
-              <dd className="mt-1 text-sm text-fg-primary">{fact.value}</dd>
-            </div>
-          ))}
-        </dl>
       </header>
 
       <CollapsibleSection title={copy.sections.what}>
@@ -166,7 +272,7 @@ export function OutreachProposal() {
           {copy.steps.map((step, index) => (
             <li
               key={step.title}
-              className="flex gap-3 border-b border-dotted border-border-default px-4 py-4 text-base leading-7 last:border-b-0"
+              className="flex gap-3 border-b border-dotted border-border-default px-4 py-4 text-[15px] leading-7 last:border-b-0"
             >
               <span className="w-4 shrink-0 text-fg-subtle">{index + 1}</span>
               <span>
@@ -192,6 +298,8 @@ export function OutreachProposal() {
           headers={copy.buildHeaders}
           rows={copy.buildRows}
           footnote={copy.buildFoot}
+          widths={["auto", "7.5rem"]}
+          numericLast
         />
         <Prose>
           {copy.buildNotes.map((paragraph) => (
@@ -204,11 +312,10 @@ export function OutreachProposal() {
 
       <hr className="separator-dotted" />
 
-      <section id="timeline" aria-labelledby="timeline-heading" className="mb-8 scroll-mt-8">
-        <h2 id="timeline-heading" className="flex min-h-12 items-center text-base font-medium tracking-normal text-fg-primary">{copy.sections.timeline}</h2>
-        <p className="mt-4 text-base leading-7 text-fg-secondary">{copy.timelineIntro}</p>
+      <CollapsibleSection title={copy.sections.timeline}>
+        <p className="max-w-3xl text-[15px] leading-7 text-fg-secondary">{copy.timelineIntro}</p>
         <BuildTimeline rows={copy.timeline} caption={copy.timelineCaption} />
-      </section>
+      </CollapsibleSection>
 
       <hr className="separator-dotted" />
 
@@ -220,6 +327,7 @@ export function OutreachProposal() {
           headers={copy.sourceHeaders}
           rows={copy.sourceRows}
           footnote={copy.sourceFoot}
+          widths={["18%", "36%", "28%", "18%"]}
         />
         <Prose>
           {copy.sourceNotes.map((paragraph) => (
@@ -236,7 +344,13 @@ export function OutreachProposal() {
         <Prose>
           <p>{copy.costIntro}</p>
         </Prose>
-        <DataTable headers={copy.costHeaders} rows={copy.costRows} footnote={copy.costFoot} />
+        <DataTable
+          headers={copy.costHeaders}
+          rows={copy.costRows}
+          footnote={copy.costFoot}
+          widths={["auto", "9.5rem"]}
+          numericLast
+        />
         <Prose>
           {copy.costNotes.map((paragraph) => (
             <p key={paragraph} className="pt-4">

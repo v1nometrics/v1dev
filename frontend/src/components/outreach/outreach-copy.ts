@@ -3,7 +3,8 @@ export type OutreachCopy = {
   title: string;
   lede: string;
   recommendLabel: string;
-  price: string;
+  priceValue: string;
+  priceLabel: string;
   recommendRest: string;
   priceAnchor: string;
   prepared: string;
@@ -56,21 +57,22 @@ const sources = [
   { label: "DeepSeek V4.1 Flash on OpenRouter", href: "https://openrouter.ai/deepseek/deepseek-v4.1-flash-1017" },
 ];
 
-export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
+export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
   en: {
     badges: ["proposal", "hoste", "owner outreach"],
     title: "hoste · owner outreach",
     lede: "A private panel to find rental listings, match property addresses with automated confidence scoring, and look up owner contacts for direct outreach.",
     recommendLabel: "fixed-price proposal",
-    price: "phase 1 · US$ 1,700 one-time",
+    priceValue: "US$ 1,700",
+    priceLabel: "phase 1 · one-time",
     recommendRest: "2–3 weeks · initial validation included · uses Hoste’s existing AirDNA account",
     priceAnchor: "AirDNA quoted US$ 12,000/year for the property-level API alone, before building the panel. Using Hoste’s existing account avoids that additional subscription.",
     prepared: "prepared for Hoste",
     separate: "separate from the listing onboarding delivery",
     facts: [
       { label: "you use", value: "a panel in the browser" },
-      { label: "you pay", value: "US$ 1,700, fixed" },
-      { label: "listings come from", value: "the AirDNA login you have" },
+      { label: "you keep", value: "your existing AirDNA subscription" },
+      { label: "you get", value: "a spreadsheet of addresses and contacts" },
     ],
     sections: {
       what: "1 · what you get",
@@ -115,13 +117,13 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       [
         "Market Data API",
         "city and submarket totals: occupancy, rate, revenue, supply, trends",
-        "US$ 7,000/year · 2,000 calls/mo · US$ 0.50 after",
+        "US$ 7,000/year\n2,000 calls/mo\nUS$ 0.50 after",
         "no individual house",
       ],
       [
         "Property Valuations & Comps",
         "search a market with filters, then each listing: location, attributes, listing info",
-        "US$ 12,000/year · 4,000 calls/mo · US$ 0.50 after",
+        "US$ 12,000/year\n4,000 calls/mo\nUS$ 0.50 after",
         "the tier that fits, and it is too expensive",
       ],
       [
@@ -190,15 +192,16 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     title: "hoste · prospecção de donos",
     lede: "Um painel privado para buscar anúncios, identificar endereços de imóveis com validação automatizada e consultar contatos de proprietários para prospecção direta.",
     recommendLabel: "proposta de preço fechado",
-    price: "fase 1 · US$ 1.700, uma única vez",
+    priceValue: "US$ 1.700",
+    priceLabel: "fase 1 · uma única vez",
     recommendRest: "2–3 semanas · validação inicial incluída · usa a conta AirDNA da Hoste",
     priceAnchor: "A AirDNA cotou US$ 12.000/ano só pela API de imóveis, além da construção do painel. Usar a conta que a Hoste já tem evita essa assinatura adicional.",
     prepared: "preparado para a Hoste",
     separate: "separado da entrega de onboarding de anúncios",
     facts: [
       { label: "o uso", value: "um painel no navegador" },
-      { label: "o preço", value: "US$ 1.700, fechado" },
-      { label: "os anúncios", value: "o login da AirDNA que vocês já têm" },
+      { label: "vocês mantêm", value: "a assinatura AirDNA que já têm" },
+      { label: "o que sai", value: "uma planilha de endereços e contatos" },
     ],
     sections: {
       what: "1 · o que você recebe",
@@ -243,13 +246,13 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       [
         "Market Data API",
         "totais da cidade e do submercado: ocupação, diária, receita, oferta, tendência",
-        "US$ 7.000/ano · 2.000 chamadas/mês · US$ 0,50 depois",
+        "US$ 7.000/ano\n2.000 chamadas/mês\nUS$ 0,50 depois",
         "nenhuma casa individual",
       ],
       [
         "Property Valuations & Comps",
         "busca no mercado com filtros e, em cada anúncio: localização, atributos e dados do listing",
-        "US$ 12.000/ano · 4.000 chamadas/mês · US$ 0,50 depois",
+        "US$ 12.000/ano\n4.000 chamadas/mês\nUS$ 0,50 depois",
         "é o pacote certo, e é caro demais",
       ],
       [
@@ -314,3 +317,24 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     ],
   },
 };
+
+/**
+ * Keeps currency amounts from splitting across lines ("US$" on one line,
+ * the number on the next) by joining them with a non-breaking space.
+ */
+function tightenAmounts<T>(value: T): T {
+  if (typeof value === "string") {
+    return value.replace(/US\$\s/g, "US$\u00A0") as T;
+  }
+  if (Array.isArray(value)) {
+    return value.map(tightenAmounts) as T;
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, tightenAmounts(item)]),
+    ) as T;
+  }
+  return value;
+}
+
+export const outreachCopy = tightenAmounts(outreachCopyBase);
