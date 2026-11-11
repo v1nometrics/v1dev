@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useLocale } from "@/components/providers/locale-provider";
 import { outreachCopy, type OutreachCopy } from "@/components/outreach/outreach-copy";
 import { cn } from "@/lib/utils";
@@ -14,43 +14,20 @@ function CollapsibleSection({
   defaultOpen?: boolean;
   children: ReactNode;
 }) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-
   return (
-    <section className="mb-8">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center gap-2 text-sm font-medium text-fg-muted hover:text-fg-primary transition-colors group cursor-pointer"
-        aria-expanded={isOpen}
-      >
-        <span
-          className={cn(
-            "text-fg-subtle transition-transform duration-200 ease-out",
-            isOpen ? "rotate-90" : "rotate-0"
-          )}
-        >
-          ›
-        </span>
-        <span>{title}</span>
-        <span className="flex-1 border-b border-dotted border-border-default opacity-0 group-hover:opacity-100 transition-opacity duration-200 ml-2" />
-      </button>
-      <div
-        className={cn(
-          "grid transition-all duration-300 ease-out",
-          isOpen
-            ? "grid-rows-[1fr] opacity-100 mt-4"
-            : "grid-rows-[0fr] opacity-0 mt-0"
-        )}
-      >
-        <div className="overflow-hidden">{children}</div>
-      </div>
-    </section>
+    <details open={defaultOpen} className="proposal-section mb-8">
+      <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 text-base font-medium text-fg-primary">
+        <span className="proposal-chevron text-fg-muted" aria-hidden>›</span>
+        <h2 className="text-base font-medium tracking-normal">{title}</h2>
+      </summary>
+      <div className="pt-4">{children}</div>
+    </details>
   );
 }
 
 function Prose({ children }: { children: ReactNode }) {
   return (
-    <div className="space-y-3 text-sm text-fg-secondary leading-relaxed pl-4 border-l border-dotted border-border-default">
+    <div className="space-y-4 text-base text-fg-secondary leading-7 pl-4 border-l border-dotted border-border-default">
       {children}
     </div>
   );
@@ -67,112 +44,56 @@ function DataTable({
 }) {
   return (
     <div className="mt-4">
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs text-left border-collapse">
+      <div className="hidden sm:block">
+        <table className="w-full text-sm leading-6 text-left border-collapse">
           <thead>
-            <tr className="border-b border-dotted border-border-default text-fg-subtle">
+            <tr className="border-b border-dotted border-border-default text-fg-muted">
               {headers.map((header) => (
-                <th key={header} className="py-2 pr-4 font-medium whitespace-nowrap">
-                  {header}
-                </th>
+                <th key={header} scope="col" className="py-3 pr-4 font-medium">{header}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rows.map((row, i) => (
-              <tr
-                key={i}
-                className="border-b border-dotted border-border-default/60 text-fg-secondary"
-              >
+              <tr key={i} className="border-b border-dotted border-border-default/60 text-fg-secondary">
                 {row.map((cell, j) => (
-                  <td
-                    key={j}
-                    className={cn(
-                      "py-2 pr-4 align-top",
-                      j === row.length - 1 && "font-medium text-fg-primary"
-                    )}
-                  >
-                    {cell}
-                  </td>
+                  <td key={j} className={cn("py-4 pr-4 align-top", j === row.length - 1 && "font-medium text-fg-primary")}>{cell}</td>
                 ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {footnote ? <p className="mt-2 text-xs text-fg-subtle">{footnote}</p> : null}
+      <div className="divide-y divide-dotted divide-border-default border-y border-dotted border-border-default sm:hidden">
+        {rows.map((row, i) => (
+          <dl key={i} className="space-y-3 py-4 text-sm leading-6">
+            {row.map((cell, j) => (
+              <div key={j}>
+                <dt className="text-xs text-fg-muted">{headers[j]}</dt>
+                <dd className={cn("mt-1 break-words text-fg-secondary", (j === 0 || j === row.length - 1) && "font-medium text-fg-primary")}>{cell}</dd>
+              </div>
+            ))}
+          </dl>
+        ))}
+      </div>
+      {footnote ? <p className="mt-3 text-sm leading-6 text-fg-muted">{footnote}</p> : null}
     </div>
   );
 }
 
-const WEEKS = ["wk1", "wk2", "wk3"] as const;
-const SPANS = [
-  { start: 0, end: 1 },
-  { start: 1, end: 1.9 },
-  { start: 1.9, end: 2.8 },
-] as const;
-
-function BuildTimeline({
-  rows,
-  caption,
-}: {
-  rows: OutreachCopy["timeline"];
-  caption: string;
-}) {
+function BuildTimeline({ rows, caption }: { rows: OutreachCopy["timeline"]; caption: string }) {
   return (
-    <figure className="mt-4">
-      <div className="border border-border-default">
-        <div className="grid grid-cols-3 border-b border-dotted border-border-default text-[11px] text-fg-subtle">
-          {WEEKS.map((week) => (
-            <div
-              key={week}
-              className="border-l border-dotted border-border-default px-2 py-2 first:border-l-0"
-            >
-              {week}
-            </div>
-          ))}
-        </div>
+    <figure className="my-6">
+      <ol className="grid gap-4 border-y border-dotted border-border-default py-5 sm:grid-cols-3">
         {rows.map((row, index) => (
-          <div
-            key={row.name}
-            className="border-b border-dotted border-border-default px-0 py-3 last:border-b-0"
-          >
-            <div className="mb-2 flex items-baseline justify-between gap-3 px-2 text-xs">
-              <span className="text-fg-primary">{row.name}</span>
-              <span className="shrink-0 text-fg-muted">{row.note}</span>
-            </div>
-            <div className="relative h-5">
-              <div className="pointer-events-none absolute inset-0 grid grid-cols-3" aria-hidden>
-                {WEEKS.map((week) => (
-                  <div
-                    key={week}
-                    className="border-l border-dotted border-border-default first:border-l-0"
-                  />
-                ))}
-              </div>
-              <div
-                className="absolute top-1/2 h-[3px] -translate-y-1/2"
-                style={{
-                  left: `${(SPANS[index].start / WEEKS.length) * 100}%`,
-                  width: `calc(${((SPANS[index].end - SPANS[index].start) / WEEKS.length) * 100}% - 0.55rem)`,
-                  backgroundColor: "var(--fg-primary)",
-                }}
-              />
-              <span
-                className="absolute top-1/2 -translate-y-1/2 text-xs leading-none text-fg-primary"
-                style={{ left: `calc(${(SPANS[index].end / WEEKS.length) * 100}% - 0.55rem)` }}
-                aria-hidden
-              >
-                ●
-              </span>
-            </div>
-          </div>
+          <li key={row.name} className="text-sm leading-6">
+            <span className="text-xs text-fg-muted">0{index + 1}</span>
+            <p className="mt-1 font-medium text-fg-primary">{row.name}</p>
+            <p className="mt-1 text-fg-secondary">{row.note}</p>
+          </li>
         ))}
-      </div>
-      <figcaption className="mt-2 text-xs text-fg-subtle">
-        <span className="mr-1">›</span>
-        {caption}
-      </figcaption>
+      </ol>
+      <figcaption className="mt-3 text-sm leading-6 text-fg-muted">{caption}</figcaption>
     </figure>
   );
 }
@@ -195,7 +116,7 @@ export function OutreachProposal() {
   const copy = outreachCopy[locale];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
+    <div className="mx-auto proposal-document max-w-4xl px-4 py-12 sm:px-6 lg:px-12 lg:py-16">
       <header className="mb-10">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           {copy.badges.map((badge) => (
@@ -204,16 +125,14 @@ export function OutreachProposal() {
             </span>
           ))}
         </div>
-        <h1 className="text-xl font-medium mb-3">{copy.title}</h1>
-        <p className="text-sm text-fg-secondary max-w-2xl leading-relaxed">{copy.lede}</p>
-        <p className="mt-4 text-sm text-fg-muted">
+        <h1 className="text-3xl sm:text-4xl leading-tight tracking-tight font-medium mb-5">{copy.title}</h1>
+        <p className="text-base text-fg-secondary max-w-2xl leading-7">{copy.lede}</p>
+        <div className="my-6 border-y border-border-default py-5 text-sm leading-6 text-fg-muted">
           {copy.recommendLabel}
-          {" · "}
-          <span className="text-fg-primary font-medium">{copy.price}</span>
-          {" · "}
+          <span className="block my-2 text-2xl font-medium tracking-tight text-fg-primary sm:text-3xl">{copy.price}</span>
           {copy.recommendRest}
-        </p>
-        <p className="mt-2 text-xs text-fg-subtle">
+        </div>
+        <p className="mt-3 text-sm leading-6 text-fg-muted">
           {copy.prepared}
           {" · "}
           <a
@@ -255,7 +174,7 @@ export function OutreachProposal() {
           {copy.steps.map((step, index) => (
             <li
               key={step.title}
-              className="flex gap-3 border-b border-dotted border-border-default px-3 py-3 text-xs last:border-b-0"
+              className="flex gap-3 border-b border-dotted border-border-default px-4 py-4 text-base leading-7 last:border-b-0"
             >
               <span className="w-4 shrink-0 text-fg-subtle">{index + 1}</span>
               <span>
@@ -276,6 +195,24 @@ export function OutreachProposal() {
 
       <hr className="separator-dotted" />
 
+      <CollapsibleSection title={copy.sections.build}>
+        <DataTable
+          headers={copy.buildHeaders}
+          rows={copy.buildRows}
+          footnote={copy.buildFoot}
+        />
+        <BuildTimeline rows={copy.timeline} caption={copy.timelineCaption} />
+        <Prose>
+          {copy.buildNotes.map((paragraph) => (
+            <p key={paragraph} className="pt-4">
+              {paragraph}
+            </p>
+          ))}
+        </Prose>
+      </CollapsibleSection>
+
+      <hr className="separator-dotted" />
+
       <CollapsibleSection title={copy.sections.source}>
         <Prose>
           <p>{copy.sourceIntro}</p>
@@ -287,24 +224,6 @@ export function OutreachProposal() {
         />
         <Prose>
           {copy.sourceNotes.map((paragraph) => (
-            <p key={paragraph} className="pt-4">
-              {paragraph}
-            </p>
-          ))}
-        </Prose>
-      </CollapsibleSection>
-
-      <hr className="separator-dotted" />
-
-      <CollapsibleSection title={copy.sections.build}>
-        <DataTable
-          headers={copy.buildHeaders}
-          rows={copy.buildRows}
-          footnote={copy.buildFoot}
-        />
-        <BuildTimeline rows={copy.timeline} caption={copy.timelineCaption} />
-        <Prose>
-          {copy.buildNotes.map((paragraph) => (
             <p key={paragraph} className="pt-4">
               {paragraph}
             </p>
@@ -386,7 +305,7 @@ export function OutreachProposal() {
             </a>
             <span className="text-fg-subtle">|</span>
             <a
-              href="http://wa.me/5581982290877"
+              href="https://wa.me/5581982290877"
               target="_blank"
               rel="noopener noreferrer"
               className="text-fg-primary hover:text-fg-muted transition-colors"

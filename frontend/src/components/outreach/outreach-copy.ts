@@ -66,10 +66,10 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
   en: {
     badges: ["proposal", "hoste", "owner outreach"],
     title: "hoste · owner outreach",
-    lede: "A panel for the outreach Hoste already does by hand. You choose a city and how many leads. The system proposes the house. Someone confirms it when two or three are still possible. Only a confirmed address becomes a spreadsheet row, with the owner's phone and email.",
-    recommendLabel: "recommendation",
+    lede: "A private panel to find rental listings, confirm property addresses, and look up owner contacts. Start with a city and a rating cap; your team reviews uncertain matches.",
+    recommendLabel: "fixed-price proposal",
     price: "phase 1 · US$ 1,700",
-    recommendRest: "fixed · about 3 weeks · the AirDNA account Hoste already pays",
+    recommendRest: "about 3 weeks · initial validation included · uses Hoste’s existing AirDNA account",
     prepared: "prepared for Hoste",
     separate: "separate from the listing onboarding delivery",
     facts: [
@@ -80,8 +80,8 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     sections: {
       what: "1 · what you get",
       path: "2 · the path",
-      source: "3 · where the listings come from",
-      build: "4 · the build",
+      source: "4 · AirDNA: options & recommendation",
+      build: "3 · fixed quote & delivery",
       cost: "5 · cost per lead",
       upkeep: "6 · upkeep",
       scope: "7 · in / out",
@@ -89,9 +89,8 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       sources: "9 · sources",
     },
     what: [
-      "Someone on the team opens a market, keeps listings at 4.8 stars and below, and matches the approximate map pin to a real house by the pool, the roof, and the chairs. The address then goes to a spreadsheet so the owner can be looked up.",
-      "The panel is that path. You set the city and the cap. The system returns a queue. A person confirms the house when two or three candidates remain. Phone and email are looked up only after that yes.",
-      "The team keeps sending the outreach. A wrong house is the expensive mistake, so nothing goes out from a guess.",
+      "Example: find Phoenix rentals rated 4.8 stars or below, identify the property, and export available owner contacts for Hoste’s outreach team.",
+      "The panel brings search, address matching, human review, and contact lookup into one workflow. Uncertain houses stay in a review queue; missing contacts are marked incomplete.",
     ],
     steps: [
       {
@@ -112,11 +111,11 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       },
     ],
     pathNotes: [
-      "Airbnb hides the exact address. The pin can sit hundreds of meters off, which is why the house in your video almost became the neighbor. In Phoenix many houses look alike, and Street View does not show the backyard pool. The system crosses the pin with public parcel maps first. Pool shape, roof, and furniture are checked only when a few houses are still possible.",
-      "A language model does not research the owner. Asked to find the phone, it will invent one. Name, phone, and email come from a property-data vendor, and only after the address is confirmed. A company or a trust often comes back incomplete, and the row says so.",
+      "Airbnb hides the exact address. The pin can sit hundreds of meters off. The system crosses the pin with public parcel maps first; pool shape, roof, and furniture are checked only when a few houses remain.",
+      "Owner names, phones, and emails come from a property-data vendor after address confirmation. AI does not invent contact details; unavailable results are marked incomplete.",
     ],
     sourceIntro:
-      "AirDNA stays the source. Hoste already pays for the account in the video. Their written follow-up names the API that would do this job, and the price does not fit.",
+      "After our AirDNA meeting, the written quote confirmed two API options. Neither is cost-effective for this scope. I recommend testing collection through Hoste’s existing account instead.",
     sourceHeaders: ["path", "what you get", "price they quoted", "fit"],
     sourceRows: [
       [
@@ -139,33 +138,31 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ],
     ],
     sourceFoot:
-      "Written follow-up from AirDNA. Prices are not on their site. They did not name photos in the US$ 12,000 tier. Telling two similar houses apart still needs those photos. The price rules the tier out either way.",
+      "Prices and quotas come from AirDNA’s written follow-up, not its public website. Photo access was not confirmed. Photos are needed to distinguish similar houses.",
     sourceNotes: [
-      "The licence would be Hoste's, with me named as the contractor, and it would cover Hoste only. AirDNA wrote the customer name as Hosty. That has to be corrected before any contract.",
-      "I maintain the connection when AirDNA changes the site. That upkeep is billed at US$ 30/h when it happens. If they block automated use of the login, this route stops and the API is the fallback, at their price.",
-      "A system that collects listings itself from Airbnb, Vrbo, and the other sites is a different project. AirDNA already does that collection. This proposal does not replace them.",
+      "The connector depends on continued access through Hoste’s account. If automated access is blocked, work pauses for review. A paid API would require a separate decision and is not included in this quote.",
     ],
     buildHeaders: ["piece", "amount"],
     buildRows: [
-      ["connection to the AirDNA account Hoste already pays", "US$ 600"],
-      ["address proposal, parcel match, confidence", "US$ 550"],
-      ["confirmation queue, owner lookup, spreadsheet, Phoenix test", "US$ 550"],
+      ["core system: matching engine, confirmation queue, skip-trace, spreadsheet export", "US$ 1,120"],
+      ["AirDNA automated connector (scraper)", "US$ 580"],
       ["phase 1 total", "US$ 1,700"],
     ],
     buildFoot:
-      "Fixed price. It does not go above US$ 1,700. About 3 weeks at 20h/week. The first hours confirm the screens still match your video. A crawl that runs a whole market with nobody starting it is a later phase, quoted after this panel is in use.",
+      "US$ 1,700 total for this scope, including initial validation. About 3 weeks at 20h/week, subject to access and successful tests. Vendor fees and optional maintenance are separate. Any additional scope requires a separate quote.",
     timeline: [
-      { name: "airdna connection", note: "US$ 600" },
-      { name: "address + confidence", note: "US$ 550" },
-      { name: "queue, owner, sheet, test", note: "US$ 550" },
+      { name: "validate first", note: "Phoenix · access, photos & address matching" },
+      { name: "build & connect", note: "Matching, review queue & owner lookup" },
+      { name: "deliver", note: "End-to-end review & spreadsheet export" },
     ],
-    timelineCaption: "phase 1 in order, at 20h/week. the fixed price lands near the end of week 3.",
+    timelineCaption: "The remaining build is confirmed only after validation. If access is blocked or results are insufficient, I report the findings before any change of approach or cost.",
     buildNotes: [
       "Phase 1 is one market at a time, started by a person, with a cap on how many listings come back. Phoenix is the first test, because that is the market in your video and the county publishes parcel maps.",
+      "I have extensive scraping experience, including substantially more challenging sites. The project is technically feasible; the initial tests will validate AirDNA access, photos, and address matching before I confirm the remaining build.",
       "Acceptance is one Phoenix search in the queue, one doubtful house confirmed by a person, one confirmed address that returns an owner or an explicit incomplete, and a spreadsheet. The system does not contact the owner.",
     ],
     costIntro: "The bill follows the lead, not the radius. Hoste pays the vendors directly. There is no markup.",
-    costHeaders: ["step", "when", "published example"],
+    costHeaders: ["step", "when", "unit estimate"],
     costRows: [
       ["parcel map", "every candidate house", "US$ 0 · county open data"],
       ["map lookup", "pin to street", "US$ 0.005 after 10,000 free/month"],
@@ -173,23 +170,23 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ["owner, from address only", "after a person confirms", "US$ 0.04 per hit · misses free"],
     ],
     costFoot:
-      "Map price is Google Geocoding. Owner price is Tracerfy Advanced: address in, contact out, as published. The vendor can change at build time. A monthly skip-trace plan is the wrong shape here. Hoste pays per hit, not a US$ 2,000 block.",
+      "Reference rates: Google Geocoding and Tracerfy Advanced. Photo checks are a planning estimate. Provider coverage, minimum purchase, and final rates will be confirmed during validation.",
     scaleHeaders: ["confirmed leads / mo", "owner lookups if every one hits", "maps + photos", "vendor total"],
     scaleRows: [
-      ["50", "US$ 2", "inside the free map tier", "about US$ 3"],
-      ["200", "US$ 8", "about US$ 2", "about US$ 10"],
-      ["1,000", "US$ 40", "about US$ 8", "about US$ 50"],
+      ["50", "US$ 2", "about US$ 0.34", "about US$ 3"],
+      ["200", "US$ 8", "about US$ 1.34", "about US$ 10"],
+      ["1,000", "US$ 40", "about US$ 6.68", "about US$ 50"],
     ],
     scaleFoot:
-      "Illustration. One in three leads is assumed to need a photo check. The AirDNA login Hoste already pays is not in this table. A person's time confirming doubtful houses costs more than these vendor fees once volume grows.",
+      "Illustration. Assumes one owner lookup per lead, one photo check per three leads, and geocoding within the free tier. Totals are rounded estimates, not measured operating costs. The AirDNA login Hoste already pays is not in this table. A person's time confirming doubtful houses costs more than these vendor fees once volume grows.",
     costNotes: [
-      "The property-level API starts at US$ 1,000 a month before a single extra call. The account Hoste already has, plus a few dollars of lookups, is the lean path.",
+      "The property-level API starts at US$ 1,000/month before a single extra call. The account Hoste already has, plus a few dollars of lookups, is the lean path.",
       "Calls and texts stay with Hoste. When the vendor returns a Do Not Call flag, the row shows it. The system does not dial.",
     ],
     upkeep: [
       {
         title: "when AirDNA changes the site",
-        detail: "US$ 30/h. This connection will break. The listing pipeline does not have this problem.",
+        detail: "US$ 30/h for maintenance as needed. Changes or access restrictions can interrupt collection; repairs are quoted before work.",
       },
       {
         title: "optional reserve",
@@ -197,7 +194,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       },
       {
         title: "hosting",
-        detail: "The same private panel pattern as the listing system. A few dollars a month at this volume, on Hoste's Google once that move is done.",
+        detail: "Budget a few dollars per month at initial volume, separate from lookup fees. The hosting service and actual cost will be confirmed during validation.",
       },
     ],
     inLabel: "in this build",
@@ -216,8 +213,8 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "the AirDNA subscription itself",
     ],
     next: [
-      "Phase 1 is the product: US$ 1,700, and it does not go above that. About 3 weeks, on the AirDNA account Hoste already pays. I start with Phoenix and the 4.8 filter from your video.",
-      "The person who matches houses today stays on the doubtful ones. Everyone else stops scrolling the map.",
+      "Approve this scope and provide access to the Hoste AirDNA account. I’ll run several tests in Phoenix, check listing and photo access, and test address matching before confirming the rest of the build.",
+      "This page is the formal proposal: US$ 1,120 for the core system + US$ 580 for the AirDNA connector = US$ 1,700 fixed. The validation round is included.",
     ],
     nextLabel: "next step",
     email: "email · contato@v1torres.dev",
@@ -231,10 +228,10 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
   "pt-BR": {
     badges: ["proposta", "hoste", "prospecção"],
     title: "hoste · prospecção de donos",
-    lede: "Um painel para a prospecção que a equipe já faz na mão. Você escolhe a cidade e quantos leads quer. O sistema propõe a casa. Alguém confirma quando ainda restam duas ou três. Só o endereço confirmado vira linha de planilha, com telefone e e-mail do dono.",
-    recommendLabel: "recomendação",
+    lede: "Um painel privado para buscar anúncios, confirmar endereços e consultar contatos dos proprietários. Você escolhe a cidade e o teto de nota; sua equipe revisa as correspondências duvidosas.",
+    recommendLabel: "proposta de preço fechado",
     price: "fase 1 · US$ 1.700",
-    recommendRest: "preço fechado · cerca de 3 semanas · a conta AirDNA que a Hoste já paga",
+    recommendRest: "cerca de 3 semanas · validação inicial incluída · usa a conta AirDNA da Hoste",
     prepared: "preparado para a Hoste",
     separate: "separado da entrega de onboarding de anúncios",
     facts: [
@@ -245,8 +242,8 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     sections: {
       what: "1 · o que você recebe",
       path: "2 · o caminho",
-      source: "3 · de onde vêm os anúncios",
-      build: "4 · a construção",
+      source: "4 · AirDNA: opções e recomendação",
+      build: "3 · orçamento e entrega",
       cost: "5 · custo por lead",
       upkeep: "6 · manutenção",
       scope: "7 · entra / não entra",
@@ -254,9 +251,8 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       sources: "9 · fontes",
     },
     what: [
-      "Alguém da equipe abre um mercado, fica com anúncios de 4,8 estrelas ou menos, e compara o ponto aproximado do mapa com a casa real: piscina, telhado e cadeiras. O endereço vai para uma planilha para buscar o contato do dono.",
-      "O painel é esse caminho. Você define a cidade e o teto. O sistema devolve uma fila. Uma pessoa confirma a casa quando sobram duas ou três candidatas. Telefone e e-mail só são buscados depois desse sim.",
-      "Quem fala com o dono continua sendo a equipe. Casa errada é o erro caro, então a prospecção não começa num palpite.",
+      "Exemplo: buscar imóveis de temporada em Phoenix com nota de até 4,8 estrelas, identificar a casa e exportar os contatos disponíveis para a equipe de prospecção da Hoste.",
+      "O painel reúne busca, correspondência de endereços, revisão humana e consulta de contatos. Casas duvidosas ficam na fila de revisão; contatos ausentes são marcados como incompletos.",
     ],
     steps: [
       {
@@ -277,11 +273,11 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       },
     ],
     pathNotes: [
-      "O Airbnb esconde o endereço exato. O ponto pode cair a centenas de metros, e foi por isso que, no vídeo, a casa quase virou a vizinha. Em Phoenix muitas casas se parecem, e o Street View não mostra a piscina do quintal. O sistema cruza o ponto com o mapa público de lotes primeiro. Formato da piscina, telhado e móveis entram só quando ainda restam poucas casas.",
-      "Um modelo de linguagem não pesquisa o dono. Se a tarefa for achar o telefone, ele inventa um. Nome, telefone e e-mail vêm de um fornecedor de dados de imóvel, e só depois do endereço confirmado. Empresa ou trust volta incompleto com frequência, e a linha mostra isso.",
+      "O Airbnb esconde o endereço exato. O ponto pode cair a centenas de metros. O sistema cruza o ponto com o mapa público de lotes primeiro; formato da piscina, telhado e móveis entram só quando restam poucas casas.",
+      "Nome, telefone e e-mail vêm de um fornecedor de dados após a confirmação do endereço. A IA não inventa contatos; resultados indisponíveis são marcados como incompletos.",
     ],
     sourceIntro:
-      "A fonte continua sendo a AirDNA. A Hoste já paga a conta usada no vídeo. A resposta escrita deles diz qual API faria este trabalho, e o preço não cabe.",
+      "Após a reunião com a AirDNA, a cotação por escrito confirmou duas opções de API. Nenhuma compensa para este escopo. Recomendo testar a coleta pela conta que a Hoste já tem.",
     sourceHeaders: ["caminho", "o que entrega", "preço que eles passaram", "serve?"],
     sourceRows: [
       [
@@ -304,33 +300,31 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ],
     ],
     sourceFoot:
-      "Resposta escrita da AirDNA. Os preços não estão no site. Eles não citaram fotos no pacote de US$ 12.000. Separar duas casas parecidas ainda precisa dessas fotos. O preço já elimina o pacote.",
+      "Preços e franquias vêm da cotação escrita da AirDNA, não do site público. O acesso a fotos não foi confirmado. As fotos são necessárias para distinguir casas parecidas.",
     sourceNotes: [
-      "A licença ficaria no nome da Hoste, comigo como contratado da implementação, e só para a Hoste. No e-mail eles escreveram Hosty. Isso precisa ser corrigido antes de qualquer contrato.",
-      "Eu mantenho a conexão quando a AirDNA muda o site. Esse conserto é cobrado a US$ 30/h quando acontece. Se eles bloquearem o uso automático do login, este caminho para e a API volta a ser a alternativa, no preço deles.",
-      "Um sistema nosso que coletasse anúncios direto do Airbnb, da Vrbo e dos outros sites é outro projeto. A AirDNA já faz essa coleta. Esta proposta não a substitui.",
+      "O conector depende da continuidade do acesso pela conta da Hoste. Se a coleta automatizada for bloqueada, o trabalho pausa para revisão. Uma API paga exigiria outra decisão e não está incluída neste orçamento.",
     ],
     buildHeaders: ["parte", "valor"],
     buildRows: [
-      ["conexão com a conta AirDNA que a Hoste já paga", "US$ 600"],
-      ["proposta de endereço, lote e confiança", "US$ 550"],
-      ["fila de confirmação, busca do dono, planilha e teste em Phoenix", "US$ 550"],
+      ["sistema central: motor de correspondência, fila de confirmação, skip-trace, exportação de planilha", "US$ 1.120"],
+      ["conector automatizado da AirDNA (scraper)", "US$ 580"],
       ["total da fase 1", "US$ 1.700"],
     ],
     buildFoot:
-      "Preço fechado. Não passa de US$ 1.700. Cerca de 3 semanas a 20h por semana. As primeiras horas confirmam se as telas ainda batem com o vídeo. Uma varredura que rode o mercado inteiro sem alguém iniciar fica para uma fase seguinte, orçada depois que este painel estiver em uso.",
+      "US$ 1.700 no total deste escopo, incluindo a validação inicial. Cerca de 3 semanas a 20h por semana, condicionado ao acesso e aos testes. Fornecedores e manutenção opcional são cobrados à parte. Escopo adicional exige outro orçamento.",
     timeline: [
-      { name: "conexão airdna", note: "US$ 600" },
-      { name: "endereço + confiança", note: "US$ 550" },
-      { name: "fila, dono, planilha, teste", note: "US$ 550" },
+      { name: "validar primeiro", note: "Phoenix · acesso, fotos e endereços" },
+      { name: "construir e integrar", note: "Correspondência, revisão e busca do dono" },
+      { name: "entregar", note: "Revisão do fluxo completo e planilha" },
     ],
-    timelineCaption: "fase 1 em ordem, a 20h por semana. o preço fechado termina perto do fim da semana 3.",
+    timelineCaption: "O restante da construção só é confirmado após a validação. Se o acesso for bloqueado ou o resultado for insuficiente, apresento os achados antes de qualquer mudança de caminho ou custo.",
     buildNotes: [
       "A fase 1 é um mercado por vez, iniciado por uma pessoa, com teto de anúncios. Phoenix é o primeiro teste, porque é o mercado do vídeo e o condado publica o mapa de lotes.",
+      "Tenho ampla experiência com scraping, inclusive em sites muito mais desafiadores. O projeto é tecnicamente viável; os testes iniciais validarão o acesso à AirDNA, as fotos e a correspondência de endereços antes de eu confirmar o restante da construção.",
       "A entrega aceita é uma busca de Phoenix na fila, uma casa duvidosa confirmada por uma pessoa, um endereço confirmado que volta com o dono ou com um incompleto explícito, e uma planilha. O sistema não fala com o dono.",
     ],
     costIntro: "A conta acompanha o lead, não o raio da busca. A Hoste paga os fornecedores direto. Não há margem em cima.",
-    costHeaders: ["etapa", "quando", "exemplo publicado"],
+    costHeaders: ["etapa", "quando", "estimativa unitária"],
     costRows: [
       ["mapa de lotes", "cada casa candidata", "US$ 0 · dado público do condado"],
       ["consulta de mapa", "ponto para a rua", "US$ 0,005 depois de 10.000 grátis/mês"],
@@ -338,23 +332,23 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ["dono, só com o endereço", "depois que alguém confirma", "US$ 0,04 por acerto · erro não cobra"],
     ],
     costFoot:
-      "O mapa é o Google Geocoding. O dono é o Tracerfy Advanced: entra o endereço, sai o contato, como publicado. O fornecedor pode mudar na construção. Um plano mensal de skip trace não cabe aqui. A Hoste paga por acerto, não um bloco de US$ 2.000.",
+      "Referências: Google Geocoding e Tracerfy Advanced. A checagem de fotos é uma estimativa de planejamento. Cobertura, compra mínima e tarifas finais serão confirmadas na validação.",
     scaleHeaders: ["leads confirmados / mês", "consultas do dono se todas acharem", "mapas + fotos", "total dos fornecedores"],
     scaleRows: [
-      ["50", "US$ 2", "dentro da franquia grátis do mapa", "cerca de US$ 3"],
-      ["200", "US$ 8", "cerca de US$ 2", "cerca de US$ 10"],
-      ["1.000", "US$ 40", "cerca de US$ 8", "cerca de US$ 50"],
+      ["50", "US$ 2", "cerca de US$ 0,34", "cerca de US$ 3"],
+      ["200", "US$ 8", "cerca de US$ 1,34", "cerca de US$ 10"],
+      ["1.000", "US$ 40", "cerca de US$ 6,68", "cerca de US$ 50"],
     ],
     scaleFoot:
-      "Ilustração. Um em cada três leads precisa de checagem de foto. O login da AirDNA que a Hoste já paga não entra nesta tabela. O tempo de uma pessoa confirmando casas duvidosas pesa mais do que essas taxas quando o volume sobe.",
+      "Ilustração. Premissas: uma consulta de proprietário por lead, uma checagem de foto a cada três leads e geocodificação na franquia gratuita. Totais arredondados, não custos operacionais medidos. O login da AirDNA que a Hoste já paga não entra nesta tabela. O tempo de uma pessoa confirmando casas duvidosas pesa mais do que essas taxas quando o volume sobe.",
     costNotes: [
-      "A API no nível do imóvel começa em US$ 1.000 por mês antes de qualquer chamada extra. A conta que a Hoste já tem, mais alguns dólares de consulta, é o caminho enxuto.",
+      "A API no nível do imóvel começa em US$ 1.000/mês antes de qualquer chamada extra. A conta que a Hoste já tem, mais alguns dólares de consulta, é o caminho enxuto.",
       "Ligação e mensagem ficam com a Hoste. Quando o fornecedor devolve um aviso de não perturbe, a linha mostra. O sistema não disca.",
     ],
     upkeep: [
       {
         title: "quando a AirDNA muda o site",
-        detail: "US$ 30/h. Esta conexão vai quebrar. O pipeline de anúncios não tem esse problema.",
+        detail: "US$ 30/h para manutenção quando necessária. Mudanças ou restrições de acesso podem interromper a coleta; os ajustes são orçados antes do trabalho.",
       },
       {
         title: "reserva opcional",
@@ -362,7 +356,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       },
       {
         title: "hospedagem",
-        detail: "O mesmo tipo de painel privado do sistema de anúncios. Alguns dólares por mês neste volume, no Google da Hoste quando a mudança estiver feita.",
+        detail: "Previsão de alguns dólares por mês no volume inicial, além das consultas. O serviço de hospedagem e o custo real serão confirmados na validação.",
       },
     ],
     inLabel: "entra nesta entrega",
@@ -381,8 +375,8 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "a assinatura da AirDNA em si",
     ],
     next: [
-      "A fase 1 é o produto: US$ 1.700, e não passa disso. Cerca de 3 semanas, na conta AirDNA que a Hoste já paga. Começo por Phoenix e pelo filtro de 4,8 do vídeo.",
-      "Quem hoje compara as casas continua nas duvidosas. O resto da equipe para de rolar o mapa.",
+      "Aprove este escopo e disponibilize o acesso à conta AirDNA da Hoste. Farei algumas tentativas em Phoenix, verificando anúncios, fotos e correspondência de endereços antes de confirmar o restante da construção.",
+      "Esta página formaliza a proposta: US$ 1.120 pelo sistema central + US$ 580 pelo conector AirDNA = US$ 1.700 fechado. A rodada de validação está incluída.",
     ],
     nextLabel: "próximo passo",
     email: "email · contato@v1torres.dev",
