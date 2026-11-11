@@ -292,24 +292,24 @@ export function OutreachProposal() {
         <Prose>
           <p>
             AirDNA stays the source. Hoste already pays for the account used in
-            the Loom. The official API does not fit this job at the price they
-            quoted.
+            the Loom. Their sales follow-up confirms which API would do this
+            job, and the price still does not fit.
           </p>
         </Prose>
         <DataTable
           headers={["path", "what you get", "price they quoted", "fit"]}
           rows={[
             [
-              "market data",
-              "city summaries: occupancy, rate, revenue",
+              "Market Data API",
+              "city and submarket totals: occupancy, rate, revenue, supply, trends",
               "US$ 7,000/year · 2,000 calls/mo · US$ 0.50 after",
-              "no photos, no house",
+              "no individual house",
             ],
             [
-              "property level",
-              "individual listings",
+              "Property Valuations & Comps",
+              "search a market with filters, then each listing: location, attributes, listing info",
               "US$ 12,000/year · 4,000 calls/mo · US$ 0.50 after",
-              "too expensive for this volume",
+              "the tier that fits, and it is too expensive",
             ],
             [
               "account Hoste already has",
@@ -318,10 +318,15 @@ export function OutreachProposal() {
               "this proposal",
             ],
           ]}
-          footnote="Prices are what AirDNA quoted on the sales call. They are not published on the site. Photos and the exact-location flag on the US$ 12,000 package were not confirmed, and the price already rules it out."
+          footnote="Written follow-up from AirDNA after the sales call. Prices are not on their site. They did not name photos in the US$ 12,000 tier. Matching two similar houses still needs those photos. The price rules the tier out either way."
         />
         <Prose>
           <p className="pt-4">
+            The licence would be Hoste's, with me named as the contractor, and
+            it would cover Hoste only. AirDNA wrote the customer name as
+            Hosty in that email. That has to be corrected before any contract.
+          </p>
+          <p>
             I maintain the connection when AirDNA changes the site. That upkeep
             is mine, billed at US$ 30/h when it happens. If they block automated
             use of the login, this route stops and the API is the fallback,
