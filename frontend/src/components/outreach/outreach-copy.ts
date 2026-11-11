@@ -5,6 +5,7 @@ export type OutreachCopy = {
   recommendLabel: string;
   price: string;
   recommendRest: string;
+  priceAnchor: string;
   prepared: string;
   separate: string;
   facts: { label: string; value: string }[];
@@ -60,8 +61,9 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     title: "hoste · owner outreach",
     lede: "A private panel to find rental listings, match property addresses with automated confidence scoring, and look up owner contacts for direct outreach.",
     recommendLabel: "fixed-price proposal",
-    price: "phase 1 · US$ 1,700",
+    price: "phase 1 · US$ 1,700 one-time",
     recommendRest: "about 3 weeks · initial validation included · uses Hoste’s existing AirDNA account",
+    priceAnchor: "AirDNA quoted US$ 12,000/year for the property-level API alone, before building the panel. Using Hoste’s existing account avoids that additional subscription.",
     prepared: "prepared for Hoste",
     separate: "separate from the listing onboarding delivery",
     facts: [
@@ -184,8 +186,9 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     title: "hoste · prospecção de donos",
     lede: "Um painel privado para buscar anúncios, identificar endereços de imóveis com validação automatizada e consultar contatos de proprietários para prospecção direta.",
     recommendLabel: "proposta de preço fechado",
-    price: "fase 1 · US$ 1.700",
+    price: "fase 1 · US$ 1.700, uma única vez",
     recommendRest: "cerca de 3 semanas · validação inicial incluída · usa a conta AirDNA da Hoste",
+    priceAnchor: "A AirDNA cotou US$ 12.000/ano só pela API de imóveis, além da construção do painel. Usar a conta que a Hoste já tem evita essa assinatura adicional.",
     prepared: "preparado para a Hoste",
     separate: "separado da entrega de onboarding de anúncios",
     facts: [

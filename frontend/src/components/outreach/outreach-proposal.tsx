@@ -118,6 +118,7 @@ export function OutreachProposal() {
           {copy.recommendLabel}
           <span className="block my-2 text-2xl font-medium tracking-tight text-fg-primary sm:text-3xl">{copy.price}</span>
           {copy.recommendRest}
+          <p className="mt-3 max-w-2xl text-fg-secondary">{copy.priceAnchor}</p>
         </div>
         <p className="mt-3 text-sm leading-6 text-fg-muted">
           {copy.prepared}
