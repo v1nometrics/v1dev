@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "hoste · owner outreach",
     description:
-      "Phase 1 panel for Hoste owner outreach. Uses the AirDNA account already paid for. US$ 2,700.",
+      "Phase 1 panel for Hoste owner outreach. Uses the AirDNA account already paid for. US$ 1,700 fixed.",
     url: "https://v1torres.dev/outreach",
     type: "website",
   },
