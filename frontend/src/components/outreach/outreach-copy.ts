@@ -160,10 +160,10 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ["estimated total", "US$ 25–45"],
     ],
     costFoot:
-      "Planning estimate for 3,000 processed properties. Contact lookup is billed only when valid owner data is retrieved in batch. Excludes the existing AirDNA subscription and minimal hosting.",
+      "Initial planning estimate for 3,000 processed properties, subject to validation during initial Phoenix testing. While final figures will be confirmed in tests, actual costs are expected to stay closely within this controlled range. Contact lookup bills only upon successful match.",
     costNotes: [
       "All models are unified under a single OpenRouter key: free county GIS parcel maps resolve 70–80% of addresses by attributes alone without AI vision. For remaining edge cases, DeepSeek V4.1 Flash parses listing data and routes selected photos to optimal vision models at spot market rates.",
-      "A single OpenRouter account provides unified billing, automatic fallbacks, and zero provider lock-in, keeping AI expenses under US$ 15/month for 3,000 leads. Phoenix tests will benchmark exact batch hit rates and speed.",
+      "A single OpenRouter account provides unified billing, automatic fallbacks, and zero provider lock-in, keeping AI expenses under US$ 15/month for 3,000 leads. Initial tests in Phoenix will validate real-world batch hit rates and calibrate the exact operational margin.",
     ],
     next: [
       "Approve this scope and provide access to the Hoste AirDNA account. I’ll run several tests in Phoenix, check listing and photo access, and test address matching before confirming the rest of the build.",
@@ -284,10 +284,10 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       ["total estimado", "US$ 25–45"],
     ],
     costFoot:
-      "Estimativa para 3.000 imóveis processados. A consulta de contatos em lote fatura apenas sobre os proprietários localizados com sucesso. Não inclui a assinatura AirDNA existente nem hospedagem mínima.",
+      "Estimativa inicial para 3.000 imóveis processados, sujeita aos testes de validação em Phoenix. Embora o valor final vá ser aferido nos testes, a expectativa técnica é que o custo real não destoe dessa margem controlada. A consulta de contatos em lote fatura apenas no sucesso.",
     costNotes: [
       "Todos os modelos ficam unificados sob uma única chave do OpenRouter: os mapas públicos do condado resolvem de 70% a 80% dos endereços apenas por atributos (área, cômodos, lote), sem precisar de IA de visão. Para os casos limítrofes, o DeepSeek V4.1 Flash estrutura os dados e roteia as fotos selecionadas para os melhores modelos de visão a preços spot de mercado.",
-      "Uma única conta no OpenRouter oferece faturamento unificado, fallback automático e zero dependência de um só provedor, mantendo a despesa de IA abaixo de US$ 15/mês para 3.000 leads. Os testes em Phoenix calibrarão as taxas de acerto e a velocidade real do lote.",
+      "Uma única conta no OpenRouter oferece faturamento unificado, fallback automático e zero dependência de um só provedor, mantendo a despesa de IA abaixo de US$ 15/mês para 3.000 leads. Os testes iniciais em Phoenix validarão as taxas de acerto e calibrarão a margem operacional definitiva.",
     ],
     next: [
       "Aprove este escopo e disponibilize o acesso à conta AirDNA da Hoste. Farei algumas tentativas em Phoenix, verificando anúncios, fotos e correspondência de endereços antes de confirmar o restante da construção.",
