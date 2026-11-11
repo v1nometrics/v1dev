@@ -21,8 +21,8 @@ export async function generateMetadata({
   return {
     title: portuguese ? "hoste · prospecção de donos" : "hoste · owner outreach",
     description: portuguese
-      ? "Proposta para a Hoste: um painel que transforma uma busca na AirDNA em endereços confirmados e contato dos donos."
-      : "Proposal for Hoste: a panel that turns an AirDNA market search into confirmed addresses and owner contacts.",
+      ? "Proposta para a Hoste: um painel privado que cruza anúncios da AirDNA com endereços e exporta os contatos disponíveis."
+      : "Proposal for Hoste: a private panel that matches AirDNA listings to addresses and exports available owner contacts.",
     robots,
     openGraph: {
       title: portuguese ? "hoste · prospecção de donos" : "hoste · owner outreach",

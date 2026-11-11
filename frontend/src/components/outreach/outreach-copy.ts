@@ -91,7 +91,7 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     steps: [
       {
         title: "search",
-        detail: "City, a ceiling of 4.8 stars, and target volume. The system ingests listings and staging data automatically.",
+        detail: "City, a ceiling of 4.8 stars, and target volume. The system collects the listings and the on-screen fields automatically.",
       },
       {
         title: "address",
@@ -150,9 +150,9 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     timeline: [
       { period: "week 1 · first days", name: "test scraping", note: "Use Hoste’s existing AirDNA account to test listing extraction and photo availability on a small Phoenix sample." },
       { period: "week 1 · approval gate", name: "review & approve the sample", note: "Share the extraction results and limitations with Hoste before committing to the remaining build.", gate: "The pipeline build starts only after scraping validation is approved." },
-      { period: "weeks 1–2", name: "build the pipeline", note: "Connect the private panel, parcel-data matching, confidence thresholds, owner-contact lookup, and spreadsheet export." },
-      { period: "week 2", name: "test end to end", note: "Run a complete Phoenix batch. Check address matches, available contacts, incomplete records, exports, and actual provider costs." },
-      { period: "weeks 2–3", name: "refine & hand over", note: "Resolve issues found during testing, validate the final batch with Hoste, and deliver setup guidance and team training. Week 3 allows for adjustments and retesting." },
+      { period: "after approval", name: "build the pipeline", note: "Connect the private panel, parcel-data matching, confidence thresholds, owner-contact lookup, and spreadsheet export." },
+      { period: "after the build", name: "test end to end", note: "Run a complete Phoenix batch. Check address matches, available contacts, incomplete records, exports, and actual provider costs." },
+      { period: "handover · week 3 buffer", name: "refine & hand over", note: "Resolve issues found during testing, validate the final batch with Hoste, and deliver setup guidance and team training." },
     ],
     timelineCaption: "Target: 2–3 weeks from the green light and receipt of the required access. Timing is indicative and depends on validation and feedback. If scraping is blocked or results are insufficient, we pause and review the findings together before changing the approach, timeline, or cost.",
     buildNotes: [
@@ -199,9 +199,9 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     prepared: "preparado para a Hoste",
     separate: "separado da entrega de onboarding de anúncios",
     facts: [
-      { label: "o uso", value: "um painel no navegador" },
+      { label: "vocês usam", value: "um painel no navegador" },
       { label: "vocês mantêm", value: "a assinatura AirDNA que já têm" },
-      { label: "o que sai", value: "uma planilha de endereços e contatos" },
+      { label: "vocês recebem", value: "uma planilha de endereços e contatos" },
     ],
     sections: {
       what: "1 · o que você recebe",
@@ -220,7 +220,7 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     steps: [
       {
         title: "busca",
-        detail: "Cidade, teto de 4,8 estrelas e volume desejado. O sistema processa os anúncios e os dados do mercado automaticamente.",
+        detail: "Cidade, teto de 4,8 estrelas e volume desejado. O sistema coleta os anúncios e os campos da tela automaticamente.",
       },
       {
         title: "endereço",
@@ -279,13 +279,13 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
     timeline: [
       { period: "semana 1 · primeiros dias", name: "testar o scraping", note: "Usar a conta AirDNA que a Hoste já tem para testar a extração de anúncios e a disponibilidade de fotos em uma pequena amostra de Phoenix." },
       { period: "semana 1 · marco de aprovação", name: "apresentar e aprovar a amostra", note: "Compartilhar com a Hoste os resultados e as limitações da coleta antes de confirmar o restante da construção.", gate: "A construção do pipeline só começa após a aprovação da validação do scraping." },
-      { period: "semanas 1–2", name: "construir o pipeline", note: "Integrar painel privado, cruzamento com lotes públicos, limiares de confiança, busca de contatos dos proprietários e exportação em planilha." },
-      { period: "semana 2", name: "testar de ponta a ponta", note: "Processar um lote completo em Phoenix. Conferir endereços, contatos disponíveis, registros incompletos, exportação e custos reais dos fornecedores." },
-      { period: "semanas 2–3", name: "ajustar e entregar", note: "Corrigir os pontos identificados nos testes, validar o lote final com a Hoste e entregar orientação de configuração e treinamento. A terceira semana acomoda ajustes e novos testes." },
+      { period: "depois da aprovação", name: "construir o pipeline", note: "Integrar painel privado, cruzamento com lotes públicos, limiares de confiança, busca de contatos dos proprietários e exportação em planilha." },
+      { period: "depois da construção", name: "testar de ponta a ponta", note: "Processar um lote completo em Phoenix. Conferir endereços, contatos disponíveis, registros incompletos, exportação e custos reais dos fornecedores." },
+      { period: "entrega · folga na semana 3", name: "ajustar e entregar", note: "Corrigir os pontos identificados nos testes, validar o lote final com a Hoste e entregar orientação de configuração e treinamento." },
     ],
     timelineCaption: "Previsão: 2–3 semanas a partir do sinal verde e do recebimento dos acessos necessários. As janelas são indicativas e dependem da validação e dos retornos da equipe. Se a coleta for bloqueada ou o resultado for insuficiente, pausamos para avaliar os achados juntos antes de mudar o caminho, o prazo ou o custo.",
     buildNotes: [
-      "A fase 1 é um mercado por vez, sob demanda, com teto de anúncios. Phoenix é o primeiro mercado de teste, aproveitando os mapas de lotes públicos do condado.",
+      "A fase 1 é um mercado por vez, sob demanda, com teto de anúncios. Phoenix é o primeiro teste, porque é o mercado do vídeo e o condado publica o mapa de lotes.",
       "A validação inicial verifica a extração de anúncios, a disponibilidade de fotos e uma amostra de correspondências de endereços. O restante da construção só avança após a análise desses resultados com a Hoste; acesso e desempenho da identificação não são garantidos antes dos testes.",
       "A entrega aceita compreende um lote completo automatizado em Phoenix: correspondência de endereços com pontuação de confiança e validação de limiares, retorno dos contatos disponíveis dos proprietários e exportação em planilha. O sistema não contata o proprietário.",
     ],

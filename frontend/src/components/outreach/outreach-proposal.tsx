@@ -167,7 +167,7 @@ function BuildTimeline({ rows, caption }: { rows: OutreachCopy["timeline"]; capt
     <figure className="my-6">
       <ol className="ml-3 border-l border-dotted border-border-default">
         {rows.map((row, index) => (
-          <li key={row.name} className="relative pb-7 pl-7 text-sm leading-6 last:pb-0 sm:grid sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-5">
+          <li key={row.name} className="relative pb-7 pl-7 text-sm leading-6 last:pb-0 sm:grid sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-5">
             <span aria-hidden="true" className="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center border border-border-default bg-[var(--bg-primary)] text-xs text-fg-primary">{index + 1}</span>
             <p className="text-xs leading-6 text-fg-muted">{row.period}</p>
             <div>
