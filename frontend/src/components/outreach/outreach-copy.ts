@@ -160,12 +160,12 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
       "Initial validation checks listing extraction, photo availability, and a sample of address matches. We proceed with the remaining build only after reviewing those results with Hoste; access and matching performance are not guaranteed before testing.",
       "Acceptance is one complete automated Phoenix batch: address matching across confidence thresholds, retrieval of available owner contacts, and structured spreadsheet export. The system does not contact the owner.",
     ],
-    costIntro: "For planning, allow US$ 170–230/month in AI and owner-contact fees for 3,000 properties processed, assuming 3,000 successful address-only contact lookups. This is a provisional usage budget, not a fixed monthly fee or a guarantee of 3,000 usable leads. Hoste pays providers directly, with no markup.",
+    costIntro: "For planning, allow US$ 167–206/month in AI and owner-contact fees for 3,000 properties processed, assuming 3,000 successful address-only contact lookups. This is a provisional usage budget, not a fixed monthly fee or a guarantee of 3,000 usable leads. Hoste pays providers directly, with no markup.",
     costHeaders: ["item", "monthly estimate"],
     costRows: [
-      ["AI allowance · DeepSeek V4.1 Flash via OpenRouter + vision checks", "US$ 50–110"],
+      ["AI allowance · DeepSeek V4.1 Flash via OpenRouter + vision checks", "US$ 47–86"],
       ["owner contacts · Tracerfy Advanced · 3,000 successful results × US$ 0.04", "US$ 120"],
-      ["estimated vendor usage total", "US$ 170–230"],
+      ["estimated vendor usage total", "US$ 167–206"],
     ],
     costFoot:
       "Initial estimate to be recalibrated using the Phoenix pilot. The AI allowance assumes 1,500–3,000 visual checks/month after parcel filtering; this workload has not been measured. More candidates, retries, or properties processed can increase costs. Contact-lookup misses are free; successful results do not guarantee usable contacts for every property.",
@@ -289,12 +289,12 @@ export const outreachCopyBase: Record<"en" | "pt-BR", OutreachCopy> = {
       "A validação inicial verifica a extração de anúncios, a disponibilidade de fotos e uma amostra de correspondências de endereços. O restante da construção só avança após a análise desses resultados com a Hoste; acesso e desempenho da identificação não são garantidos antes dos testes.",
       "A entrega aceita compreende um lote completo automatizado em Phoenix: correspondência de endereços com pontuação de confiança e validação de limiares, retorno dos contatos disponíveis dos proprietários e exportação em planilha. O sistema não contata o proprietário.",
     ],
-    costIntro: "Para planejamento, reserve US$ 170–230/mês em IA e consulta de contatos para 3.000 imóveis processados, considerando 3.000 consultas por endereço com retorno. É uma previsão provisória de consumo, não uma mensalidade fixa nem garantia de 3.000 leads utilizáveis. A Hoste paga os fornecedores diretamente, sem margem adicional.",
+    costIntro: "Para planejamento, reserve US$ 167–206/mês em IA e consulta de contatos para 3.000 imóveis processados, considerando 3.000 consultas por endereço com retorno. É uma previsão provisória de consumo, não uma mensalidade fixa nem garantia de 3.000 leads utilizáveis. A Hoste paga os fornecedores diretamente, sem margem adicional.",
     costHeaders: ["item", "estimativa mensal"],
     costRows: [
-      ["reserva para IA · DeepSeek V4.1 Flash via OpenRouter + verificações visuais", "US$ 50–110"],
+      ["reserva para IA · DeepSeek V4.1 Flash via OpenRouter + verificações visuais", "US$ 47–86"],
       ["contatos dos donos · Tracerfy Advanced · 3.000 retornos × US$ 0,04", "US$ 120"],
-      ["total estimado de consumo dos fornecedores", "US$ 170–230"],
+      ["total estimado de consumo dos fornecedores", "US$ 167–206"],
     ],
     costFoot:
       "Estimativa inicial a recalibrar no piloto de Phoenix. A reserva de IA considera 1.500–3.000 verificações visuais/mês após a filtragem de lotes; essa carga ainda não foi medida. Mais candidatos, tentativas ou imóveis processados podem elevar o custo. Consultas de contatos sem retorno não são cobradas; retornos não garantem contatos utilizáveis para todos os imóveis.",
