@@ -1,26 +1,39 @@
 import type { Metadata } from "next";
 import { OutreachProposal } from "@/components/outreach/outreach-proposal";
 
-export const metadata: Metadata = {
-  title: "hoste · owner outreach",
-  description:
-    "Proposal for Hoste: a panel that turns an AirDNA market search into confirmed addresses and owner contacts.",
-  robots: {
+const robots: Metadata["robots"] = {
+  index: false,
+  follow: false,
+  googleBot: {
     index: false,
     follow: false,
-    googleBot: {
-      index: false,
-      follow: false,
-    },
-  },
-  openGraph: {
-    title: "hoste · owner outreach",
-    description:
-      "Phase 1 panel for Hoste owner outreach. Uses the AirDNA account already paid for. US$ 1,700 fixed.",
-    url: "https://v1torres.dev/outreach",
-    type: "website",
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const portuguese = locale === "pt-BR";
+
+  return {
+    title: portuguese ? "hoste · prospecção de donos" : "hoste · owner outreach",
+    description: portuguese
+      ? "Proposta para a Hoste: um painel que transforma uma busca na AirDNA em endereços confirmados e contato dos donos."
+      : "Proposal for Hoste: a panel that turns an AirDNA market search into confirmed addresses and owner contacts.",
+    robots,
+    openGraph: {
+      title: portuguese ? "hoste · prospecção de donos" : "hoste · owner outreach",
+      description: portuguese
+        ? "Fase 1 da prospecção de donos da Hoste. Usa a conta AirDNA já paga. US$ 1.700 fechado."
+        : "Phase 1 panel for Hoste owner outreach. Uses the AirDNA account already paid for. US$ 1,700 fixed.",
+      url: portuguese ? "https://v1torres.dev/outreach" : "https://v1torres.dev/en/outreach",
+      type: "website",
+    },
+  };
+}
 
 export default function OutreachPage() {
   return <OutreachProposal />;
