@@ -103,19 +103,19 @@ function DataTable({
   );
 }
 
-const WEEKS = ["wk1", "wk2", "wk3", "wk4", "wk5"] as const;
+const WEEKS = ["wk1", "wk2", "wk3"] as const;
 
 const BUILD_ROWS = [
-  { name: "airdna connection", start: 0, end: 1.5, note: "30h" },
-  { name: "address + confidence", start: 1.5, end: 2.9, note: "28h" },
-  { name: "queue, owner, sheet, test", start: 2.9, end: 4.5, note: "32h" },
+  { name: "airdna connection", start: 0, end: 1, note: "US$ 600" },
+  { name: "address + confidence", start: 1, end: 1.9, note: "US$ 550" },
+  { name: "queue, owner, sheet, test", start: 1.9, end: 2.8, note: "US$ 550" },
 ] as const;
 
 function BuildTimeline() {
   return (
     <figure className="mt-4">
       <div className="border border-border-default">
-        <div className="grid grid-cols-5 border-b border-dotted border-border-default text-[11px] text-fg-subtle">
+        <div className="grid grid-cols-3 border-b border-dotted border-border-default text-[11px] text-fg-subtle">
           {WEEKS.map((week) => (
             <div
               key={week}
@@ -135,7 +135,7 @@ function BuildTimeline() {
               <span className="shrink-0 text-fg-muted">{row.note}</span>
             </div>
             <div className="relative h-5">
-              <div className="pointer-events-none absolute inset-0 grid grid-cols-5" aria-hidden>
+              <div className="pointer-events-none absolute inset-0 grid grid-cols-3" aria-hidden>
                 {WEEKS.map((week) => (
                   <div
                     key={week}
@@ -164,7 +164,7 @@ function BuildTimeline() {
       </div>
       <figcaption className="mt-2 text-xs text-fg-subtle">
         <span className="mr-1">›</span>
-        phase 1 in order, at 20h/week. 90 hours lands in the middle of week 5.
+        phase 1 in order, at 20h/week. the fixed price lands near the end of week 3.
       </figcaption>
     </figure>
   );
@@ -210,8 +210,8 @@ export function OutreachProposal() {
         </p>
         <p className="mt-4 text-sm text-fg-muted">
           recommendation ·{" "}
-          <span className="text-fg-primary font-medium">phase 1 · US$ 2,700</span>
-          {" · "}90h at US$ 30/h · about 5 weeks · uses the AirDNA account Hoste already pays
+          <span className="text-fg-primary font-medium">phase 1 · US$ 1,700</span>
+          {" · "}fixed, it does not go above this · about 3 weeks · uses the AirDNA account Hoste already pays
         </p>
         <p className="mt-2 text-xs text-fg-subtle">
           prepared for Hoste ·{" "}
@@ -344,14 +344,14 @@ export function OutreachProposal() {
 
       <CollapsibleSection title="4 · what I build">
         <DataTable
-          headers={["piece", "hours", "amount"]}
+          headers={["piece", "amount"]}
           rows={[
-            ["connection to the AirDNA account Hoste already pays", "30", "US$ 900"],
-            ["address proposal, parcel match, confidence", "28", "US$ 840"],
-            ["confirmation queue, owner lookup, spreadsheet, Phoenix test", "32", "US$ 960"],
-            ["phase 1 total", "90", "US$ 2,700"],
+            ["connection to the AirDNA account Hoste already pays", "US$ 600"],
+            ["address proposal, parcel match, confidence", "US$ 550"],
+            ["confirmation queue, owner lookup, spreadsheet, Phoenix test", "US$ 550"],
+            ["phase 1 total", "US$ 1,700"],
           ]}
-          footnote="US$ 30/h. About 5 weeks at 20h/week. The first hours confirm the screens still match the Loom. A full unattended crawl of a market is a later phase, quoted after this panel is in use."
+          footnote="Fixed price. It does not go above US$ 1,700. About 3 weeks at 20h/week. The first hours confirm the screens still match the Loom. A full unattended crawl of a market is a later phase, quoted after this panel is in use."
         />
         <BuildTimeline />
         <Prose>
@@ -498,7 +498,7 @@ export function OutreachProposal() {
       <CollapsibleSection title="8 · next step">
         <Prose>
           <p>
-            Phase 1 is the product: US$ 2,700, about 5 weeks, on the AirDNA
+            Phase 1 is the product: US$ 1,700, and it does not go above that. About 3 weeks, on the AirDNA
             account Hoste already pays. I start with Phoenix and the 4.8 filter
             from the Loom.
           </p>
