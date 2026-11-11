@@ -163,7 +163,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     costFoot:
       "Planning estimate for 3,000 processed properties, not a guarantee of 3,000 reachable owners. Contact lookup is billed only when data is found; coverage varies. Excludes the existing AirDNA subscription and hosting.",
     costNotes: [
-      "The strategy pairs DeepSeek-V3 for high-throughput, low-cost text and data parsing with OpenAI’s GPT-4o / GPT-4o mini for vision and photo comparison. We filter candidate parcels with public GIS data first, so the vision model only analyzes 1–2 key photos on final candidate houses, keeping API spend minimal.",
+      "The strategy pairs DeepSeek V4.1 Flash for high-speed, cost-efficient data parsing and attribute extraction with OpenAI’s GPT-4o / GPT-4o mini for vision and photo comparison. We filter candidate parcels with public GIS data first, so the vision model only analyzes 1–2 key photos on final candidate houses, keeping API spend minimal.",
       "Assumes 1,500–3,000 targeted visual comparisons/month, public parcel records, and geocoding within the available free tier, with a retry margin. Phoenix tests will benchmark accuracy and verify exact per-lead API costs.",
     ],
     next: [
@@ -288,7 +288,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
     costFoot:
       "Estimativa para 3.000 imóveis processados, sem garantia de 3.000 donos contatáveis. A consulta só cobra quando encontra dados; a cobertura varia. Não inclui a assinatura AirDNA existente nem hospedagem.",
     costNotes: [
-      "A estratégia combina o DeepSeek-V3 para estruturação e validação de dados em escala com custo irrisório, e o GPT-4o / GPT-4o mini da OpenAI para a leitura e comparação visual de fotos. Filtramos as opções por mapas públicos de lotes primeiro, de modo que o modelo de visão só analisa 1–2 fotos-chave das poucas casas finalistas, mantendo o gasto com API no mínimo.",
+      "A estratégia combina o DeepSeek V4.1 Flash para estruturação e validação ágil de dados com custo irrisório, e o GPT-4o / GPT-4o mini da OpenAI para a leitura e comparação visual de fotos. Filtramos as opções por mapas públicos de lotes primeiro, de modo que o modelo de visão só analisa 1–2 fotos-chave das poucas casas finalistas, mantendo o gasto com API no mínimo.",
       "Premissas: 1.500–3.000 comparações visuais/mês, lotes públicos e geocodificação dentro da franquia gratuita disponível, com margem para novas tentativas. Os testes em Phoenix validarão a precisão dos modelos e o custo por lead gerado.",
     ],
     next: [
