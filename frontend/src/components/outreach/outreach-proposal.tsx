@@ -98,19 +98,6 @@ function BuildTimeline({ rows, caption }: { rows: OutreachCopy["timeline"]; capt
   );
 }
 
-function BulletList({ items }: { items: string[] }) {
-  return (
-    <ul className="space-y-1">
-      {items.map((item) => (
-        <li key={item} className="flex gap-2">
-          <span className="text-fg-subtle shrink-0">-</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export function OutreachProposal() {
   const { locale } = useLocale();
   const copy = outreachCopy[locale];
@@ -238,51 +225,12 @@ export function OutreachProposal() {
           <p>{copy.costIntro}</p>
         </Prose>
         <DataTable headers={copy.costHeaders} rows={copy.costRows} footnote={copy.costFoot} />
-        <DataTable
-          headers={copy.scaleHeaders}
-          rows={copy.scaleRows}
-          footnote={copy.scaleFoot}
-        />
         <Prose>
           {copy.costNotes.map((paragraph) => (
             <p key={paragraph} className="pt-4">
               {paragraph}
             </p>
           ))}
-        </Prose>
-      </CollapsibleSection>
-
-      <hr className="separator-dotted" />
-
-      <CollapsibleSection title={copy.sections.upkeep}>
-        <Prose>
-          <ul className="space-y-1">
-            {copy.upkeep.map((item) => (
-              <li key={item.title} className="flex gap-2">
-                <span className="text-fg-subtle shrink-0">-</span>
-                <span>
-                  <span className="text-fg-primary">{item.title}</span>
-                  {" · "}
-                  {item.detail}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </Prose>
-      </CollapsibleSection>
-
-      <hr className="separator-dotted" />
-
-      <CollapsibleSection title={copy.sections.scope}>
-        <Prose>
-          <p>
-            <span className="text-fg-primary font-medium">{copy.inLabel}</span>
-          </p>
-          <BulletList items={copy.inItems} />
-          <p className="pt-2">
-            <span className="text-fg-primary font-medium">{copy.outLabel}</span>
-          </p>
-          <BulletList items={copy.outItems} />
         </Prose>
       </CollapsibleSection>
 
