@@ -51,8 +51,7 @@ const sources = [
     href: "https://developers.google.com/maps/billing-and-pricing/pricing",
   },
   { label: "Tracerfy", href: "https://www.tracerfy.com/pricing" },
-  { label: "DeepSeek API pricing", href: "https://api-docs.deepseek.com/quick_start/pricing/" },
-  { label: "OpenAI API pricing · vision budget reference", href: "https://developers.openai.com/api/docs/pricing" },
+  { label: "OpenRouter API pricing", href: "https://openrouter.ai/models" },
 ];
 
 export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
@@ -153,18 +152,18 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "I have extensive scraping experience, including substantially more challenging sites. The project is technically feasible; the initial tests will validate AirDNA access, photos, and address matching before I confirm the remaining build.",
       "Acceptance is one complete automated Phoenix batch: address matching across confidence thresholds, retrieval of available owner contacts, and structured spreadsheet export. The system does not contact the owner.",
     ],
-    costIntro: "For the target of 3,000 leads per month, budget approximately US$ 170–230 in AI and contact lookup fees — around US$ 0.06–0.08 per lead. Hoste pays the providers directly, with no markup.",
+    costIntro: "By routing AI through OpenRouter in serialized batches and using public county GIS pre-filtering, 3,000 leads per month require only about US$ 25–45 in total operational fees — roughly US$ 0.01 per lead. Hoste pays providers directly with no markup.",
     costHeaders: ["item", "monthly estimate"],
     costRows: [
-      ["AI processing + photo matching", "US$ 50–110"],
-      ["owner contacts · 3,000 successful lookups × US$ 0.04", "US$ 120"],
-      ["estimated total", "US$ 170–230"],
+      ["AI processing via OpenRouter (DeepSeek V4.1 Flash + batch vision)", "US$ 5–15"],
+      ["owner contacts · bulk batch skip-tracing (success-only)", "US$ 20–30"],
+      ["estimated total", "US$ 25–45"],
     ],
     costFoot:
-      "Planning estimate for 3,000 processed properties, not a guarantee of 3,000 reachable owners. Contact lookup is billed only when data is found; coverage varies. Excludes the existing AirDNA subscription and hosting.",
+      "Planning estimate for 3,000 processed properties. Contact lookup is billed only when valid owner data is retrieved in batch. Excludes the existing AirDNA subscription and minimal hosting.",
     costNotes: [
-      "The strategy pairs DeepSeek V4.1 Flash for high-speed, cost-efficient data parsing and attribute extraction with OpenAI’s GPT-4o / GPT-4o mini for vision and photo comparison. We filter candidate parcels with public GIS data first, so the vision model only analyzes 1–2 key photos on final candidate houses, keeping API spend minimal.",
-      "Assumes 1,500–3,000 targeted visual comparisons/month, public parcel records, and geocoding within the available free tier, with a retry margin. Phoenix tests will benchmark accuracy and verify exact per-lead API costs.",
+      "All models are unified under a single OpenRouter key: free county GIS parcel maps resolve 70–80% of addresses by attributes alone without AI vision. For remaining edge cases, DeepSeek V4.1 Flash parses listing data and routes selected photos to optimal vision models at spot market rates.",
+      "A single OpenRouter account provides unified billing, automatic fallbacks, and zero provider lock-in, keeping AI expenses under US$ 15/month for 3,000 leads. Phoenix tests will benchmark exact batch hit rates and speed.",
     ],
     next: [
       "Approve this scope and provide access to the Hoste AirDNA account. I’ll run several tests in Phoenix, check listing and photo access, and test address matching before confirming the rest of the build.",
@@ -177,8 +176,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       { label: "AirDNA contact", href: sources[1].href },
       { label: "Google Geocoding pricing", href: sources[2].href },
       { label: "Tracerfy skip trace pricing", href: sources[3].href },
-      { label: "DeepSeek API pricing", href: sources[4].href },
-      { label: "OpenAI API pricing · vision budget reference", href: sources[5].href },
+      { label: "OpenRouter model rates & routing", href: sources[4].href },
     ],
   },
   "pt-BR": {
@@ -278,18 +276,18 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       "Tenho ampla experiência com scraping, inclusive em sites muito mais desafiadores. O projeto é tecnicamente viável; os testes iniciais validarão o acesso à AirDNA, as fotos e a correspondência de endereços antes de eu confirmar o restante da construção.",
       "A entrega aceita compreende um lote completo automatizado em Phoenix: correspondência de endereços com pontuação de confiança e validação de limiares, retorno dos contatos disponíveis dos proprietários e exportação em planilha. O sistema não contata o proprietário.",
     ],
-    costIntro: "Para a meta de 3.000 leads por mês, preveja cerca de US$ 170–230 em IA e busca de contatos — aproximadamente US$ 0,06–0,08 por lead. A Hoste paga os fornecedores diretamente, sem margem adicional.",
+    costIntro: "Com IA unificada via OpenRouter em lotes serializados e pré-filtragem por mapas públicos de lotes (GIS), processar 3.000 leads por mês custa apenas cerca de US$ 25–45 no total operacional — cerca de US$ 0,01 por lead. A Hoste paga os fornecedores diretamente, sem intermediários.",
     costHeaders: ["item", "estimativa mensal"],
     costRows: [
-      ["processamento com IA + comparação de fotos", "US$ 50–110"],
-      ["contatos dos donos · 3.000 consultas com resultado × US$ 0,04", "US$ 120"],
-      ["total estimado", "US$ 170–230"],
+      ["processamento com IA via OpenRouter (DeepSeek V4.1 Flash + visão em lote)", "US$ 5–15"],
+      ["contatos dos donos · skip-trace em lote (cobrado só no sucesso)", "US$ 20–30"],
+      ["total estimado", "US$ 25–45"],
     ],
     costFoot:
-      "Estimativa para 3.000 imóveis processados, sem garantia de 3.000 donos contatáveis. A consulta só cobra quando encontra dados; a cobertura varia. Não inclui a assinatura AirDNA existente nem hospedagem.",
+      "Estimativa para 3.000 imóveis processados. A consulta de contatos em lote fatura apenas sobre os proprietários localizados com sucesso. Não inclui a assinatura AirDNA existente nem hospedagem mínima.",
     costNotes: [
-      "A estratégia combina o DeepSeek V4.1 Flash para estruturação e validação ágil de dados com custo irrisório, e o GPT-4o / GPT-4o mini da OpenAI para a leitura e comparação visual de fotos. Filtramos as opções por mapas públicos de lotes primeiro, de modo que o modelo de visão só analisa 1–2 fotos-chave das poucas casas finalistas, mantendo o gasto com API no mínimo.",
-      "Premissas: 1.500–3.000 comparações visuais/mês, lotes públicos e geocodificação dentro da franquia gratuita disponível, com margem para novas tentativas. Os testes em Phoenix validarão a precisão dos modelos e o custo por lead gerado.",
+      "Todos os modelos ficam unificados sob uma única chave do OpenRouter: os mapas públicos do condado resolvem de 70% a 80% dos endereços apenas por atributos (área, cômodos, lote), sem precisar de IA de visão. Para os casos limítrofes, o DeepSeek V4.1 Flash estrutura os dados e roteia as fotos selecionadas para os melhores modelos de visão a preços spot de mercado.",
+      "Uma única conta no OpenRouter oferece faturamento unificado, fallback automático e zero dependência de um só provedor, mantendo a despesa de IA abaixo de US$ 15/mês para 3.000 leads. Os testes em Phoenix calibrarão as taxas de acerto e a velocidade real do lote.",
     ],
     next: [
       "Aprove este escopo e disponibilize o acesso à conta AirDNA da Hoste. Farei algumas tentativas em Phoenix, verificando anúncios, fotos e correspondência de endereços antes de confirmar o restante da construção.",
@@ -302,8 +300,7 @@ export const outreachCopy: Record<"en" | "pt-BR", OutreachCopy> = {
       { label: "contato AirDNA", href: sources[1].href },
       { label: "preço do Google Geocoding", href: sources[2].href },
       { label: "preço do skip trace Tracerfy", href: sources[3].href },
-      { label: "preços da API DeepSeek", href: sources[4].href },
-      { label: "preços da API OpenAI · referência para visão", href: sources[5].href },
+      { label: "tarifas de modelos e roteamento OpenRouter", href: sources[4].href },
     ],
   },
 };
